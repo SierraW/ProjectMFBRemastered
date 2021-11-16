@@ -13,8 +13,9 @@ struct ProjectMFBRemasteredApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LandingView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         }
     }
 }
