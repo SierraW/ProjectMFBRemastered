@@ -89,7 +89,7 @@ struct CurrencyManagementView: View {
                         .contentShape(Rectangle())
                         .contextMenu {
                             Button(role: .destructive) {
-                                delete(currencies[index])
+                                controller.delete(currencies[index])
                             } label: {
                                 HStack {
                                     Image(systemName: "trash")
@@ -152,7 +152,7 @@ struct CurrencyManagementView: View {
                 CurrencyEditionView(controller: controller, currency: index == -1 ? nil : currencies[index], currencies: currencies, onDelete: { currency in
                     withAnimation {
                         editingCurrencyIndex = nil
-                        delete(currency)
+                        controller.delete(currency)
                     }
                 }, onExit: {
                     withAnimation {
@@ -196,22 +196,6 @@ struct CurrencyManagementView: View {
                     Image(systemName: "ellipsis.circle")
                 }
             }
-        }
-    }
-    
-    func delete(_ currency: Currency) {
-        if currency.is_major {
-            return
-        }
-        
-        withAnimation {
-            viewContext.delete(currency)
-        }
-        
-        do {
-            try viewContext.save()
-        } catch {
-            print("Can't remove currency at CMV.")
         }
     }
 }

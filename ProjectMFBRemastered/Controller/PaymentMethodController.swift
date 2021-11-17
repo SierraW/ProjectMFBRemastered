@@ -23,22 +23,35 @@ class PaymentMethodController: ModelController {
         return []
     }
     
+    func modifyOrCreateIfNotExist(_ paymentMethod: PaymentMethod?, name: String, assignmentCurrency currency: Currency? = nil) -> Bool {
+        if let paymentMethod = paymentMethod {
+            return modifyPaymentMethod(paymentMethod: paymentMethod, name: name, assignCurrency: currency)
+        } else {
+            return modifyPaymentMethod(paymentMethod: PaymentMethod(context: viewContext), name: name, assignCurrency: currency)
+        }
+    }
     
-    func createPaymentMethod(name: String, assignCurrency currency: Currency) -> Bool {
-        if fetchPaymentMethods().contains(where: { paymentMethod in
+    func modifyPaymentMethod(paymentMethod: PaymentMethod, name: String, assignCurrency currency: Currency? = nil) -> Bool {
+        if name.isEmpty {
+            return false
+        }
+        if let oldName = paymentMethod.name, oldName != name, fetchPaymentMethods().contains(where: { paymentMethod in
             paymentMethod.name == name
         }) {
-            
+            return false
         }
         
-        
-        let paymentMethod = PaymentMethod(context: viewContext)
-        
         paymentMethod.name = name
-        paymentMethod.assignedCurrency = currency
-        
-        
-        
+        if let currency = currency {
+            paymentMethod.assignedCurrency = currency
+        }
+        managedSave()
+        return true
+    }
+    
+    func delete(_ paymentMethod: PaymentMethod) {
+        viewContext.delete(paymentMethod)
+        managedSave()
     }
     
 }

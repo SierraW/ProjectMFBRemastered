@@ -22,23 +22,60 @@ class UserData: ObservableObject {
 struct MainView: View {
     @EnvironmentObject var userData: UserData
     
-    @State var viewState: ViewState? = .Room
+    @State var viewState: ViewState? = .register
     
-    enum ViewState: String {
-        case Register = "Registeration"
-        case Deposit
-        case Withdraw
-        case Management
-        case User
-        case Report
-        case Transactions
-        case Tag
-        case Currency = "Currencies"
-        case PaymentMethod
-        case Payable
-        case Bill
-        case BillHistory
-        case Room
+    enum ViewState: String, CaseIterable {
+        case register = "Registeration"
+//        case Deposit
+//        case Withdraw
+//        case Management
+//        case User
+//        case Report
+//        case Transactions
+        case tag
+        case currency = "Currencies"
+        case paymentMethod = "Payment Method"
+//        case Payable
+//        case Bill
+//        case BillHistory
+//        case Room
+        
+        var view: ContentWrapperView {
+            switch self {
+            case .register:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        RegisterView { _ in
+                            
+                        }
+                    )
+                }
+            case .currency:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        CurrencyManagementView()
+                    )
+                }
+            case .paymentMethod:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        PaymentMethodManagementView()
+                    )
+                }
+            case .tag:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        TagManagementView()
+                    )
+                }
+            default:
+                return ContentWrapperView(title: "Welcome") {
+                    AnyView(
+                        WelcomeView()
+                    )
+                }
+            }
+        }
     }
     
     var body: some View {
@@ -49,29 +86,17 @@ struct MainView: View {
     
     var menuView: some View {
         VStack {
-            NavigationLink("Register new user", tag: ViewState.Register, selection: $viewState) {
-                ContentWrapperView(title: viewState?.rawValue ?? "") {
-                    AnyView(
-                        RegisterView { _ in
-                        
-                    })
+            ForEach(ViewState.allCases, id: \.rawValue) { state in
+                NavigationLink("", tag: state, selection: $viewState) {
+                    state.view
                 }
-            }
-            NavigationLink("Currency Management", tag: ViewState.Currency, selection: $viewState) {
-                ContentWrapperView(title: viewState?.rawValue ?? "") {
-                    AnyView(
-                        CurrencyManagementView()
-                    )
+                .hidden()
+                
+                NavigationButton(title: state.rawValue, selected: viewState == state) {
+                    viewState = state
                 }
             }
             
-            NavigationLink("Tag Management", tag: ViewState.Tag, selection: $viewState) {
-                ContentWrapperView(title: viewState?.rawValue ?? "") {
-                    AnyView(
-                        TagManagementView()
-                    )
-                }
-            }
         }
     }
 }

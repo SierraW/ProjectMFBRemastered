@@ -1,49 +1,53 @@
 //
-//  CurrencyEditionView.swift
+//  PaymentMethodEditorView.swift
 //  ProjectMFBRemastered
 //
-//  Created by Yiyao Zhang on 2021-11-12.
+//  Created by Yiyao Zhang on 2021-11-16.
 //
 
 import SwiftUI
-import Combine
 
-struct CurrencyEditionView: View {
+struct PaymentMethodEditorView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Currency.name, ascending: true)],
+        animation: .default)
+    private var fetchedCurrencies: FetchedResults<Currency>
+    var currencies: [Currency] {
+        fetchedCurrencies.map({$0})
+    }
+    
     @State var name = ""
-    @State var prefix = ""
-    @State var symbol = ""
-    @State var rate = "100"
+    @State var selectedCurrencyIndex = -1
     @State var confirmDelete = false
-    @State var disableRateField = false
     
     @State var duplicatedWarning = false
     @State var failedToSaveWarning = false
     
     var emptyFieldExist: Bool {
-        name.isEmpty || prefix.isEmpty || symbol.isEmpty
+        name.isEmpty
     }
     
     var duplicatedObject: Bool {
-        if let currency = currency, let oldName = currency.name, oldName == name {
+        if let paymentMethod = paymentMethod, let oldName = paymentMethod.name, oldName == name {
             return false
         }
-        if currencies.contains(where: { currency in
-            currency.name == name || currency.prefix == prefix
+        if paymentMethods.contains(where: { paymentMethod in
+            paymentMethod.name == name
         }) {
             return true
         }
         return false
     }
     
-    var controller: CurrencyController
+    var controller: PaymentMethodController
     
-    var currency: Currency? = nil
+    var paymentMethod: PaymentMethod? = nil
     
-    var currencies: [Currency]
+    var paymentMethods: [PaymentMethod]
     
-    var onDelete: (Currency) -> Void
+    var onDelete: (PaymentMethod) -> Void
     
     var onExit: () -> Void
     
@@ -60,33 +64,13 @@ struct CurrencyEditionView: View {
                         name.trimmingWhitespacesAndNewlines()
                     })
                 }
-                HStack {
-                    HStack {
-                        Text("Prefix")
-                        Spacer()
-                    }
-                    .frame(width: 70)
-                    TextField("Requried", text: $prefix, onCommit:  {
-                        prefix.trimmingWhitespacesAndNewlines()
-                    })
-                }
-                HStack {
-                    HStack {
-                        Text("Symbol")
-                        Spacer()
-                    }
-                    .frame(width: 70)
-                    TextField("Requried", text: $symbol, onCommit:  {
-                        symbol.trimmingWhitespacesAndNewlines()
-                    })
-                }
             } header: {
-                Text("Currency")
+                Text("Payment Method")
             } footer: {
                 VStack {
                     if duplicatedWarning {
                         HStack {
-                            Text("Duplicated currency found.")
+                            Text("Duplicated payment method name found.")
                                 .foregroundColor(.red)
                             Spacer()
                         }
@@ -102,27 +86,20 @@ struct CurrencyEditionView: View {
                 }
             }
             
-            if !disableRateField {
-                Section {
-                    HStack {
-                        HStack {
-                            if let currency = currencies.first(where: { currency in
-                                currency.is_major
-                            }) {
-                                Text("\(currency.toStringPresentation) 1 =")
-                            } else {
-                                Text("Rate")
-                            }
-                            Spacer()
+            Section {
+                HStack {
+                    Text("Assigned Currency")
+                    Spacer()
+                    Picker("", selection: $selectedCurrencyIndex) {
+                        Text("Not Set").tag(-1)
+                        ForEach(currencies.indices, id: \.self) { index in
+                            Text(currencies[index].toStringPresentation).tag(index)
                         }
-                        DecimalField(placeholder: "Required", value: $rate)
                     }
-                } header: {
-                    Text("Exchange Rate")
-                } footer: {
-                    Text("Exchange rate must be greater than 0.")
+                    .pickerStyle(.menu)
                 }
-                
+            } header: {
+                Text("Support Fields")
             }
             
             Section {
@@ -132,7 +109,7 @@ struct CurrencyEditionView: View {
                     Text("Save")
                 }
                 .disabled(emptyFieldExist)
-                if let currency = currency {
+                if let _ = paymentMethod {
                     Button(role: .destructive) {
                         delete()
                     } label: {
@@ -143,7 +120,6 @@ struct CurrencyEditionView: View {
                         }
                         
                     }
-                    .disabled(currency.is_major)
                 }
             }
             
@@ -157,17 +133,9 @@ struct CurrencyEditionView: View {
             }
         }
         .onAppear {
-            if let currency = currency {
-                name = currency.name ?? ""
-                prefix = currency.prefix ?? ""
-                symbol = currency.symbol ?? ""
-                rate = (currency.rate! as Decimal).toStringPresentation
-                if currency.is_major {
-                    disableRateField = true
-                }
-            }
-            if CurrencyController.getMajorCurrencyIndex(from: currencies) == nil {
-                disableRateField = true
+            if let paymentMethod = paymentMethod {
+                name = paymentMethod.name ?? ""
+                
             }
         }
     }
@@ -186,7 +154,7 @@ struct CurrencyEditionView: View {
             }
             return
         }
-        if let currency = currency {
+        if let currency = paymentMethod {
             onDelete(currency)
         } else {
             onExit()
@@ -195,8 +163,6 @@ struct CurrencyEditionView: View {
     
     func save() {
         name.trimmingWhitespacesAndNewlines()
-        prefix.trimmingWhitespacesAndNewlines()
-        symbol.trimmingWhitespacesAndNewlines()
         if emptyFieldExist {
             return
         }
@@ -211,16 +177,8 @@ struct CurrencyEditionView: View {
             }
             return
         }
-        if let rate = Decimal(string: rate) {
-            if controller.modifyOrCreateIfNotExist(for: currency, name: name, prefix: prefix, symbol: symbol, rate: rate) {
-                onExit()
-                return
-            }
-        } else if let currency = currency, currency.is_major {
-            if controller.modifyOrCreateIfNotExist(for: currency, name: name, prefix: prefix, symbol: symbol, rate: 0) {
-                onExit()
-                return
-            }
+        if controller.modifyOrCreateIfNotExist(paymentMethod, name: name, assignmentCurrency: selectedCurrencyIndex < 0 ? nil : currencies[selectedCurrencyIndex]) {
+            onExit()
         }
         
         withAnimation {
@@ -233,4 +191,3 @@ struct CurrencyEditionView: View {
         }
     }
 }
-

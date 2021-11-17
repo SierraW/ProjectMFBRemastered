@@ -12,84 +12,52 @@ struct PaymentMethodManagementView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Currency.name, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \PaymentMethod.name, ascending: true)],
         animation: .default)
-    private var fetchPaymentMethods: FetchedResults<Currency>
+    private var fetchPaymentMethods: FetchedResults<PaymentMethod>
     
-    var paymentMethods: [Currency] {
+    var paymentMethods: [PaymentMethod] {
         switch sortType {
-        case .symbol:
+        case .currency:
             return fetchPaymentMethods.sorted { lhs, rhs in
-                lhs.symbol ?? "" < rhs.symbol ?? ""
+                lhs.assignedCurrency?.name ?? "" < rhs.assignedCurrency?.name ?? ""
             }
         default:
             return fetchPaymentMethods.map({$0})
         }
     }
     
-    var controller: CurrencyController {
-        CurrencyController(viewContext)
+    var controller: PaymentMethodController {
+        PaymentMethodController(viewContext)
     }
     
-    @State var majorCurrencyLocked = false
-    @State var selectedMajorCurrencyIndex = -1
-    @State var editingCurrencyIndex: Int? = nil
+    @State var editingPaymentMethodIndex: Int? = nil
     
     @State var sortType: SortType = .name
     
     enum SortType: String, CaseIterable {
         case name = "Name"
-        case symbol = "Symbol"
+        case currency = "Currency"
     }
     
     var body: some View {
         VStack {
             Form {
                 Section {
-                    HStack {
-                        Text("Major Currency")
-                        Spacer()
-                        Picker("", selection: $selectedMajorCurrencyIndex) {
-                            Text("Not Set").tag(-1)
-                            ForEach(paymentMethods.indices, id: \.self) {index in
-                                Text(paymentMethods[index].toStringPresentation).tag(index)
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        .onChange(of: selectedMajorCurrencyIndex, perform: { newValue in
-                            if selectedMajorCurrencyIndex >= 0 {
-                                controller.assignMajorCurrency(with: paymentMethods[newValue], from: paymentMethods)
-                            }
-                        })
-                        .disabled(majorCurrencyLocked)
-                        .onAppear {
-                            if let index = CurrencyController.getMajorCurrencyIndex(from: paymentMethods) {
-                                withAnimation {
-                                    majorCurrencyLocked = true
-                                    selectedMajorCurrencyIndex = index
-                                }
-                            }
-                        }
-                    }
-                } header: {
-                    Text("Settings")
-                }
-
-                Section {
                     ForEach(paymentMethods.indices, id:\.self) { index in
                         HStack {
                             Text(paymentMethods[index].toStringPresentation)
                             Spacer()
-                            if !paymentMethods[index].is_major, let rate = paymentMethods[index].rate as Decimal? {
-                                Text("Exchange rate:")
-                                Text(rate.toStringPresentation)
-                                    .frame(width: 40)
+                            if let currency = paymentMethods[index].assignedCurrency {
+                                Text("Assigned Currency:")
+                                Text(currency.toStringPresentation)
+                                    .frame(width: 60)
                             }
                         }
                         .contentShape(Rectangle())
                         .contextMenu {
                             Button(role: .destructive) {
-                                delete(paymentMethods[index])
+                                controller.delete(paymentMethods[index])
                             } label: {
                                 HStack {
                                     Image(systemName: "trash")
@@ -97,16 +65,15 @@ struct PaymentMethodManagementView: View {
                                 }
                                 
                             }
-                            .disabled(paymentMethods[index].is_major)
                         }
                         .onTapGesture {
-                            if editingCurrencyIndex == nil {
-                                editingCurrencyIndex = index
+                            if editingPaymentMethodIndex == nil {
+                                editingPaymentMethodIndex = index
                             }
                         }
                     }
                 } header: {
-                    Text("Currency List")
+                    Text("Payment Method List")
                 }
             }
             Spacer()
@@ -114,12 +81,12 @@ struct PaymentMethodManagementView: View {
             HStack {
                 Button {
                     withAnimation {
-                        editingCurrencyIndex = -1
+                        editingPaymentMethodIndex = -1
                     }
                 } label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")
-                        Text("Add new currency")
+                        Text("Add new payment method")
                     }
                     
                 }
@@ -129,14 +96,14 @@ struct PaymentMethodManagementView: View {
             
         }
         .background(Color(UIColor.systemGroupedBackground))
-        .sheet(item: $editingCurrencyIndex) { index in
+        .sheet(item: $editingPaymentMethodIndex) { index in
             VStack {
                 HStack {
                     Image(systemName: "chevron.down.circle")
                         .foregroundColor(.gray)
                         .frame(width:50)
                     Spacer()
-                    Text("Currency Editor")
+                    Text("Payment Method Editor")
                         .bold()
                     Spacer()
                     Spacer()
@@ -145,18 +112,18 @@ struct PaymentMethodManagementView: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     withAnimation {
-                        editingCurrencyIndex = nil
+                        editingPaymentMethodIndex = nil
                     }
                 }
                 .padding()
-                CurrencyEditionView(controller: controller, currency: index == -1 ? nil : paymentMethods[index], currencies: paymentMethods, onDelete: { currency in
+                PaymentMethodEditorView(controller: controller, paymentMethod: index == -1 ? nil : paymentMethods[index], paymentMethods: paymentMethods, onDelete: { paymentMethod in
                     withAnimation {
-                        editingCurrencyIndex = nil
-                        delete(currency)
+                        editingPaymentMethodIndex = nil
+                        controller.delete(paymentMethod)
                     }
                 }, onExit: {
                     withAnimation {
-                        editingCurrencyIndex = nil
+                        editingPaymentMethodIndex = nil
                     }
                 })
             }
@@ -184,14 +151,6 @@ struct PaymentMethodManagementView: View {
                             Text("Alignment")
                         }
                     }
-                    Button(role: .destructive) {
-                        majorCurrencyLocked = false
-                    } label: {
-                        HStack {
-                            Image(systemName: "exclamationmark.triangle")
-                            Text("Change Major Currency")
-                        }
-                    }
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
@@ -199,21 +158,7 @@ struct PaymentMethodManagementView: View {
         }
     }
     
-    func delete(_ currency: Currency) {
-        if currency.is_major {
-            return
-        }
-        
-        withAnimation {
-            viewContext.delete(currency)
-        }
-        
-        do {
-            try viewContext.save()
-        } catch {
-            print("Can't remove currency at CMV.")
-        }
-    }
+    
 }
 
 struct PaymentMethodManagementView_Previews: PreviewProvider {

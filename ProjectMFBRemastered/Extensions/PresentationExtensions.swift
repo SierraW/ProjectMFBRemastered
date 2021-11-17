@@ -19,6 +19,12 @@ extension Currency {
     }
 }
 
+extension PaymentMethod {
+    var toStringPresentation: String {
+        "\(self.name ?? "err")"
+    }
+}
+
 extension Decimal {
     var toStringPresentation: String {
         let formatter = NumberFormatter()

@@ -24,6 +24,9 @@
 		3B20ED3E2744275900B96DB6 /* ModalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20ED3D2744275900B96DB6 /* ModalExtension.swift */; };
 		3B20ED4227442C4800B96DB6 /* PaymentMethodManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20ED4127442C4800B96DB6 /* PaymentMethodManagementView.swift */; };
 		3B20ED4427442D7B00B96DB6 /* PaymentMethodController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20ED4327442D7B00B96DB6 /* PaymentMethodController.swift */; };
+		3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0E72744A46B00D7D4AD /* PaymentMethodEditorView.swift */; };
+		3B8FA0EA2744AEFF00D7D4AD /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */; };
+		3B8FA0EC2744BABD00D7D4AD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */; };
 		3BADA68C2742CF71000B1D33 /* TransactionAmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */; };
 		3BADA68E2742F095000B1D33 /* DecimalField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68D2742F095000B1D33 /* DecimalField.swift */; };
 		3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE301273C53810056AF54 /* ProjectMFBRemasteredApp.swift */; };
@@ -59,6 +62,9 @@
 		3B20ED3D2744275900B96DB6 /* ModalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalExtension.swift; sourceTree = "<group>"; };
 		3B20ED4127442C4800B96DB6 /* PaymentMethodManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodManagementView.swift; sourceTree = "<group>"; };
 		3B20ED4327442D7B00B96DB6 /* PaymentMethodController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodController.swift; sourceTree = "<group>"; };
+		3B8FA0E72744A46B00D7D4AD /* PaymentMethodEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodEditorView.swift; sourceTree = "<group>"; };
+		3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
+		3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAmountTextField.swift; sourceTree = "<group>"; };
 		3BADA68D2742F095000B1D33 /* DecimalField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalField.swift; sourceTree = "<group>"; };
 		3BEEE2FE273C53810056AF54 /* ProjectMFBRemastered.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectMFBRemastered.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +119,7 @@
 				3B20300E273F0E330016B537 /* NavigationBackButton.swift */,
 				3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */,
 				3BADA68D2742F095000B1D33 /* DecimalField.swift */,
+				3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -130,8 +137,23 @@
 			isa = PBXGroup;
 			children = (
 				3B20ED4127442C4800B96DB6 /* PaymentMethodManagementView.swift */,
+				3B8FA0E72744A46B00D7D4AD /* PaymentMethodEditorView.swift */,
 			);
 			path = PaymentMethod;
+			sourceTree = "<group>";
+		};
+		3B8FA0ED2744C04900D7D4AD /* Payable */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Payable;
+			sourceTree = "<group>";
+		};
+		3B8FA0EE2744C14700D7D4AD /* Room */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Room;
 			sourceTree = "<group>";
 		};
 		3BEEE2F5273C53810056AF54 = {
@@ -178,6 +200,8 @@
 		3BEEE314273C53960056AF54 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3B8FA0EE2744C14700D7D4AD /* Room */,
+				3B8FA0ED2744C04900D7D4AD /* Payable */,
 				3B20ED362743786200B96DB6 /* PaymentMethod */,
 				3B203019273F65A60016B537 /* Tag */,
 				3B20300D273F0DFA0016B537 /* Utils */,
@@ -212,6 +236,7 @@
 			children = (
 				3BEEE320273C58440056AF54 /* MainView.swift */,
 				3B203010273F0FD60016B537 /* ContentWrapperView.swift */,
+				3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -300,7 +325,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B8FA0EA2744AEFF00D7D4AD /* NavigationButton.swift in Sources */,
 				3B20301B273F65DB0016B537 /* TagManagementView.swift in Sources */,
+				3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */,
 				3BEEE30B273C53840056AF54 /* Persistence.swift in Sources */,
 				3B203016273F2A540016B537 /* IdentifiableExtensions.swift in Sources */,
 				3B20ED3E2744275900B96DB6 /* ModalExtension.swift in Sources */,
@@ -317,6 +344,7 @@
 				3BEEE321273C58440056AF54 /* MainView.swift in Sources */,
 				3BEEE316273C560F0056AF54 /* LandingView.swift in Sources */,
 				3BEEE31C273C57D40056AF54 /* SetupWizardView.swift in Sources */,
+				3B8FA0EC2744BABD00D7D4AD /* WelcomeView.swift in Sources */,
 				3BEEE304273C53810056AF54 /* ContentView.swift in Sources */,
 				3BEEE319273C57080056AF54 /* RegisterView.swift in Sources */,
 				3B203006273EDB200016B537 /* CurrencyManagementView.swift in Sources */,

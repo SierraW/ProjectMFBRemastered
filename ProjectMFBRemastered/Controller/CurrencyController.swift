@@ -82,7 +82,14 @@ class CurrencyController: ModelController {
     }
     
     func modify(_ currency: Currency, name: String, prefix: String, symbol: String, rate: Decimal) -> Bool {
-        if name == "" || prefix == "" || symbol == "" || rate <= 0  {
+        if let oldName = currency.name, oldName != name {
+            if fetchCurrencies().contains(where: { currency in
+                currency.name == name
+            }) {
+                return false
+            }
+        }
+        if name.isEmpty || prefix.isEmpty || symbol.isEmpty || rate <= 0  {
             return false
         }
         currency.name = name
@@ -92,6 +99,16 @@ class CurrencyController: ModelController {
         
         managedSave()
         return true
+    }
+    
+    func delete(_ currency: Currency) {
+        if currency.is_major {
+            return
+        }
+        
+        viewContext.delete(currency)
+        
+        managedSave()
     }
     
 }
