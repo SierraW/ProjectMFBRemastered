@@ -26,15 +26,17 @@ struct MainView: View {
     
     enum ViewState: String, CaseIterable {
         case register = "Registeration"
+        case tag
+        case roomManagement = "Room Management"
+        case currency = "Currencies"
+        case paymentMethod = "Payment Method"
 //        case Deposit
 //        case Withdraw
 //        case Management
 //        case User
 //        case Report
 //        case Transactions
-        case tag
-        case currency = "Currencies"
-        case paymentMethod = "Payment Method"
+        
 //        case Payable
 //        case Bill
 //        case BillHistory
@@ -48,6 +50,12 @@ struct MainView: View {
                         RegisterView { _ in
                             
                         }
+                    )
+                }
+            case .roomManagement:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        RoomManagementView()
                     )
                 }
             case .currency:

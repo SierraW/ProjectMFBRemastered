@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TagManagementView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)],
         animation: .default)
@@ -34,6 +35,14 @@ struct TagManagementView: View {
                         Spacer()
                     }
                     .contentShape(Rectangle())
+                    .contextMenu(menuItems: {
+                        Button(role: .destructive) {
+                            TagController(viewContext).delete(tags[index])
+                        } label: {
+                            Text("Delete")
+                        }
+
+                    })
                     .onTapGesture {
                         withAnimation {
                             editingIndex = index

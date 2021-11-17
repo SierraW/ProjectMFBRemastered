@@ -149,7 +149,7 @@ struct CurrencyManagementView: View {
                     }
                 }
                 .padding()
-                CurrencyEditionView(controller: controller, currency: index == -1 ? nil : currencies[index], currencies: currencies, onDelete: { currency in
+                CurrencyEditorView(controller: controller, currency: index == -1 ? nil : currencies[index], currencies: currencies, onDelete: { currency in
                     withAnimation {
                         editingCurrencyIndex = nil
                         controller.delete(currency)

@@ -1,49 +1,44 @@
 //
-//  CurrencyEditionView.swift
+//  RoomEditorView.swift
 //  ProjectMFBRemastered
 //
-//  Created by Yiyao Zhang on 2021-11-12.
+//  Created by Yiyao Zhang on 2021-11-16.
 //
 
 import SwiftUI
-import Combine
 
-struct CurrencyEditionView: View {
+struct RoomEditorView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @State var name = ""
-    @State var prefix = ""
-    @State var symbol = ""
-    @State var rate = "100"
     @State var confirmDelete = false
-    @State var disableRateField = false
     
     @State var duplicatedWarning = false
     @State var failedToSaveWarning = false
     
     var emptyFieldExist: Bool {
-        name.isEmpty || prefix.isEmpty || symbol.isEmpty
+        name.isEmpty
     }
     
     var duplicatedObject: Bool {
-        if let currency = currency, let oldName = currency.name, oldName == name {
+        if let room = room, let oldName = room.name, oldName == name {
             return false
         }
-        if currencies.contains(where: { currency in
-            currency.name == name || currency.prefix == prefix
+        if rooms.contains(where: { room in
+            room.name == name
         }) {
             return true
         }
         return false
     }
     
-    var controller: CurrencyController
+    var controller: TagController
     
-    var currency: Currency? = nil
+    var room: Tag? = nil
     
-    var currencies: [Currency]
+    var rooms: [Tag]
     
-    var onDelete: (Currency) -> Void
+    var onDelete: (Tag) -> Void
     
     var onExit: () -> Void
     
@@ -60,28 +55,8 @@ struct CurrencyEditionView: View {
                         name.trimmingWhitespacesAndNewlines()
                     })
                 }
-                HStack {
-                    HStack {
-                        Text("Prefix")
-                        Spacer()
-                    }
-                    .frame(width: 70)
-                    TextField("Requried", text: $prefix, onCommit:  {
-                        prefix.trimmingWhitespacesAndNewlines()
-                    })
-                }
-                HStack {
-                    HStack {
-                        Text("Symbol")
-                        Spacer()
-                    }
-                    .frame(width: 70)
-                    TextField("Requried", text: $symbol, onCommit:  {
-                        symbol.trimmingWhitespacesAndNewlines()
-                    })
-                }
             } header: {
-                Text("Currency")
+                Text("Room")
             } footer: {
                 VStack {
                     if duplicatedWarning {
@@ -102,29 +77,6 @@ struct CurrencyEditionView: View {
                 }
             }
             
-            if !disableRateField {
-                Section {
-                    HStack {
-                        HStack {
-                            if let currency = currencies.first(where: { currency in
-                                currency.is_major
-                            }) {
-                                Text("\(currency.toStringPresentation) 1 =")
-                            } else {
-                                Text("Rate")
-                            }
-                            Spacer()
-                        }
-                        DecimalField(placeholder: "Required", value: $rate)
-                    }
-                } header: {
-                    Text("Exchange Rate")
-                } footer: {
-                    Text("Exchange rate must be greater than 0.")
-                }
-                
-            }
-            
             Section {
                 Button {
                     save()
@@ -132,7 +84,7 @@ struct CurrencyEditionView: View {
                     Text("Save")
                 }
                 .disabled(emptyFieldExist)
-                if let currency = currency {
+                if let _ = room {
                     Button(role: .destructive) {
                         delete()
                     } label: {
@@ -143,7 +95,6 @@ struct CurrencyEditionView: View {
                         }
                         
                     }
-                    .disabled(currency.is_major)
                 }
             }
             
@@ -157,17 +108,8 @@ struct CurrencyEditionView: View {
             }
         }
         .onAppear {
-            if let currency = currency {
+            if let currency = room {
                 name = currency.name ?? ""
-                prefix = currency.prefix ?? ""
-                symbol = currency.symbol ?? ""
-                rate = (currency.rate! as Decimal).toStringPresentation
-                if currency.is_major {
-                    disableRateField = true
-                }
-            }
-            if CurrencyController.getMajorCurrencyIndex(from: currencies) == nil {
-                disableRateField = true
             }
         }
     }
@@ -186,7 +128,7 @@ struct CurrencyEditionView: View {
             }
             return
         }
-        if let currency = currency {
+        if let currency = room {
             onDelete(currency)
         } else {
             onExit()
@@ -195,8 +137,6 @@ struct CurrencyEditionView: View {
     
     func save() {
         name.trimmingWhitespacesAndNewlines()
-        prefix.trimmingWhitespacesAndNewlines()
-        symbol.trimmingWhitespacesAndNewlines()
         if emptyFieldExist {
             return
         }
@@ -211,16 +151,9 @@ struct CurrencyEditionView: View {
             }
             return
         }
-        if let rate = Decimal(string: rate) {
-            if controller.modifyOrCreateIfNotExist(for: currency, name: name, prefix: prefix, symbol: symbol, rate: rate) {
-                onExit()
-                return
-            }
-        } else if let currency = currency, currency.is_major {
-            if controller.modifyOrCreateIfNotExist(for: currency, name: name, prefix: prefix, symbol: symbol, rate: 0) {
-                onExit()
-                return
-            }
+        
+        if controller.modifyOrCreateIfNotExist(room, name: name, is_room: true) {
+            onExit()
         }
         
         withAnimation {
@@ -233,4 +166,3 @@ struct CurrencyEditionView: View {
         }
     }
 }
-

@@ -29,58 +29,73 @@ struct LoginView: View {
     let onExit: (User?) -> Void
     
     var body: some View {
-        Form {
-            Section {
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
+                    .frame(height: geometry.size.height / 10)
                 HStack {
-                    HStack {
-                        Text("User")
-                        Spacer()
-                    }
-                    .frame(width: 100)
-                    Picker("User", selection: $selectedUserIndex) {
-                        ForEach(users.indices, id:\.self) {index in
-                            Text(users[index].toStringPresentation).tag(index)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .padding(.leading)
-                    .onAppear {
-                        if let expectedUser = expectedUser, let index = users.firstIndex(of: expectedUser) {
-                            withAnimation {
-                                selectedUserIndex = index
+                    Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                    Text("MFB Cashier App")
+                        .font(.title)
+                }
+                Spacer()
+                    .frame(height: geometry.size.height / 10)
+                
+                Form {
+                    Section {
+                        HStack {
+                            HStack {
+                                Text("User")
+                                Spacer()
+                            }
+                            .frame(width: 100)
+                            Picker("User", selection: $selectedUserIndex) {
+                                ForEach(users.indices, id:\.self) {index in
+                                    Text(users[index].toStringPresentation).tag(index)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .padding(.leading)
+                            .onAppear {
+                                if let expectedUser = expectedUser, let index = users.firstIndex(of: expectedUser) {
+                                    withAnimation {
+                                        selectedUserIndex = index
+                                    }
+                                }
                             }
                         }
+                        
+                        HStack {
+                            HStack {
+                                Text("Password")
+                                Spacer()
+                            }
+                            .frame(width: 100)
+                            SecureField("", text: $password) {
+                                verify()
+                            }
+                            .padding(.leading)
+                        }
+                    } header: {
+                        Text("Sign in")
+                    } footer: {
+                        if informationMismatched {
+                            Text("Incorrect Password")
+                                .foregroundColor(.red)
+                        }
                     }
-                }
-                
-                HStack {
-                    HStack {
-                        Text("Password")
-                        Spacer()
+
+                    Section {
+                        Button {
+                            verify()
+                        } label: {
+                            Text("Log in")
+                        }
+
                     }
-                    .frame(width: 100)
-                    SecureField("", text: $password) {
-                        verify()
-                    }
-                    .padding(.leading)
-                }
-            } header: {
-                Text("Sign in")
-            } footer: {
-                if informationMismatched {
-                    Text("Incorrect Password")
-                        .foregroundColor(.red)
                 }
             }
-
-            Section {
-                Button {
-                    verify()
-                } label: {
-                    Text("Log in")
-                }
-
-            }
+            .background(Color(UIColor.systemGroupedBackground))
         }
     }
     

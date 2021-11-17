@@ -22,17 +22,30 @@ class TagController: ModelController {
         return []
     }
     
-    func createTag(with name: String) -> Bool {
-        if let _ = fetchTags().firstIndex(where: { tag in
+    func modifyOrCreateIfNotExist(_ tag: Tag?, name: String, is_room: Bool = false, starred: Bool = false) -> Bool {
+        if let tag = tag {
+            return modifyTag(tag, with: name, is_room: is_room, starred: starred)
+        } else {
+            return modifyTag(Tag(context: viewContext), with: name, is_room: is_room, starred: starred)
+        }
+    }
+    
+    func modifyTag(_ tag: Tag, with name: String, is_room: Bool = false, starred: Bool = false) -> Bool {
+        if let oldName = tag.name, oldName != name, fetchTags().contains(where: { tag in
             tag.name == name
         }) {
             return false
         }
-        
-        let tag = Tag(context: viewContext)
         tag.name = name
+        tag.is_room = is_room
+        tag.starred = starred
         managedSave()
         return true
+    }
+    
+    func delete(_ tag: Tag) {
+        viewContext.delete(tag)
+        managedSave()
     }
     
     func assignParent(for childTag: Tag, asChildrenOf parentTag: Tag) -> Bool {
