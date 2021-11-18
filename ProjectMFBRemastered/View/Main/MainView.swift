@@ -20,7 +20,7 @@ class UserData: ObservableObject {
 }
 
 struct MainView: View {
-    @EnvironmentObject var userData: UserData
+    @EnvironmentObject var appData: AppData
     
     @State var viewState: ViewState? = .register
     
@@ -98,6 +98,7 @@ struct MainView: View {
             ForEach(ViewState.allCases, id: \.rawValue) { state in
                 NavigationLink("", tag: state, selection: $viewState) {
                     state.view
+                        .environmentObject(appData)
                 }
                 .hidden()
                 
@@ -105,7 +106,12 @@ struct MainView: View {
                     viewState = state
                 }
             }
-            
+            Button(role: .destructive) {
+                appData.onLogout()
+            } label: {
+                Text("Log Out")
+            }
+
         }
     }
 }

@@ -33,6 +33,7 @@
 		3B8FA0F827458C6900D7D4AD /* PayableEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0F727458C6900D7D4AD /* PayableEditorView.swift */; };
 		3B8FA0FC2745A18D00D7D4AD /* PayableManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0FB2745A18D00D7D4AD /* PayableManagementView.swift */; };
 		3B8FA0FE2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0FD2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift */; };
+		3B8FA1012745F15C00D7D4AD /* RatedPayableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA1002745F15C00D7D4AD /* RatedPayableController.swift */; };
 		3BADA68C2742CF71000B1D33 /* TransactionAmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */; };
 		3BADA68E2742F095000B1D33 /* DecimalField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68D2742F095000B1D33 /* DecimalField.swift */; };
 		3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE301273C53810056AF54 /* ProjectMFBRemasteredApp.swift */; };
@@ -77,6 +78,7 @@
 		3B8FA0F727458C6900D7D4AD /* PayableEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableEditorView.swift; sourceTree = "<group>"; };
 		3B8FA0FB2745A18D00D7D4AD /* PayableManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableManagementView.swift; sourceTree = "<group>"; };
 		3B8FA0FD2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MajorCurrencyWidzardView.swift; sourceTree = "<group>"; };
+		3B8FA1002745F15C00D7D4AD /* RatedPayableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatedPayableController.swift; sourceTree = "<group>"; };
 		3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAmountTextField.swift; sourceTree = "<group>"; };
 		3BADA68D2742F095000B1D33 /* DecimalField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalField.swift; sourceTree = "<group>"; };
 		3BEEE2FE273C53810056AF54 /* ProjectMFBRemastered.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectMFBRemastered.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +124,7 @@
 				3B20ED34274373C300B96DB6 /* TagController.swift */,
 				3B20ED4327442D7B00B96DB6 /* PaymentMethodController.swift */,
 				3B8FA0F52745800700D7D4AD /* PayableController.swift */,
+				3B8FA1002745F15C00D7D4AD /* RatedPayableController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				3BADA68E2742F095000B1D33 /* DecimalField.swift in Sources */,
 				3B203002273ED6000016B537 /* DecimalExtension.swift in Sources */,
 				3B203011273F0FD60016B537 /* ContentWrapperView.swift in Sources */,
+				3B8FA1012745F15C00D7D4AD /* RatedPayableController.swift in Sources */,
 				3B8FA0FC2745A18D00D7D4AD /* PayableManagementView.swift in Sources */,
 				3B8FA0F02744C1B900D7D4AD /* RoomManagementView.swift in Sources */,
 				3B20ED4427442D7B00B96DB6 /* PaymentMethodController.swift in Sources */,

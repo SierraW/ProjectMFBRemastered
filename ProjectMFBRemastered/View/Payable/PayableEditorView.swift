@@ -28,6 +28,7 @@ struct PayableEditorView: View {
     
     @State var creatingNewGroup = false
     @State var groupName = ""
+    @State var groupDuplicatedWarning = false
     
     @State var duplicatedWarning = false
     @State var failedToSaveWarning = false
@@ -105,8 +106,10 @@ struct PayableEditorView: View {
             
             Section {
                 HStack {
-                    Text("Group")
-                    Spacer()
+                    HStack {
+                        Text("Group")
+                            .frame(width: 70, alignment: .leading)
+                    }
                     Picker("", selection: $selectedTagIndex, content: {
                         Text("Not Set").tag(-1)
                         ForEach(groups.indices, id: \.self) { index in
@@ -114,27 +117,39 @@ struct PayableEditorView: View {
                         }
                     })
                         .pickerStyle(.menu)
+                    Spacer()
+                    Button {
+                        creatingNewGroup.toggle()
+                    } label: {
+                        Image(systemName: "plus.circle")
+                    }
+                    .disabled(creatingNewGroup)
                 }
                 
                 if creatingNewGroup {
-                    TextField("Group name", text: $groupName, prompt: Text("Group Name（must be unique within the app)"))
+                    TextField("Group name", text: $groupName, prompt: Text("New Group Name"))
                     Button {
                         submitNewGroup()
                     } label: {
                         Text("Save")
                     }
                     .disabled(groupName.isEmpty)
-                } else {
-                    Button {
-                        creatingNewGroup.toggle()
-                    } label: {
-                        Text("Or create a new group")
-                    }
                 }
                 
                 
             } header: {
                 Text("Group")
+            } footer: {
+                if groupDuplicatedWarning {
+                    Text("Duplicated name found.").foregroundColor(.red)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    groupDuplicatedWarning = false
+                                }
+                            }
+                        }
+                }
             }
             
             Section {
@@ -160,7 +175,7 @@ struct PayableEditorView: View {
                 } label: {
                     Text("Save")
                 }
-                .disabled(emptyFieldExist)
+                .disabled(emptyFieldExist || failedToSaveWarning)
                 if let _ = payable {
                     Button(role: .destructive) {
                         delete()
@@ -216,6 +231,8 @@ struct PayableEditorView: View {
                     selectedTagIndex = index
                 }
             }
+        } else {
+            groupDuplicatedWarning = true
         }
         creatingNewGroup = false
         groupName = ""

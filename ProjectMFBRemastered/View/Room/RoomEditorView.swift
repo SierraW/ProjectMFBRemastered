@@ -83,7 +83,7 @@ struct RoomEditorView: View {
                 } label: {
                     Text("Save")
                 }
-                .disabled(emptyFieldExist)
+                .disabled(emptyFieldExist || failedToSaveWarning)
                 if let _ = room {
                     Button(role: .destructive) {
                         delete()

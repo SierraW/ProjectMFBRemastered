@@ -131,7 +131,7 @@ struct CurrencyEditorView: View {
                 } label: {
                     Text("Save")
                 }
-                .disabled(emptyFieldExist)
+                .disabled(emptyFieldExist || failedToSaveWarning)
                 if let currency = currency {
                     Button(role: .destructive) {
                         delete()

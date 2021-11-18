@@ -14,7 +14,7 @@ struct PayableManagementView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Payable.tag, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Payable.starred, ascending: true)],
         animation: .default)
     private var fetchedPayable: FetchedResults<Payable>
     
@@ -27,6 +27,10 @@ struct PayableManagementView: View {
         default:
             return fetchedPayable.map({$0})
         }
+    }
+    
+    var groups: [String: [Int]] {
+        Dictionary(grouping: payables.indices, by: {payables[$0].tag?.parent?.toStringPresentation ?? "Disjoint Groups"})
     }
     
     var controller: PayableController {
@@ -45,37 +49,42 @@ struct PayableManagementView: View {
     var body: some View {
         VStack {
             Form {
-                Section {
-                    ForEach(payables.indices, id:\.self) { index in
-                        HStack {
-                            Text(payables[index].toStringPresentation)
-                            Spacer()
-                            if let amount = payables[index].amount as Decimal? {
-                                Text(appData.majorCurrency.toStringPresentation)
-                                Text(amount.toStringPresentation)
-                                    .frame(width: 40)
-                            }
-                        }
-                        .contentShape(Rectangle())
-                        .contextMenu {
-                            Button(role: .destructive) {
-                                controller.delete(payables[index])
-                            } label: {
+                ForEach(groups.keys.sorted(), id:\.self) { groupName in
+                    Section {
+                        if let groupedPayableIndices = groups[groupName] {
+                            ForEach(groupedPayableIndices, id:\.self) { index in
                                 HStack {
-                                    Image(systemName: "trash")
-                                    Text("Delete")
+                                    Text(payables[index].toStringPresentation)
+                                    Spacer()
+                                    if let amount = payables[index].amount as Decimal? {
+                                        Text(appData.majorCurrency.toStringPresentation)
+                                        Text(amount.toStringPresentation)
+                                            .frame(width: 40)
+                                    }
                                 }
-                                
+                                .contentShape(Rectangle())
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        controller.delete(payables[index])
+                                    } label: {
+                                        HStack {
+                                            Image(systemName: "trash")
+                                            Text("Delete")
+                                        }
+                                        
+                                    }
+                                }
+                                .onTapGesture {
+                                    if editingPayableIndex == nil {
+                                        editingPayableIndex = index
+                                    }
+                                }
                             }
                         }
-                        .onTapGesture {
-                            if editingPayableIndex == nil {
-                                editingPayableIndex = index
-                            }
-                        }
+                        
+                    } header: {
+                        Text(groupName)
                     }
-                } header: {
-                    Text("Product List")
                 }
             }
             Spacer()

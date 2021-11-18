@@ -108,7 +108,7 @@ struct PaymentMethodEditorView: View {
                 } label: {
                     Text("Save")
                 }
-                .disabled(emptyFieldExist)
+                .disabled(emptyFieldExist || failedToSaveWarning)
                 if let _ = paymentMethod {
                     Button(role: .destructive) {
                         delete()

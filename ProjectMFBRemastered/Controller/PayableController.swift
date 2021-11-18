@@ -49,4 +49,11 @@ class PayableController: TagController {
         managedSave()
         return payable
     }
+    
+    func delete(_ payable: Payable) {
+        if let tag = payable.tag {
+            viewContext.delete(tag)
+        }
+        super.delete(payable)
+    }
 }
