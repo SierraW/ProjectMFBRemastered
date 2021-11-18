@@ -29,6 +29,10 @@
 		3B8FA0EC2744BABD00D7D4AD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */; };
 		3B8FA0F02744C1B900D7D4AD /* RoomManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0EF2744C1B900D7D4AD /* RoomManagementView.swift */; };
 		3B8FA0F22744C1F100D7D4AD /* RoomEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0F12744C1F100D7D4AD /* RoomEditorView.swift */; };
+		3B8FA0F62745800700D7D4AD /* PayableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0F52745800700D7D4AD /* PayableController.swift */; };
+		3B8FA0F827458C6900D7D4AD /* PayableEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0F727458C6900D7D4AD /* PayableEditorView.swift */; };
+		3B8FA0FC2745A18D00D7D4AD /* PayableManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0FB2745A18D00D7D4AD /* PayableManagementView.swift */; };
+		3B8FA0FE2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0FD2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift */; };
 		3BADA68C2742CF71000B1D33 /* TransactionAmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */; };
 		3BADA68E2742F095000B1D33 /* DecimalField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68D2742F095000B1D33 /* DecimalField.swift */; };
 		3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE301273C53810056AF54 /* ProjectMFBRemasteredApp.swift */; };
@@ -69,6 +73,10 @@
 		3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		3B8FA0EF2744C1B900D7D4AD /* RoomManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomManagementView.swift; sourceTree = "<group>"; };
 		3B8FA0F12744C1F100D7D4AD /* RoomEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomEditorView.swift; sourceTree = "<group>"; };
+		3B8FA0F52745800700D7D4AD /* PayableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableController.swift; sourceTree = "<group>"; };
+		3B8FA0F727458C6900D7D4AD /* PayableEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableEditorView.swift; sourceTree = "<group>"; };
+		3B8FA0FB2745A18D00D7D4AD /* PayableManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableManagementView.swift; sourceTree = "<group>"; };
+		3B8FA0FD2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MajorCurrencyWidzardView.swift; sourceTree = "<group>"; };
 		3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAmountTextField.swift; sourceTree = "<group>"; };
 		3BADA68D2742F095000B1D33 /* DecimalField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalField.swift; sourceTree = "<group>"; };
 		3BEEE2FE273C53810056AF54 /* ProjectMFBRemastered.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectMFBRemastered.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +121,7 @@
 				3B202FFF273ED5DD0016B537 /* ModelController.swift */,
 				3B20ED34274373C300B96DB6 /* TagController.swift */,
 				3B20ED4327442D7B00B96DB6 /* PaymentMethodController.swift */,
+				3B8FA0F52745800700D7D4AD /* PayableController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -149,6 +158,8 @@
 		3B8FA0ED2744C04900D7D4AD /* Payable */ = {
 			isa = PBXGroup;
 			children = (
+				3B8FA0FB2745A18D00D7D4AD /* PayableManagementView.swift */,
+				3B8FA0F727458C6900D7D4AD /* PayableEditorView.swift */,
 			);
 			path = Payable;
 			sourceTree = "<group>";
@@ -160,6 +171,13 @@
 				3B8FA0F12744C1F100D7D4AD /* RoomEditorView.swift */,
 			);
 			path = Room;
+			sourceTree = "<group>";
+		};
+		3B8FA0FF2745EF1A00D7D4AD /* RatedPayable */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = RatedPayable;
 			sourceTree = "<group>";
 		};
 		3BEEE2F5273C53810056AF54 = {
@@ -206,6 +224,7 @@
 		3BEEE314273C53960056AF54 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3B8FA0FF2745EF1A00D7D4AD /* RatedPayable */,
 				3B8FA0EE2744C14700D7D4AD /* Room */,
 				3B8FA0ED2744C04900D7D4AD /* Payable */,
 				3B20ED362743786200B96DB6 /* PaymentMethod */,
@@ -233,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				3BEEE31B273C57D40056AF54 /* SetupWizardView.swift */,
+				3B8FA0FD2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift */,
 			);
 			path = Setup;
 			sourceTree = "<group>";
@@ -347,14 +367,18 @@
 				3BADA68E2742F095000B1D33 /* DecimalField.swift in Sources */,
 				3B203002273ED6000016B537 /* DecimalExtension.swift in Sources */,
 				3B203011273F0FD60016B537 /* ContentWrapperView.swift in Sources */,
+				3B8FA0FC2745A18D00D7D4AD /* PayableManagementView.swift in Sources */,
 				3B8FA0F02744C1B900D7D4AD /* RoomManagementView.swift in Sources */,
 				3B20ED4427442D7B00B96DB6 /* PaymentMethodController.swift in Sources */,
 				3BEEE321273C58440056AF54 /* MainView.swift in Sources */,
 				3BEEE316273C560F0056AF54 /* LandingView.swift in Sources */,
+				3B8FA0FE2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift in Sources */,
 				3BEEE31C273C57D40056AF54 /* SetupWizardView.swift in Sources */,
 				3B8FA0EC2744BABD00D7D4AD /* WelcomeView.swift in Sources */,
+				3B8FA0F827458C6900D7D4AD /* PayableEditorView.swift in Sources */,
 				3BEEE304273C53810056AF54 /* ContentView.swift in Sources */,
 				3BEEE319273C57080056AF54 /* RegisterView.swift in Sources */,
+				3B8FA0F62745800700D7D4AD /* PayableController.swift in Sources */,
 				3B203006273EDB200016B537 /* CurrencyManagementView.swift in Sources */,
 				3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */,
 				3B20300C273EEFB90016B537 /* PresentationExtensions.swift in Sources */,

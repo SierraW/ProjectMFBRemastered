@@ -40,3 +40,9 @@ extension Tag {
         return self.name ?? "err"
     }
 }
+
+extension Payable {
+    var toStringPresentation: String {
+        return self.tag?.name ?? "err"
+    }
+}

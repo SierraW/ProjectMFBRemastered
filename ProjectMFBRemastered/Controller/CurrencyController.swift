@@ -73,6 +73,13 @@ class CurrencyController: ModelController {
         managedSave()
     }
     
+    func debugResignMajorCurrency(from currencies: [Currency]) {
+        currencies.forEach { currency in
+            currency.is_major = false
+        }
+        managedSave()
+    }
+    
     func modifyOrCreateIfNotExist(for currency: Currency?, name: String, prefix: String, symbol: String, rate: Decimal) -> Bool {
         if let currency = currency {
             return modify(currency, name: name, prefix: prefix, symbol: symbol, rate: rate)
@@ -106,9 +113,7 @@ class CurrencyController: ModelController {
             return
         }
         
-        viewContext.delete(currency)
-        
-        managedSave()
+        super.delete(currency)
     }
     
 }

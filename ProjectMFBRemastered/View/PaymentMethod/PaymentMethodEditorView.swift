@@ -179,6 +179,7 @@ struct PaymentMethodEditorView: View {
         }
         if controller.modifyOrCreateIfNotExist(paymentMethod, name: name, assignmentCurrency: selectedCurrencyIndex < 0 ? nil : currencies[selectedCurrencyIndex]) {
             onExit()
+            return
         }
         
         withAnimation {

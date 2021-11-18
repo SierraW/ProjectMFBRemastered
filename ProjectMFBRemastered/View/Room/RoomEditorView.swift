@@ -152,8 +152,9 @@ struct RoomEditorView: View {
             return
         }
         
-        if controller.modifyOrCreateIfNotExist(room, name: name, is_room: true) {
+        if controller.modifyOrCreateIfNotExist(name: name, tag: room, is_room: true) != nil {
             onExit()
+            return
         }
         
         withAnimation {

@@ -49,9 +49,4 @@ class PaymentMethodController: ModelController {
         return true
     }
     
-    func delete(_ paymentMethod: PaymentMethod) {
-        viewContext.delete(paymentMethod)
-        managedSave()
-    }
-    
 }

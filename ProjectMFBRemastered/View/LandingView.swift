@@ -6,6 +6,24 @@
 //
 
 import SwiftUI
+import Combine
+import CoreData
+
+class AppData: ObservableObject {
+    @Published var user: User
+    @Published var majorCurrency: Currency
+    var onLogout: () -> Void
+    
+    init? (_ user: User, viewContext: NSManagedObjectContext, onLogout: @escaping () -> Void) {
+        self.user = user
+        self.onLogout = onLogout
+        if let currency = CurrencyController.getMajorCurrency(from: viewContext) {
+            self.majorCurrency = currency
+        } else {
+            return nil
+        }
+    }
+}
 
 struct LandingView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -15,11 +33,12 @@ struct LandingView: View {
         animation: .default)
     private var users: FetchedResults<User>
     
-    @State var user: User? = nil
+    @State var data: AppData? = nil
     @State var showWelcomeView = true
+    @State var showMajorCurrencyWidzard = false
     
     private var isInitialSetup: Bool {
-        return users.isEmpty
+        users.isEmpty
     }
     
     var body: some View {
@@ -27,8 +46,10 @@ struct LandingView: View {
             welcomeView
         } else if isInitialSetup {
             initialSetup
-        } else if let user = user {
-            getMainView(with: user)
+        } else if let appData = data {
+            getMainView(with: appData)
+        } else if showMajorCurrencyWidzard {
+            currencySetup
         } else {
             loginView
         }
@@ -56,19 +77,33 @@ struct LandingView: View {
         }
     }
     
-    var loginView: some View {
-        LoginView { signedInUser in
-            if let signedInUser = signedInUser {
-                self.user = signedInUser
+    var currencySetup: some View {
+        MajorCurrencyWidzardView {
+            withAnimation {
+                showMajorCurrencyWidzard = false
             }
         }
     }
     
-    func getMainView(with user: User) -> some View {
+    var loginView: some View {
+        LoginView { signedInUser in
+            if let signedInUser = signedInUser {
+                if let appData = AppData(signedInUser, viewContext: viewContext, onLogout: {
+                    self.data = nil
+                }) {
+                    withAnimation {
+                        self.data = appData
+                    }
+                } else {
+                    showMajorCurrencyWidzard = true
+                }
+            }
+        }
+    }
+    
+    func getMainView(with data: AppData) -> some View {
         return MainView()
-            .environmentObject(UserData(user, onLogout: {
-                self.user = nil
-            }))
+            .environmentObject(data)
     }
 }
 

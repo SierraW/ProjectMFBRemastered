@@ -211,13 +211,14 @@ struct CurrencyEditorView: View {
             }
             return
         }
+        
         if let rate = Decimal(string: rate) {
             if controller.modifyOrCreateIfNotExist(for: currency, name: name, prefix: prefix, symbol: symbol, rate: rate) {
                 onExit()
                 return
             }
         } else if let currency = currency, currency.is_major {
-            if controller.modifyOrCreateIfNotExist(for: currency, name: name, prefix: prefix, symbol: symbol, rate: 0) {
+            if controller.modifyOrCreateIfNotExist(for: currency, name: name, prefix: prefix, symbol: symbol, rate: 1) {
                 onExit()
                 return
             }

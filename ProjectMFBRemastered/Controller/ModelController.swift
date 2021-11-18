@@ -15,11 +15,16 @@ class ModelController {
         self.viewContext = viewContext
     }
     
+    func delete(_ object: NSManagedObject) {
+        viewContext.delete(object)
+        managedSave()
+    }
+    
     func managedSave() {
         do {
             try viewContext.save()
         } catch {
-            print("Error saving currency at currency controller.")
+            print("Error saving currency at model controller.")
         }
     }
 }

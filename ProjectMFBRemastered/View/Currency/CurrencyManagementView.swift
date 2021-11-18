@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CurrencyManagementView: View {
+    @EnvironmentObject var appData: AppData
+    
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -31,7 +33,7 @@ struct CurrencyManagementView: View {
         CurrencyController(viewContext)
     }
     
-    @State var majorCurrencyLocked = false
+    @State var majorCurrencyUnlocked = false
     @State var selectedMajorCurrencyIndex = -1
     @State var editingCurrencyIndex: Int? = nil
     
@@ -42,6 +44,8 @@ struct CurrencyManagementView: View {
         case symbol = "Symbol"
     }
     
+    var initialSetup = false
+    
     var body: some View {
         VStack {
             Form {
@@ -50,31 +54,37 @@ struct CurrencyManagementView: View {
                         Text("Major Currency")
                         Spacer()
                         Picker("", selection: $selectedMajorCurrencyIndex) {
-                            Text("Not Set").tag(-1)
+                            if initialSetup {
+                                Text("Not Set").tag(-1)
+                            }
                             ForEach(currencies.indices, id: \.self) {index in
                                 Text(currencies[index].toStringPresentation).tag(index)
                             }
                         }
                         .pickerStyle(.menu)
                         .onChange(of: selectedMajorCurrencyIndex, perform: { newValue in
-                            if selectedMajorCurrencyIndex >= 0 {
+                            if initialSetup, selectedMajorCurrencyIndex >= 0 {
                                 controller.assignMajorCurrency(with: currencies[newValue], from: currencies)
-                            }
-                        })
-                        .disabled(majorCurrencyLocked)
-                        .onAppear {
-                            if let index = CurrencyController.getMajorCurrencyIndex(from: currencies) {
+                            } else if selectedMajorCurrencyIndex >= 0, currencies[selectedMajorCurrencyIndex] != appData.majorCurrency {
+                                //                                controller.assignMajorCurrency(with: currencies[newValue], from: currencies)
+                                controller.debugResignMajorCurrency(from: currencies)
                                 withAnimation {
-                                    majorCurrencyLocked = true
-                                    selectedMajorCurrencyIndex = index
+                                    appData.onLogout()
                                 }
                             }
-                        }
+                        })
+                        .disabled(!majorCurrencyUnlocked)
                     }
                 } header: {
-                    Text("Settings")
+                    if !initialSetup {
+                        Text("Settings")
+                    }
+                } footer: {
+                    if initialSetup {
+                        Text("Requried")
+                    }
                 }
-
+                
                 Section {
                     ForEach(currencies.indices, id:\.self) { index in
                         HStack {
@@ -185,7 +195,7 @@ struct CurrencyManagementView: View {
                         }
                     }
                     Button(role: .destructive) {
-                        majorCurrencyLocked = false
+                        majorCurrencyUnlocked.toggle()
                     } label: {
                         HStack {
                             Image(systemName: "exclamationmark.triangle")
@@ -195,6 +205,11 @@ struct CurrencyManagementView: View {
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
+            }
+        }
+        .onAppear {
+            if initialSetup {
+                majorCurrencyUnlocked = true
             }
         }
     }

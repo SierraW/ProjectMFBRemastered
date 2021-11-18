@@ -22,30 +22,28 @@ class TagController: ModelController {
         return []
     }
     
-    func modifyOrCreateIfNotExist(_ tag: Tag?, name: String, is_room: Bool = false, starred: Bool = false) -> Bool {
-        if let tag = tag {
-            return modifyTag(tag, with: name, is_room: is_room, starred: starred)
-        } else {
-            return modifyTag(Tag(context: viewContext), with: name, is_room: is_room, starred: starred)
-        }
-    }
-    
-    func modifyTag(_ tag: Tag, with name: String, is_room: Bool = false, starred: Bool = false) -> Bool {
-        if let oldName = tag.name, oldName != name, fetchTags().contains(where: { tag in
+    func modifyOrCreateIfNotExist(name: String, tag: Tag? = nil, is_group: Bool = false, is_room: Bool = false, is_payable: Bool = false, is_rated: Bool = false, starred: Bool = false) -> Tag? {
+        if tag?.name != name && fetchTags().contains(where: { tag in
             tag.name == name
         }) {
-            return false
+            return nil
         }
-        tag.name = name
-        tag.is_room = is_room
-        tag.starred = starred
-        managedSave()
-        return true
+        if let tag = tag {
+            return modifyTag(name: name, tag: tag, is_group: is_group, is_room: is_room, is_payable: is_payable, is_rated: is_rated, starred: starred)
+        } else {
+            return modifyTag(name: name, tag: Tag(context: viewContext), is_group: is_group, is_room: is_room, is_payable: is_payable, is_rated: is_rated, starred: starred)
+        }
     }
     
-    func delete(_ tag: Tag) {
-        viewContext.delete(tag)
+    private func modifyTag(name: String, tag: Tag, is_group: Bool = false, is_room: Bool = false, is_payable: Bool = false, is_rated: Bool = false, starred: Bool = false) -> Tag? {
+        tag.name = name
+        tag.is_room = is_room
+        tag.is_group = is_group
+        tag.is_payable = is_payable
+        tag.is_rated = is_rated
+        tag.starred = starred
         managedSave()
+        return tag
     }
     
     func assignParent(for childTag: Tag, asChildrenOf parentTag: Tag) -> Bool {

@@ -56,8 +56,11 @@
         <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="ratedPayable" inverseEntity="Tag"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
+        <attribute name="is_group" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_payable" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_rated" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_room" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="starred" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <relationship name="activeBill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bill" inverseName="activeTag" inverseEntity="Bill"/>
         <relationship name="bill" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="tag" inverseEntity="Bill"/>
@@ -100,7 +103,7 @@
         <element name="Payable" positionX="-18" positionY="72" width="128" height="119"/>
         <element name="PaymentMethod" positionX="-9" positionY="81" width="128" height="89"/>
         <element name="RatedPayable" positionX="0" positionY="90" width="128" height="104"/>
-        <element name="Tag" positionX="-36" positionY="63" width="128" height="179"/>
+        <element name="Tag" positionX="-36" positionY="63" width="128" height="224"/>
         <element name="Transaction" positionX="-54" positionY="54" width="128" height="149"/>
         <element name="TransactionReport" positionX="0" positionY="90" width="128" height="74"/>
         <element name="User" positionX="-63" positionY="-9" width="128" height="149"/>

@@ -28,8 +28,9 @@ struct MainView: View {
         case register = "Registeration"
         case tag
         case roomManagement = "Room Management"
-        case currency = "Currencies"
+        case currency = "Curreny"
         case paymentMethod = "Payment Method"
+        case payable = "Product"
 //        case Deposit
 //        case Withdraw
 //        case Management
@@ -76,10 +77,10 @@ struct MainView: View {
                         TagManagementView()
                     )
                 }
-            default:
-                return ContentWrapperView(title: "Welcome") {
+            case .payable:
+                return ContentWrapperView(title: self.rawValue) {
                     AnyView(
-                        WelcomeView()
+                        PayableManagementView()
                     )
                 }
             }
