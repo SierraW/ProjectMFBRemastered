@@ -46,3 +46,9 @@ extension Payable {
         return self.tag?.name ?? "err"
     }
 }
+
+extension RatedPayable {
+    var toStringPresentation: String {
+        return self.tag?.name ?? "err"
+    }
+}

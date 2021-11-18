@@ -31,6 +31,7 @@ struct MainView: View {
         case currency = "Curreny"
         case paymentMethod = "Payment Method"
         case payable = "Product"
+        case ratedPayable = "Tax & Service"
 //        case Deposit
 //        case Withdraw
 //        case Management
@@ -81,6 +82,12 @@ struct MainView: View {
                 return ContentWrapperView(title: self.rawValue) {
                     AnyView(
                         PayableManagementView()
+                    )
+                }
+            case .ratedPayable:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        RatedPayableManagementView()
                     )
                 }
             }

@@ -11,13 +11,19 @@ import Combine
 struct CurrencyEditorView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
+    // model fields
     @State var name = ""
     @State var prefix = ""
     @State var symbol = ""
     @State var rate = "100"
+    
+    // model fields controls
     @State var confirmDelete = false
+    
+    // specialized controls
     @State var disableRateField = false
     
+    // warning controls
     @State var duplicatedWarning = false
     @State var failedToSaveWarning = false
     
@@ -26,7 +32,7 @@ struct CurrencyEditorView: View {
     }
     
     var duplicatedObject: Bool {
-        if let currency = currency, let oldName = currency.name, oldName == name {
+        if currency?.name == name {
             return false
         }
         if currencies.contains(where: { currency in
@@ -37,6 +43,7 @@ struct CurrencyEditorView: View {
         return false
     }
     
+    // variables
     var controller: CurrencyController
     
     var currency: Currency? = nil

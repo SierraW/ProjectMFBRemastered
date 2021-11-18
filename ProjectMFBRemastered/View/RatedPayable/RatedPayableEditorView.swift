@@ -1,18 +1,29 @@
 //
-//  RoomEditorView.swift
+//  RatedPayableEditorView.swift
 //  ProjectMFBRemastered
 //
-//  Created by Yiyao Zhang on 2021-11-16.
+//  Created by Yiyao Zhang on 2021-11-17.
 //
 
 import SwiftUI
 
-struct RoomEditorView: View {
+struct RatedPayableEditorView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
+    // model fields
     @State var name = ""
+    @State var rate = ""
+    @State var starred = false
+    
+    // model fields controls
     @State var confirmDelete = false
     
+    // specialized controls
+    @State var creatingNewGroup = false
+    @State var groupName = ""
+    @State var groupDuplicatedWarning = false
+    
+    // warning controls
     @State var duplicatedWarning = false
     @State var failedToSaveWarning = false
     
@@ -21,24 +32,25 @@ struct RoomEditorView: View {
     }
     
     var duplicatedObject: Bool {
-        if room?.name == name {
+        if ratedPayable?.tag?.name == name {
             return false
         }
-        if rooms.contains(where: { room in
-            room.name == name
+        if ratedPayables.contains(where: { ratedPayable in
+            ratedPayable.tag?.name == name
         }) {
             return true
         }
         return false
     }
     
-    var controller: TagController
+    // variables
+    var controller: RatedPayableController
     
-    var room: Tag? = nil
+    var ratedPayable: RatedPayable? = nil
     
-    var rooms: [Tag]
+    var ratedPayables: [RatedPayable]
     
-    var onDelete: (Tag) -> Void
+    var onDelete: (RatedPayable) -> Void
     
     var onExit: () -> Void
     
@@ -55,13 +67,21 @@ struct RoomEditorView: View {
                         name.trimmingWhitespacesAndNewlines()
                     })
                 }
+                HStack {
+                    HStack {
+                        Text("Rate")
+                        Spacer()
+                    }
+                    .frame(width: 70)
+                    DecimalField(placeholder: "Required", value: $rate)
+                }
             } header: {
-                Text("Room")
+                Text("Tax & Service")
             } footer: {
                 VStack {
                     if duplicatedWarning {
                         HStack {
-                            Text("Duplicated currency found.")
+                            Text("Duplicated tax & service found.")
                                 .foregroundColor(.red)
                             Spacer()
                         }
@@ -78,13 +98,24 @@ struct RoomEditorView: View {
             }
             
             Section {
+                Toggle(isOn: $starred) {
+                    Text("Highlight")
+                }
+                .contextMenu {
+                    Text("Highlight a product so that you can find it faster!")
+                }
+            } header: {
+                Text("Settings")
+            }
+            
+            Section {
                 Button {
                     save()
                 } label: {
                     Text("Save")
                 }
                 .disabled(emptyFieldExist || failedToSaveWarning)
-                if let _ = room {
+                if let _ = ratedPayable {
                     Button(role: .destructive) {
                         delete()
                     } label: {
@@ -108,8 +139,10 @@ struct RoomEditorView: View {
             }
         }
         .onAppear {
-            if let currency = room {
-                name = currency.name ?? ""
+            if let ratedPayable = ratedPayable {
+                name = ratedPayable.tag?.name ?? ""
+                rate = (ratedPayable.rate! as Decimal).toStringPresentation
+                starred = ratedPayable.starred
             }
         }
     }
@@ -128,7 +161,7 @@ struct RoomEditorView: View {
             }
             return
         }
-        if let currency = room {
+        if let currency = ratedPayable {
             onDelete(currency)
         } else {
             onExit()
@@ -152,7 +185,7 @@ struct RoomEditorView: View {
             return
         }
         
-        if controller.modifyOrCreateIfNotExist(name: name, tag: room, is_room: true) != nil {
+        if (controller.modifyOrCreateIfNotExist(name: name, ratedPayable: ratedPayable, rate: Decimal(string: rate) ?? 0, is_deposit: true, starred: starred) != nil) {
             onExit()
             return
         }

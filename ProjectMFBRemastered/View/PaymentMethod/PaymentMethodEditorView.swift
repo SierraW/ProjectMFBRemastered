@@ -30,7 +30,7 @@ struct PaymentMethodEditorView: View {
     }
     
     var duplicatedObject: Bool {
-        if let paymentMethod = paymentMethod, let oldName = paymentMethod.name, oldName == name {
+        if paymentMethod?.name == name {
             return false
         }
         if paymentMethods.contains(where: { paymentMethod in

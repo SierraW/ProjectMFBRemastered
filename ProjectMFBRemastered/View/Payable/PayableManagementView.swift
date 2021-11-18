@@ -30,7 +30,7 @@ struct PayableManagementView: View {
     }
     
     var groups: [String: [Int]] {
-        Dictionary(grouping: payables.indices, by: {payables[$0].tag?.parent?.toStringPresentation ?? "Disjoint Groups"})
+        Dictionary(grouping: payables.indices, by: {payables[$0].tag?.parent?.toStringPresentation ?? "Ungrouped Products"})
     }
     
     var controller: PayableController {
@@ -38,6 +38,7 @@ struct PayableManagementView: View {
     }
     
     @State var editingPayableIndex: Int? = nil
+    @State var isLoading = false
     
     @State var sortType: SortType = .name
     
@@ -55,6 +56,10 @@ struct PayableManagementView: View {
                             ForEach(groupedPayableIndices, id:\.self) { index in
                                 HStack {
                                     Text(payables[index].toStringPresentation)
+                                    if payables[index].starred {
+                                        Image(systemName: "star.fill")
+                                            .foregroundColor(.yellow)
+                                    }
                                     Spacer()
                                     if let amount = payables[index].amount as Decimal? {
                                         Text(appData.majorCurrency.toStringPresentation)
@@ -107,6 +112,9 @@ struct PayableManagementView: View {
             
         }
         .background(Color(UIColor.systemGroupedBackground))
+        .overlay(isLoading ?
+                 Rectangle().fill(Color(UIColor.systemGroupedBackground)).overlay(ProgressView())
+                 : nil)
         .sheet(item: $editingPayableIndex) { index in
             VStack {
                 HStack {
@@ -133,8 +141,14 @@ struct PayableManagementView: View {
                         controller.delete(payable)
                     }
                 }, onExit: {
+                    isLoading = true
                     withAnimation {
                         editingPayableIndex = nil
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        withAnimation {
+                            isLoading = false
+                        }
                     }
                 })
             }

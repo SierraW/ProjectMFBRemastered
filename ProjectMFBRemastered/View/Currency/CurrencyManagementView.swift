@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct CurrencyManagementView: View {
+    // environment
     @EnvironmentObject var appData: AppData
     
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var viewContext
     
+    // fetch requests
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Currency.name, ascending: true)],
         animation: .default)
@@ -29,14 +31,19 @@ struct CurrencyManagementView: View {
         }
     }
     
+    // controller
     var controller: CurrencyController {
         CurrencyController(viewContext)
     }
     
+    // specialized controls
     @State var majorCurrencyUnlocked = false
     @State var selectedMajorCurrencyIndex = -1
+    
+    // edit control
     @State var editingCurrencyIndex: Int? = nil
     
+    // sort type
     @State var sortType: SortType = .name
     
     enum SortType: String, CaseIterable {
@@ -44,11 +51,13 @@ struct CurrencyManagementView: View {
         case symbol = "Symbol"
     }
     
+    // variable
     var initialSetup = false
     
     var body: some View {
         VStack {
             Form {
+                // specialized section
                 Section {
                     HStack {
                         Text("Major Currency")
@@ -66,8 +75,7 @@ struct CurrencyManagementView: View {
                             if initialSetup, selectedMajorCurrencyIndex >= 0 {
                                 controller.assignMajorCurrency(with: currencies[newValue], from: currencies)
                             } else if selectedMajorCurrencyIndex >= 0, currencies[selectedMajorCurrencyIndex] != appData.majorCurrency {
-                                //                                controller.assignMajorCurrency(with: currencies[newValue], from: currencies)
-                                controller.debugResignMajorCurrency(from: currencies)
+                                controller.assignMajorCurrency(with: currencies[newValue], from: currencies)
                                 withAnimation {
                                     appData.onLogout()
                                 }
@@ -84,7 +92,7 @@ struct CurrencyManagementView: View {
                         Text("Requried")
                     }
                 }
-                
+                // default section
                 Section {
                     ForEach(currencies.indices, id:\.self) { index in
                         HStack {
@@ -194,6 +202,7 @@ struct CurrencyManagementView: View {
                             Text("Alignment")
                         }
                     }
+                    // specialized button
                     Button(role: .destructive) {
                         majorCurrencyUnlocked.toggle()
                     } label: {

@@ -19,11 +19,7 @@ class PayableController: TagController {
             return nil
         }
         
-        if let payable = payable {
-            return modifyPayable(name: name, amount: amount, payable: payable, groupedBy: tag, discountable: discountable, is_deposit: is_deposit, starred: starred)
-        } else {
-            return modifyPayable(name: name, amount: amount, payable: Payable(context: viewContext), groupedBy: tag, discountable: discountable, is_deposit: is_deposit, starred: starred)
-        }
+        return modifyPayable(name: name, amount: amount, payable: payable ?? Payable(context: viewContext), groupedBy: tag, discountable: discountable, is_deposit: is_deposit, starred: starred)
     }
     
     private func modifyPayable(name: String, amount: Decimal, payable: Payable, groupedBy tag: Tag? = nil, discountable: Bool = false, is_deposit: Bool = false, starred: Bool = false) -> Payable? {

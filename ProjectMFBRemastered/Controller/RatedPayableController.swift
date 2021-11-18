@@ -9,7 +9,29 @@ import Foundation
 
 class RatedPayableController: TagController {
     
+    func modifyOrCreateIfNotExist(name: String, ratedPayable: RatedPayable? = nil, rate: Decimal, is_deposit: Bool = false, starred: Bool = false) -> RatedPayable? {
+        if rate < 0 {
+            return nil
+        }
+        if (ratedPayable == nil || ratedPayable?.tag?.name != name) && fetchTags().contains(where: { tag in
+            tag.name == name
+        }) {
+            return nil
+        }
+        
+        return modify(name: name, ratedPayable: ratedPayable ?? RatedPayable(context: viewContext), rate: rate, is_deposit: is_deposit, starred: starred)
+    }
+    
     private func modify(name: String, ratedPayable: RatedPayable, rate: Decimal, is_deposit: Bool = false, starred: Bool = false) -> RatedPayable? {
-        return nil
+        if ratedPayable.tag == nil {
+            ratedPayable.tag = super.modifyOrCreateIfNotExist(name: name, is_rated: true)
+        }
+        
+        ratedPayable.rate = NSDecimalNumber(decimal: rate)
+        ratedPayable.is_deposit = is_deposit
+        ratedPayable.starred = starred
+        
+        managedSave()
+        return ratedPayable
     }
 }

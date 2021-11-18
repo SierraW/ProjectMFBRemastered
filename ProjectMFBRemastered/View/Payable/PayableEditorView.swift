@@ -20,7 +20,7 @@ struct PayableEditorView: View {
     }
     
     @State var name = ""
-    @State var amount = "0"
+    @State var amount = ""
     @State var selectedTagIndex = -1
     @State var discountable = false
     @State var starred = false
