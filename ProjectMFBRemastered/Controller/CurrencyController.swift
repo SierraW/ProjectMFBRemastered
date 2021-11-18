@@ -80,7 +80,15 @@ class CurrencyController: ModelController {
         managedSave()
     }
     
-    func modifyOrCreateIfNotExist(for currency: Currency?, name: String, prefix: String, symbol: String, rate: Decimal) -> Bool {
+    func modifyOrCreateIfNotExist(for currency: Currency?, name: String, prefix: String, symbol: String, rate: Decimal) -> Currency? {
+        if name.isEmpty || prefix.isEmpty || symbol.isEmpty || rate <= 0  {
+            return nil
+        }
+        if (currency == nil || currency?.name != name) && fetchCurrencies().contains(where: { currency in
+            currency.name == name
+        }) {
+            return nil
+        }
         if let currency = currency {
             return modify(currency, name: name, prefix: prefix, symbol: symbol, rate: rate)
         } else {
@@ -88,24 +96,14 @@ class CurrencyController: ModelController {
         }
     }
     
-    func modify(_ currency: Currency, name: String, prefix: String, symbol: String, rate: Decimal) -> Bool {
-        if let oldName = currency.name, oldName != name {
-            if fetchCurrencies().contains(where: { currency in
-                currency.name == name
-            }) {
-                return false
-            }
-        }
-        if name.isEmpty || prefix.isEmpty || symbol.isEmpty || rate <= 0  {
-            return false
-        }
+    func modify(_ currency: Currency, name: String, prefix: String, symbol: String, rate: Decimal) -> Currency? {
         currency.name = name
         currency.prefix = prefix
         currency.symbol = symbol
         currency.rate = NSDecimalNumber(decimal: rate)
         
         managedSave()
-        return true
+        return currency
     }
     
     func delete(_ currency: Currency) {

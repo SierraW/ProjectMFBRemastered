@@ -22,9 +22,10 @@ class UserData: ObservableObject {
 struct MainView: View {
     @EnvironmentObject var appData: AppData
     
-    @State var viewState: ViewState? = .register
+    @State var viewState: ViewState? = nil
     
     enum ViewState: String, CaseIterable {
+        case empty = "Welcome"
         case register = "Registeration"
         case tag
         case roomManagement = "Room Management"
@@ -32,6 +33,7 @@ struct MainView: View {
         case paymentMethod = "Payment Method"
         case payable = "Product"
         case ratedPayable = "Tax & Service"
+        case debugPayableList = "[DEBUG] payable list"
 //        case Deposit
 //        case Withdraw
 //        case Management
@@ -88,6 +90,18 @@ struct MainView: View {
                 return ContentWrapperView(title: self.rawValue) {
                     AnyView(
                         RatedPayableManagementView()
+                    )
+                }
+            case .debugPayableList:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        PayableListView(onSelect: {_ in})
+                    )
+                }
+            default:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        WelcomeView()
                     )
                 }
             }

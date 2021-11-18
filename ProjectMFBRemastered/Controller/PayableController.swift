@@ -23,7 +23,9 @@ class PayableController: TagController {
     }
     
     private func modifyPayable(name: String, amount: Decimal, payable: Payable, groupedBy tag: Tag? = nil, discountable: Bool = false, is_deposit: Bool = false, starred: Bool = false) -> Payable? {
-        if payable.tag == nil {
+        if let tag = payable.tag {
+            tag.name = name
+        } else {
             payable.tag = modifyOrCreateIfNotExist(name: name, is_payable: true)
         }
         

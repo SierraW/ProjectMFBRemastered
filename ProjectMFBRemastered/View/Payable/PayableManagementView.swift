@@ -71,6 +71,7 @@ struct PayableManagementView: View {
                                 .contextMenu {
                                     Button(role: .destructive) {
                                         controller.delete(payables[index])
+                                        isLoading = true
                                     } label: {
                                         HStack {
                                             Image(systemName: "trash")
@@ -113,7 +114,12 @@ struct PayableManagementView: View {
         }
         .background(Color(UIColor.systemGroupedBackground))
         .overlay(isLoading ?
-                 Rectangle().fill(Color(UIColor.systemGroupedBackground)).overlay(ProgressView())
+                 Rectangle().fill(Color(UIColor.systemGroupedBackground)).overlay(ProgressView()).onAppear(perform: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation {
+                isLoading = false
+            }
+        }})
                  : nil)
         .sheet(item: $editingPayableIndex) { index in
             VStack {
@@ -145,11 +151,7 @@ struct PayableManagementView: View {
                     withAnimation {
                         editingPayableIndex = nil
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        withAnimation {
-                            isLoading = false
-                        }
-                    }
+                    
                 })
             }
             .background(Color(UIColor.systemGroupedBackground))

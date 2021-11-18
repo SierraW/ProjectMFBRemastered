@@ -38,6 +38,8 @@
 		3B8FA1052746252700D7D4AD /* RatedPayableManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA1042746252700D7D4AD /* RatedPayableManagementView.swift */; };
 		3BADA68C2742CF71000B1D33 /* TransactionAmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */; };
 		3BADA68E2742F095000B1D33 /* DecimalField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68D2742F095000B1D33 /* DecimalField.swift */; };
+		3BD581822746A36D00089113 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581812746A36D00089113 /* SearchBar.swift */; };
+		3BD581842746BC2E00089113 /* PayableListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581832746BC2E00089113 /* PayableListView.swift */; };
 		3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE301273C53810056AF54 /* ProjectMFBRemasteredApp.swift */; };
 		3BEEE304273C53810056AF54 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE303273C53810056AF54 /* ContentView.swift */; };
 		3BEEE306273C53840056AF54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BEEE305273C53840056AF54 /* Assets.xcassets */; };
@@ -85,6 +87,8 @@
 		3B8FA1042746252700D7D4AD /* RatedPayableManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatedPayableManagementView.swift; sourceTree = "<group>"; };
 		3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAmountTextField.swift; sourceTree = "<group>"; };
 		3BADA68D2742F095000B1D33 /* DecimalField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalField.swift; sourceTree = "<group>"; };
+		3BD581812746A36D00089113 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		3BD581832746BC2E00089113 /* PayableListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableListView.swift; sourceTree = "<group>"; };
 		3BEEE2FE273C53810056AF54 /* ProjectMFBRemastered.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectMFBRemastered.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BEEE301273C53810056AF54 /* ProjectMFBRemasteredApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectMFBRemasteredApp.swift; sourceTree = "<group>"; };
 		3BEEE303273C53810056AF54 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 				3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */,
 				3BADA68D2742F095000B1D33 /* DecimalField.swift */,
 				3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */,
+				3BD581812746A36D00089113 /* SearchBar.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 			children = (
 				3B8FA0FB2745A18D00D7D4AD /* PayableManagementView.swift */,
 				3B8FA0F727458C6900D7D4AD /* PayableEditorView.swift */,
+				3BD581832746BC2E00089113 /* PayableListView.swift */,
 			);
 			path = Payable;
 			sourceTree = "<group>";
@@ -384,6 +390,7 @@
 				3B20ED4427442D7B00B96DB6 /* PaymentMethodController.swift in Sources */,
 				3BEEE321273C58440056AF54 /* MainView.swift in Sources */,
 				3BEEE316273C560F0056AF54 /* LandingView.swift in Sources */,
+				3BD581842746BC2E00089113 /* PayableListView.swift in Sources */,
 				3B8FA0FE2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift in Sources */,
 				3BEEE31C273C57D40056AF54 /* SetupWizardView.swift in Sources */,
 				3B8FA0EC2744BABD00D7D4AD /* WelcomeView.swift in Sources */,
@@ -395,6 +402,7 @@
 				3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */,
 				3B20300C273EEFB90016B537 /* PresentationExtensions.swift in Sources */,
 				3BEEE324273C5A000056AF54 /* EncryptExtension.swift in Sources */,
+				3BD581822746A36D00089113 /* SearchBar.swift in Sources */,
 				3B20301D273F6C080016B537 /* TagEditionView.swift in Sources */,
 				3B20ED3C274384E700B96DB6 /* HideKeyboardExtension.swift in Sources */,
 				3B203000273ED5DD0016B537 /* ModelController.swift in Sources */,

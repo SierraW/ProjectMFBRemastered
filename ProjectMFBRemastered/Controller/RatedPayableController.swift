@@ -23,8 +23,10 @@ class RatedPayableController: TagController {
     }
     
     private func modify(name: String, ratedPayable: RatedPayable, rate: Decimal, is_deposit: Bool = false, starred: Bool = false) -> RatedPayable? {
-        if ratedPayable.tag == nil {
-            ratedPayable.tag = super.modifyOrCreateIfNotExist(name: name, is_rated: true)
+        if let tag = ratedPayable.tag {
+            tag.name = name
+        } else {
+            ratedPayable.tag = modifyOrCreateIfNotExist(name: name, is_payable: true)
         }
         
         ratedPayable.rate = NSDecimalNumber(decimal: rate)
