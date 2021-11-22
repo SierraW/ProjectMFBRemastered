@@ -22,7 +22,7 @@ class UserData: ObservableObject {
 struct MainView: View {
     @EnvironmentObject var appData: AppData
     
-    @State var viewState: ViewState? = nil
+    @State var viewState: ViewState? = .empty
     
     enum ViewState: String, CaseIterable {
         case empty = "Welcome"
@@ -110,8 +110,11 @@ struct MainView: View {
     
     var body: some View {
         NavigationView {
-            menuView
+            ScrollView {
+                menuView
+            }
         }
+        .navigationViewStyle(.columns)
     }
     
     var menuView: some View {
@@ -127,6 +130,8 @@ struct MainView: View {
                     viewState = state
                 }
             }
+            RoomNavigationView()
+                .padding()
             Button(role: .destructive) {
                 appData.onLogout()
             } label: {

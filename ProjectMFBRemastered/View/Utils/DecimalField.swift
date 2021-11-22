@@ -13,9 +13,11 @@ struct DecimalField: View {
     
     var placeholder = "Optional"
     
-    @Binding var value: String
+    var textAlignment: TextAlignment = .leading
     
-    let limitToPlaces = 2
+    var limitToPlaces = 2
+    
+    @Binding var value: String
     
     var onCommit: ((String) -> Void)?
     
@@ -25,12 +27,19 @@ struct DecimalField: View {
                 onCommit(lastValue)
             }
         })
+            .multilineTextAlignment(textAlignment)
             .keyboardType(.decimalPad)
             .onReceive(Just(value)) { newValue in
                 
                 var editedString = newValue.replacingOccurrences(of: ".", with: "")
+                
                 if let correctedInt = Int(editedString) {
                     editedString = "\(correctedInt)"
+                    if limitToPlaces <= 0 {
+                        value = editedString
+                        lastValue = editedString
+                        return
+                    }
                     while(editedString.count <= limitToPlaces) {
                         editedString.insert("0", at: editedString.startIndex)
                     }
@@ -39,7 +48,12 @@ struct DecimalField: View {
                     value = editedString
                     lastValue = editedString
                 } else {
-                    value = lastValue
+                    if limitToPlaces <= 0, newValue == "" {
+                        value = ""
+                        lastValue = "0"
+                    } else {
+                        value = lastValue
+                    }
                 }
                 
             }

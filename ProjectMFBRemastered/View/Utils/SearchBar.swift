@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct SearchBar: View {
-    @State private var isEditing = false
+    
+    var textFieldNotEmpty: Bool {
+        !text.isEmpty
+    }
     
     @Binding var text: String
     
@@ -17,7 +20,7 @@ struct SearchBar: View {
     var body: some View {
         HStack {
             
-            TextField("Search ...", text: $text, onCommit: {
+            TextField("Search...", text: $text, onCommit: {
                 onCommit()
             })
                 .padding(7)
@@ -25,18 +28,15 @@ struct SearchBar: View {
                 .background(Color(.systemGray5))
                 .cornerRadius(8)
                 .padding(.horizontal, 10)
-                .onTapGesture {
-                    self.isEditing = true
-                }
                 .overlay(
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
                             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 17)
-                        if isEditing {
+                        if textFieldNotEmpty {
                             Button(action: {
-                                self.text = ""
+                                clear()
                             }) {
                                 Image(systemName: "multiply.circle.fill")
                                     .foregroundColor(.gray)
@@ -47,6 +47,12 @@ struct SearchBar: View {
                 )
         }
         
+    }
+    
+    func clear() {
+        DispatchQueue.main.async {
+            text = ""
+        }
     }
 }
 

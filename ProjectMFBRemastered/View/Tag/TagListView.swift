@@ -1,5 +1,5 @@
 //
-//  PayableListView.swift
+//  TagListView.swift
 //  ProjectMFBRemastered
 //
 //  Created by Yiyao Zhang on 2021-11-18.
@@ -7,56 +7,82 @@
 
 import SwiftUI
 
-struct PayableListView: View {
-    @EnvironmentObject var appData: AppData
+struct TagListView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Payable.starred, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)],
         animation: .default)
-    private var fetchedPayable: FetchedResults<Payable>
-
+    private var fetchedTag: FetchedResults<Tag>
+    
     @State var searchString = ""
     
     @State var sortType: SortType = .name
-    @State var productView = false
     
-    var payables: [Payable] {
-        var resultPayables: [Payable]
+    var tags: [Tag] {
+        var resultTags: [Tag]
         
         switch sortType {
-        case .price:
-            resultPayables = fetchedPayable.sorted { lhs, rhs in
-                (lhs.amount as Decimal? ?? 0) < (rhs.amount as Decimal? ?? 0)
-            }
-        case .name:
-            resultPayables = fetchedPayable.sorted { lhs, rhs in
-                lhs.tag?.name ?? "" > rhs.tag?.name ?? ""
-            }
         case .highlighted:
-            resultPayables = fetchedPayable.sorted { lhs, rhs in
+            resultTags = fetchedTag.sorted { lhs, rhs in
                 lhs.starred || lhs.starred == rhs.starred
             }
+        default:
+            resultTags = fetchedTag.map({$0})
         }
         if !searchString.isEmpty {
-            return resultPayables.filter { payable in
-                payable.tag?.name?.lowercased().contains(searchString.lowercased()) ?? false
+            return resultTags.filter { tag in
+                tag.name?.lowercased().contains(searchString.lowercased()) ?? false
             }
         }
-        return resultPayables
+        return resultTags
     }
     
     var groups: [String: [Int]] {
-        Dictionary(grouping: payables.indices, by: {payables[$0].tag?.parent?.toStringPresentation ?? "Ungrouped Products"})
+        var groupIndices: [Int] = []
+        var roomIndices: [Int] = []
+        var payableIndices: [Int] = []
+        var ratedPayableIndices: [Int] = []
+        var disjointIndices: [Int] = []
+        
+        for index in tags.indices {
+            let tag = tags[index]
+            var belongsToAGroup = false
+            if tag.is_group {
+                groupIndices.append(index)
+                belongsToAGroup = true
+            }
+            if tag.is_room {
+                roomIndices.append(index)
+                belongsToAGroup = true
+            }
+            if tag.is_payable {
+                payableIndices.append(index)
+                belongsToAGroup = true
+            }
+            if tag.is_rated {
+                ratedPayableIndices.append(index)
+                belongsToAGroup = true
+            }
+            if !belongsToAGroup {
+                disjointIndices.append(index)
+            }
+        }
+        var dict: [String: [Int]] = [:]
+        dict["Group"] = groupIndices
+        dict["Room"] = roomIndices
+        dict["Product"] = payableIndices
+        dict["Tax & Service"] = ratedPayableIndices
+        return dict
     }
     
-    var dismissOnExit = false
+    @State var productView = false
     
-    var onSelect: (Payable) -> Void
+    var dismissOnExit = false
+    var onSelect: (Tag) -> Void
     
     enum SortType: String, CaseIterable {
         case name = "Name"
-        case price = "Price"
         case highlighted = "Highlighted"
     }
     
@@ -68,18 +94,18 @@ struct PayableListView: View {
             Form {
                 if productView {
                     Section {
-                        ForEach(payables.indices, id: \.self) { index in
-                            getPayableViewCell(payables[index])
+                        ForEach(tags.indices, id: \.self) { index in
+                            getTagViewCell(tags[index])
                         }
                     } header: {
-                        Text(searchString.isEmpty ? "All Products" : "Search Result")
+                        Text(searchString.isEmpty ? "All Tags" : "Search Result")
                     }
                 } else {
                     ForEach(groups.keys.sorted(), id:\.self) { groupName in
                         Section {
                             if let groupedPayableIndices = groups[groupName] {
                                 ForEach(groupedPayableIndices, id:\.self) { index in
-                                    getPayableViewCell(payables[index])
+                                    getTagViewCell(tags[index])
                                 }
                             }
                         } header: {
@@ -87,6 +113,7 @@ struct PayableListView: View {
                         }
                     }
                 }
+                
             }
         }
         .background(Color(UIColor.systemGroupedBackground))
@@ -128,23 +155,35 @@ struct PayableListView: View {
         }
     }
     
-    func getPayableViewCell(_ payable: Payable) -> some View {
+    func getTagViewCell(_ tag: Tag) -> some View {
         HStack {
-            Text(payable.toStringPresentation)
-            if payable.starred {
+            Text(tag.toStringPresentation)
+            if tag.starred {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)
             }
             Spacer()
-            if let amount = payable.amount as Decimal? {
-                Text(appData.majorCurrency.toStringPresentation)
-                Text(amount.toStringPresentation)
-                    .frame(width: 40)
+            if productView {
+                HStack(spacing: 10) {
+                    if tag.is_group {
+                        Text("Group")
+                    }
+                    if tag.is_room {
+                        Text("Room")
+                    }
+                    if tag.is_payable {
+                        Text("Product")
+                    }
+                    if tag.is_rated {
+                        Text("Tax & Service")
+                    }
+                }
+                .foregroundColor(.gray)
             }
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            onSelect(payable)
+            onSelect(tag)
             if dismissOnExit {
                 presentationMode.wrappedValue.dismiss()
             }
