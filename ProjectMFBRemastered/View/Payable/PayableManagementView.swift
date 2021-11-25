@@ -30,7 +30,7 @@ struct PayableManagementView: View {
     }
     
     var groups: [String: [Int]] {
-        Dictionary(grouping: payables.indices, by: {payables[$0].tag?.parent?.toStringPresentation ?? "Ungrouped Products"})
+        Dictionary(grouping: payables.indices, by: {payables[$0].tag?.parent?.toStringRepresentation ?? "Ungrouped Products"})
     }
     
     var controller: PayableController {
@@ -55,16 +55,16 @@ struct PayableManagementView: View {
                         if let groupedPayableIndices = groups[groupName] {
                             ForEach(groupedPayableIndices, id:\.self) { index in
                                 HStack {
-                                    Text(payables[index].toStringPresentation)
+                                    Text(payables[index].toStringRepresentation)
                                     if payables[index].starred {
                                         Image(systemName: "star.fill")
                                             .foregroundColor(.yellow)
                                     }
                                     Spacer()
                                     if let amount = payables[index].amount as Decimal? {
-                                        Text(appData.majorCurrency.toStringPresentation)
-                                        Text(amount.toStringPresentation)
-                                            .frame(width: 40)
+                                        Text(appData.majorCurrency.toStringRepresentation)
+                                        Text(amount.toStringRepresentation)
+                                            .frame(width: 50)
                                     }
                                 }
                                 .contentShape(Rectangle())

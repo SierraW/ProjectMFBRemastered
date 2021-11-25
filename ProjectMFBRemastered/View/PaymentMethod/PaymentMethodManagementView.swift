@@ -46,11 +46,11 @@ struct PaymentMethodManagementView: View {
                 Section {
                     ForEach(paymentMethods.indices, id:\.self) { index in
                         HStack {
-                            Text(paymentMethods[index].toStringPresentation)
+                            Text(paymentMethods[index].toStringRepresentation)
                             Spacer()
                             if let currency = paymentMethods[index].assignedCurrency {
                                 Text("Assigned Currency:")
-                                Text(currency.toStringPresentation)
+                                Text(currency.toStringRepresentation)
                                     .frame(width: 60)
                             }
                         }

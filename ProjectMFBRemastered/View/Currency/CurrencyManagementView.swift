@@ -67,7 +67,7 @@ struct CurrencyManagementView: View {
                                 Text("Not Set").tag(-1)
                             }
                             ForEach(currencies.indices, id: \.self) {index in
-                                Text(currencies[index].toStringPresentation).tag(index)
+                                Text(currencies[index].toStringRepresentation).tag(index)
                             }
                         }
                         .pickerStyle(.menu)
@@ -96,11 +96,11 @@ struct CurrencyManagementView: View {
                 Section {
                     ForEach(currencies.indices, id:\.self) { index in
                         HStack {
-                            Text(currencies[index].toStringPresentation)
+                            Text(currencies[index].toStringRepresentation)
                             Spacer()
                             if !currencies[index].is_major, let rate = currencies[index].rate as Decimal? {
                                 Text("Exchange rate:")
-                                Text(rate.toStringPresentation)
+                                Text(rate.toStringRepresentation)
                                     .frame(width: 40)
                             }
                         }

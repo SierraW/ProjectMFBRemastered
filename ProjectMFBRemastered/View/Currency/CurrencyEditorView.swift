@@ -116,7 +116,7 @@ struct CurrencyEditorView: View {
                             if let currency = currencies.first(where: { currency in
                                 currency.is_major
                             }) {
-                                Text("\(currency.toStringPresentation) 1 =")
+                                Text("\(currency.toStringRepresentation) 1 =")
                             } else {
                                 Text("Rate")
                             }
@@ -168,7 +168,7 @@ struct CurrencyEditorView: View {
                 name = currency.name ?? ""
                 prefix = currency.prefix ?? ""
                 symbol = currency.symbol ?? ""
-                rate = (currency.rate! as Decimal).toStringPresentation
+                rate = (currency.rate! as Decimal).toStringRepresentation
                 if currency.is_major {
                     disableRateField = true
                 }

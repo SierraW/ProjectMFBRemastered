@@ -15,7 +15,7 @@ class TransactionAmountTextFieldData: ObservableObject {
     
     init(_ amount: Decimal? = nil) {
         if let amount = amount {
-            amountString = amount.toStringPresentation
+            amountString = amount.toStringRepresentation
             lastDecimal = amount
         }
     }
@@ -24,12 +24,12 @@ class TransactionAmountTextFieldData: ObservableObject {
         withAnimation {
             if let amount = Decimal(string: amountString) {
                 if amount < 0 {
-                    amountString = (-amount).toStringPresentation
+                    amountString = (-amount).toStringRepresentation
                 } else {
-                    amountString = amount.toStringPresentation
+                    amountString = amount.toStringRepresentation
                 }
             } else {
-                amountString = lastDecimal.toStringPresentation
+                amountString = lastDecimal.toStringRepresentation
             }
         }
     }

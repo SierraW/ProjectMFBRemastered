@@ -47,7 +47,7 @@ struct PayableListView: View {
     }
     
     var groups: [String: [Int]] {
-        Dictionary(grouping: payables.indices, by: {payables[$0].tag?.parent?.toStringPresentation ?? "Ungrouped Products"})
+        Dictionary(grouping: payables.indices, by: {payables[$0].tag?.parent?.toStringRepresentation ?? "Ungrouped Products"})
     }
     
     var dismissOnExit = false
@@ -130,16 +130,16 @@ struct PayableListView: View {
     
     func getPayableViewCell(_ payable: Payable) -> some View {
         HStack {
-            Text(payable.toStringPresentation)
+            Text(payable.toStringRepresentation)
             if payable.starred {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)
             }
             Spacer()
             if let amount = payable.amount as Decimal? {
-                Text(appData.majorCurrency.toStringPresentation)
-                Text(amount.toStringPresentation)
-                    .frame(width: 40)
+                Text(appData.majorCurrency.toStringRepresentation)
+                Text(amount.toStringRepresentation)
+                    .frame(width: 50)
             }
         }
         .contentShape(Rectangle())

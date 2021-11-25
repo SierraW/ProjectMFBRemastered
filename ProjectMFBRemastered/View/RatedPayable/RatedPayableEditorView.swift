@@ -14,6 +14,7 @@ struct RatedPayableEditorView: View {
     @State var name = ""
     @State var rate = ""
     @State var starred = false
+    @State var taxed = false
     
     // model fields controls
     @State var confirmDelete = false
@@ -104,6 +105,12 @@ struct RatedPayableEditorView: View {
                 .contextMenu {
                     Text("Highlight a product so that you can find it faster!")
                 }
+                Toggle(isOn: $taxed) {
+                    Text("Tax")
+                }
+                .contextMenu {
+                    Text("Tax will always comes the last during calculation.")
+                }
             } header: {
                 Text("Settings")
             }
@@ -141,8 +148,9 @@ struct RatedPayableEditorView: View {
         .onAppear {
             if let ratedPayable = ratedPayable {
                 name = ratedPayable.tag?.name ?? ""
-                rate = (ratedPayable.rate! as Decimal).toStringPresentation
+                rate = (ratedPayable.rate! as Decimal).toStringRepresentation
                 starred = ratedPayable.starred
+                taxed = ratedPayable.is_tax
             }
         }
     }
@@ -185,7 +193,7 @@ struct RatedPayableEditorView: View {
             return
         }
         
-        if (controller.modifyOrCreateIfNotExist(name: name, ratedPayable: ratedPayable, rate: Decimal(string: rate) ?? 0, is_deposit: true, starred: starred) != nil) {
+        if (controller.modifyOrCreateIfNotExist(name: name, ratedPayable: ratedPayable, rate: Decimal(string: rate) ?? 0, is_deposit: true, is_tax: taxed, starred: starred) != nil) {
             onExit()
             return
         }

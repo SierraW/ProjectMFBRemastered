@@ -93,7 +93,7 @@ struct PaymentMethodEditorView: View {
                     Picker("", selection: $selectedCurrencyIndex) {
                         Text("Not Set").tag(-1)
                         ForEach(currencies.indices, id: \.self) { index in
-                            Text(currencies[index].toStringPresentation).tag(index)
+                            Text(currencies[index].toStringRepresentation).tag(index)
                         }
                     }
                     .pickerStyle(.menu)

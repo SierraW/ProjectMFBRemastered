@@ -15,9 +15,11 @@ class ModelController {
         self.viewContext = viewContext
     }
     
-    func delete(_ object: NSManagedObject) {
+    func delete(_ object: NSManagedObject, save: Bool = true) {
         viewContext.delete(object)
-        managedSave()
+        if save {
+            managedSave()
+        }
     }
     
     func managedSave() {

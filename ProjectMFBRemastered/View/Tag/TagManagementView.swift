@@ -31,7 +31,7 @@ struct TagManagementView: View {
             Section {
                 ForEach(tags.indices, id:\.self) { index in
                     HStack {
-                        Text(tags[index].toStringPresentation)
+                        Text(tags[index].toStringRepresentation)
                         Spacer()
                     }
                     .contentShape(Rectangle())

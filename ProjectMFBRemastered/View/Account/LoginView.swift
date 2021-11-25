@@ -51,7 +51,7 @@ struct LoginView: View {
                             .frame(width: 100)
                             Picker("User", selection: $selectedUserIndex) {
                                 ForEach(users.indices, id:\.self) {index in
-                                    Text(users[index].toStringPresentation).tag(index)
+                                    Text(users[index].toStringRepresentation).tag(index)
                                 }
                             }
                             .pickerStyle(.menu)

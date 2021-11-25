@@ -42,7 +42,7 @@ struct RoomManagementView: View {
                 Section {
                     ForEach(rooms.indices, id:\.self) { index in
                         HStack {
-                            Text(rooms[index].toStringPresentation)
+                            Text(rooms[index].toStringRepresentation)
                             Spacer()
                         }
                         .contentShape(Rectangle())

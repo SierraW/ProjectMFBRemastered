@@ -157,7 +157,7 @@ struct TagListView: View {
     
     func getTagViewCell(_ tag: Tag) -> some View {
         HStack {
-            Text(tag.toStringPresentation)
+            Text(tag.toStringRepresentation)
             if tag.starred {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)

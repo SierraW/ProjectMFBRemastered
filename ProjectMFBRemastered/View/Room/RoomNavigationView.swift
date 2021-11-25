@@ -29,8 +29,9 @@ struct RoomNavigationView: View {
                 NavigationLink {
                     BillLandingView(room: room)
                 } label: {
-                    Text(room.toStringPresentation)
+                    Text(room.toStringRepresentation)
                 }
+                .padding(5)
             }
         }
     }

@@ -9,7 +9,7 @@ import Foundation
 
 class RatedPayableController: TagController {
     
-    func modifyOrCreateIfNotExist(name: String, ratedPayable: RatedPayable? = nil, rate: Decimal, is_deposit: Bool = false, starred: Bool = false) -> RatedPayable? {
+    func modifyOrCreateIfNotExist(name: String, ratedPayable: RatedPayable? = nil, rate: Decimal, is_deposit: Bool = false, is_tax: Bool = false, starred: Bool = false) -> RatedPayable? {
         if rate < 0 {
             return nil
         }
@@ -19,10 +19,10 @@ class RatedPayableController: TagController {
             return nil
         }
         
-        return modify(name: name, ratedPayable: ratedPayable ?? RatedPayable(context: viewContext), rate: rate, is_deposit: is_deposit, starred: starred)
+        return modify(name: name, ratedPayable: ratedPayable ?? RatedPayable(context: viewContext), rate: rate, is_deposit: is_deposit, is_tax: is_tax, starred: starred)
     }
     
-    private func modify(name: String, ratedPayable: RatedPayable, rate: Decimal, is_deposit: Bool = false, starred: Bool = false) -> RatedPayable? {
+    private func modify(name: String, ratedPayable: RatedPayable, rate: Decimal, is_deposit: Bool = false, is_tax: Bool = false, starred: Bool = false) -> RatedPayable? {
         if let tag = ratedPayable.tag {
             tag.name = name
         } else {
@@ -32,6 +32,7 @@ class RatedPayableController: TagController {
         ratedPayable.rate = NSDecimalNumber(decimal: rate)
         ratedPayable.is_deposit = is_deposit
         ratedPayable.starred = starred
+        ratedPayable.is_tax = is_tax
         
         managedSave()
         return ratedPayable

@@ -76,7 +76,7 @@ struct PayableEditorView: View {
                 }
                 HStack {
                     HStack {
-                        Text(majorCurrency.toStringPresentation)
+                        Text(majorCurrency.toStringRepresentation)
                         Spacer()
                     }
                     .frame(width: 70)
@@ -113,7 +113,7 @@ struct PayableEditorView: View {
                     Picker("", selection: $selectedTagIndex, content: {
                         Text("Not Set").tag(-1)
                         ForEach(groups.indices, id: \.self) { index in
-                            Text(groups[index].toStringPresentation).tag(index)
+                            Text(groups[index].toStringRepresentation).tag(index)
                         }
                     })
                         .pickerStyle(.menu)
@@ -205,7 +205,7 @@ struct PayableEditorView: View {
                 discountable = payable.discountable
                 starred = payable.starred
                 if let amount = payable.amount as Decimal? {
-                    self.amount = amount.toStringPresentation
+                    self.amount = amount.toStringRepresentation
                 }
                 if let parent = payable.tag?.parent, let index = groups.firstIndex(where: { tag in
                     tag == parent

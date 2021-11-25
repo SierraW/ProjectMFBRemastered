@@ -49,15 +49,21 @@ struct RatedPayableManagementView: View {
                 Section {
                     ForEach(ratedPayables.indices, id:\.self) { index in
                         HStack {
-                            Text(ratedPayables[index].toStringPresentation)
+                            Text(ratedPayables[index].toStringRepresentation)
                             if ratedPayables[index].starred {
                                 Image(systemName: "star.fill")
                                     .foregroundColor(.yellow)
                             }
+                            if ratedPayables[index].is_tax {
+                                Image(systemName: "dollarsign.square")
+                                    .contextMenu(menuItems: {
+                                        Text("Tax")
+                                    })
+                            }
                             Spacer()
                             if let rate = ratedPayables[index].rate as Decimal? {
                                 Text("Rated at:")
-                                Text(rate.toStringPresentation)
+                                Text(rate.toStringRepresentation)
                                     .frame(width: 40)
                             }
                         }
