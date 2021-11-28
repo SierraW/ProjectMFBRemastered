@@ -1,62 +1,60 @@
 //
-//  PayableListView.swift
+//  RatedPayableListView.swift
 //  ProjectMFBRemastered
 //
-//  Created by Yiyao Zhang on 2021-11-18.
+//  Created by Yiyao Zhang on 2021-11-25.
 //
 
 import SwiftUI
 
-struct PayableListView: View {
-    @EnvironmentObject var appData: AppData
+struct RatedPayableListView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Payable.starred, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \RatedPayable.starred, ascending: true)],
         animation: .default)
-    private var fetchedPayable: FetchedResults<Payable>
+    private var fetchedRatedPayable: FetchedResults<RatedPayable>
 
     @State var searchString = ""
     
     @State var sortType: SortType = .name
-    @State var listView = false
     
-    var payables: [Payable] {
-        var resultPayables: [Payable]
+    var ratedPayables: [RatedPayable] {
+        var resultRatedPayables: [RatedPayable]
         
         switch sortType {
-        case .price:
-            resultPayables = fetchedPayable.sorted { lhs, rhs in
-                (lhs.amount as Decimal? ?? 0) < (rhs.amount as Decimal? ?? 0)
+        case .rate:
+            resultRatedPayables = fetchedRatedPayable.sorted { lhs, rhs in
+                (lhs.rate as Decimal? ?? 0) < (rhs.rate as Decimal? ?? 0)
             }
         case .name:
-            resultPayables = fetchedPayable.sorted { lhs, rhs in
+            resultRatedPayables = fetchedRatedPayable.sorted { lhs, rhs in
                 lhs.tag?.name ?? "" > rhs.tag?.name ?? ""
             }
         case .highlighted:
-            resultPayables = fetchedPayable.sorted { lhs, rhs in
+            resultRatedPayables = fetchedRatedPayable.sorted { lhs, rhs in
                 lhs.starred || lhs.starred == rhs.starred
             }
         }
         if !searchString.isEmpty {
-            return resultPayables.filter { payable in
+            return resultRatedPayables.filter { payable in
                 payable.tag?.name?.lowercased().contains(searchString.lowercased()) ?? false
             }
         }
-        return resultPayables
+        return resultRatedPayables
     }
     
     var groups: [String: [Int]] {
-        Dictionary(grouping: payables.indices, by: {payables[$0].tag?.parent?.toStringRepresentation ?? "Ungrouped Products"})
+        Dictionary(grouping: ratedPayables.indices, by: {ratedPayables[$0].tag?.parent?.toStringRepresentation ?? "Ungrouped Products"})
     }
     
     var dismissOnExit = false
     
-    var onSelect: (Payable) -> Void
+    var onSelect: (RatedPayable) -> Void
     
     enum SortType: String, CaseIterable {
         case name = "Name"
-        case price = "Price"
+        case rate = "Rate"
         case highlighted = "Highlighted"
     }
     
@@ -66,30 +64,18 @@ struct PayableListView: View {
 
             }
             Form {
-                if listView {
-                    Section {
-                        ForEach(payables.indices, id: \.self) { index in
-                            getPayableViewCell(payables[index])
-                        }
-                    } header: {
-                        Text(searchString.isEmpty ? "All Products" : "Search Result")
+                Section {
+                    ForEach(ratedPayables.indices, id: \.self) { index in
+                        getRatedPayableViewCell(ratedPayables[index])
                     }
-                } else {
-                    ForEach(groups.keys.sorted().reversed(), id:\.self) { groupName in
-                        Section {
-                            if let groupedPayableIndices = groups[groupName] {
-                                ForEach(groupedPayableIndices, id:\.self) { index in
-                                    getPayableViewCell(payables[index])
-                                }
-                            }
-                        } header: {
-                            Text(groupName)
-                        }
+                } header: {
+                    if !searchString.isEmpty {
+                        Text("Search Result")
                     }
                 }
             }
         }
-        .navigationBarTitle("Fixed Value Items")
+        .navigationTitle("Rate Items")
         .background(Color(UIColor.systemGroupedBackground))
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -113,15 +99,6 @@ struct PayableListView: View {
                             Text("Alignment")
                         }
                     }
-                    Button {
-                        listView.toggle()
-                    } label: {
-                        Text("Group View")
-                        if !listView {
-                            Image(systemName: "checkmark")
-                        }
-                    }
-
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
@@ -129,11 +106,11 @@ struct PayableListView: View {
         }
     }
     
-    func getPayableViewCell(_ payable: Payable) -> some View {
-        PayableViewCell(majorCurrency: appData.majorCurrency, payable: payable)
+    func getRatedPayableViewCell(_ ratedPayable: RatedPayable) -> some View {
+        RatedPayableViewCell(ratedPayable: ratedPayable)
         .contentShape(Rectangle())
         .onTapGesture {
-            onSelect(payable)
+            onSelect(ratedPayable)
             if dismissOnExit {
                 presentationMode.wrappedValue.dismiss()
             }

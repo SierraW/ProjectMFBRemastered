@@ -67,15 +67,33 @@ extension Bill {
         "\(self.tag?.toStringRepresentation ?? "err") \(self.associatedTag == nil ? "" : "- \(self.associatedTag!.toStringRepresentation)")"
     }
     
-    var itemSnapshot: String {
-        var snapshotString = ""
-        var first = true
-        if let items = self.items?.allObjects as? [BillItem] {
-            items.sorted { lhs, rhs in
-                lhs.order < rhs.order
+    var toStringRepresentation: String {
+        if let items = self.items?.allObjects as? [BillItem], items.filter({!$0.is_add_on}).count > 0 {
+            var snapshotString = ""
+            let maxCount = 1
+            var count = 1
+            let orderedItems = items.filter({ bi in
+                !bi.is_add_on
+            }).sorted { lhs, rhs in
+                lhs.compare(to: rhs)
             }
+            for item in orderedItems {
+                snapshotString += item.toStringRepresentation
+                if count > maxCount {
+                    if orderedItems.count > count {
+                        let diff = orderedItems.count - count
+                        snapshotString += "... and \(diff) more item\(diff < 2 ? "" : "s")"
+                    }
+                    
+                    break
+                } else if count < orderedItems.count {
+                    snapshotString += ", "
+                }
+                count += 1
+            }
+            return snapshotString
         }
-        return snapshotString
+        return "Preview Unavailable"
     }
 }
 
@@ -105,3 +123,8 @@ extension BillItem {
     }
 }
 
+extension BillPayment {
+    var toStringRepresentation: String {
+        "\(self.paymentMethod?.toStringRepresentation ?? "err") \(self.currency?.toStringRepresentation ?? "err")"
+    }
+}

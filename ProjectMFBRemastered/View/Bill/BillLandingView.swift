@@ -18,7 +18,9 @@ struct BillLandingView: View {
     var body: some View {
         Group {
             if let data = data {
-                BillView()
+                BillView {
+                    self.data = nil
+                }
                     .environmentObject(appData)
                     .environmentObject(data)
             } else {

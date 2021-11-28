@@ -23,6 +23,7 @@ struct PayableEditorView: View {
     @State var amount = ""
     @State var selectedTagIndex = -1
     @State var discountable = false
+    @State var is_deposit = false // todo seperate from payable
     @State var starred = false
     @State var confirmDelete = false
     
@@ -159,6 +160,14 @@ struct PayableEditorView: View {
                 .contextMenu {
                     Text("Tag a product that is accepting any discount.")
                 }
+                .disabled(is_deposit)
+                Toggle(isOn: $is_deposit) {
+                    Text("Promotion Item")
+                }
+                .contextMenu {
+                    Text("The value will make an negative effect on bill.")
+                }
+                .disabled(discountable)
                 Toggle(isOn: $starred) {
                     Text("Highlight")
                 }
@@ -203,6 +212,7 @@ struct PayableEditorView: View {
             if let payable = payable {
                 name = payable.tag?.name ?? ""
                 discountable = payable.discountable
+                is_deposit = payable.is_deposit
                 starred = payable.starred
                 if let amount = payable.amount as Decimal? {
                     self.amount = amount.toStringRepresentation
@@ -277,7 +287,7 @@ struct PayableEditorView: View {
             return
         }
         
-        if (controller.modifyOrCreateIfNotExist(name: name, amount: Decimal(string: amount) ?? 0, payable: payable, groupedBy: selectedTagIndex == -1 ? nil : groups[selectedTagIndex], discountable: discountable, starred: starred) != nil) {
+        if (controller.modifyOrCreateIfNotExist(name: name, amount: Decimal(string: amount) ?? 0, payable: payable, groupedBy: selectedTagIndex == -1 ? nil : groups[selectedTagIndex], discountable: discountable, is_deposit: is_deposit, starred: starred) != nil) {
             onExit()
             return
         }

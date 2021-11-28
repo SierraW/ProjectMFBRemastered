@@ -11,6 +11,25 @@ import CoreData
 class BillController: ModelController {
     var bill: Bill
     
+    func createBillPayment() -> BillPayment {
+        let billPayment = BillPayment(context: viewContext)
+        self.bill.addToPayments(billPayment)
+        return billPayment
+    }
+    
+    func createChildBill() -> Bill {
+        let bill = Bill(context: viewContext)
+        self.bill.addToChildren(bill)
+        bill.openTimestamp = Date()
+        return bill
+    }
+    
+    func createBillTotal(for bill: Bill) -> BillTotal {
+        let billTotal = BillTotal(context: viewContext)
+        billTotal.bill = bill
+        return billTotal
+    }
+    
     init(_ bill: Bill, context: NSManagedObjectContext) {
         self.bill = bill
         super.init(context)
@@ -24,7 +43,7 @@ class BillController: ModelController {
         super.init(context)
     }
     
-    func createBillItem(_ payable: Payable, order: Int32) -> BillItem {
+    func createBillItem(_ payable: Payable, order: Int32, isAddOn: Bool) -> BillItem {
         let bi = BillItem(context: viewContext)
         bi.name = payable.toStringRepresentation
         bi.payable = payable
@@ -33,11 +52,27 @@ class BillController: ModelController {
         bi.is_deposit = payable.is_deposit
         bi.value = payable.amount
         bi.order = order
+        bi.is_add_on = isAddOn
         bi.count = 0
         bill.addToItems(bi)
         return bi
     }
     
+    func submitOriginalBalance(_ balance: Decimal) {
+        bill.originalBalance = NSDecimalNumber(decimal: balance)
+        managedSave()
+    }
+    
+    func resignOriginalBill(proceedPayments: [BillPayment], addOns: [BillItem]) {
+        for payment in proceedPayments {
+            bill.removeFromPayments(payment)
+        }
+        for addOn in addOns {
+            bill.removeFromItems(addOn)
+        }
+        bill.originalBalance = nil
+        managedSave()
+    }
     
     
     func submit(majorCurrency: Currency) {

@@ -5,20 +5,21 @@
         <attribute name="closeTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="majorCurrenctString" optional="YES" attributeType="String"/>
         <attribute name="openTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="originalBalance" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="originalBalance" optional="YES" attributeType="Decimal"/>
         <attribute name="proceedBalance" optional="YES" attributeType="Decimal"/>
         <attribute name="size" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="activeTag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="activeBill" inverseEntity="Tag"/>
         <relationship name="associatedTag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="billAssociated" inverseEntity="Tag"/>
-        <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Bill" inverseName="parent" inverseEntity="Bill"/>
-        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BillItem" inverseName="bill" inverseEntity="BillItem"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Bill" inverseName="parent" inverseEntity="Bill"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BillItem" inverseName="bill" inverseEntity="BillItem"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bill" inverseName="children" inverseEntity="Bill"/>
-        <relationship name="payments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BillPayment" inverseName="bill" inverseEntity="BillPayment"/>
+        <relationship name="payments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BillPayment" inverseName="bill" inverseEntity="BillPayment"/>
         <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="bill" inverseEntity="Tag"/>
-        <relationship name="total" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BillTotal" inverseName="bill" inverseEntity="BillTotal"/>
+        <relationship name="total" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="BillTotal" inverseName="bill" inverseEntity="BillTotal"/>
     </entity>
     <entity name="BillItem" representedClassName="BillItem" syncable="YES" codeGenerationType="class">
         <attribute name="count" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="is_add_on" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_deposit" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_rated" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_tax" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -31,7 +32,7 @@
         <relationship name="ratedPayable" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RatedPayable" inverseName="billItems" inverseEntity="RatedPayable"/>
     </entity>
     <entity name="BillPayment" representedClassName="BillPayment" syncable="YES" codeGenerationType="class">
-        <attribute name="additionalDescription" attributeType="String" defaultValueString=""/>
+        <attribute name="additionalDescription" optional="YES" attributeType="String"/>
         <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="majorCurrencyEquivalent" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -40,12 +41,9 @@
         <relationship name="paymentMethod" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PaymentMethod" inverseName="billPayments" inverseEntity="PaymentMethod"/>
     </entity>
     <entity name="BillTotal" representedClassName="BillTotal" syncable="YES" codeGenerationType="class">
-        <attribute name="discount" attributeType="Decimal" defaultValueString="0"/>
-        <attribute name="discountableSubtotal" attributeType="Decimal" defaultValueString="0"/>
-        <attribute name="fixedSubtotal" attributeType="Decimal" defaultValueString="0"/>
-        <attribute name="taxAndService" attributeType="Decimal" defaultValueString="0"/>
+        <attribute name="discountableTotal" attributeType="Decimal" defaultValueString="0"/>
         <attribute name="total" attributeType="Decimal" defaultValueString="0"/>
-        <relationship name="bill" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Bill" inverseName="total" inverseEntity="Bill"/>
+        <relationship name="bill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bill" inverseName="total" inverseEntity="Bill"/>
     </entity>
     <entity name="Currency" representedClassName="Currency" syncable="YES" codeGenerationType="class">
         <attribute name="is_major" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -122,9 +120,9 @@
     </entity>
     <elements>
         <element name="Bill" positionX="-63" positionY="-18" width="128" height="254"/>
-        <element name="BillItem" positionX="18" positionY="108" width="128" height="194"/>
+        <element name="BillItem" positionX="18" positionY="108" width="128" height="209"/>
         <element name="BillPayment" positionX="36" positionY="126" width="128" height="134"/>
-        <element name="BillTotal" positionX="-18" positionY="144" width="128" height="119"/>
+        <element name="BillTotal" positionX="-18" positionY="144" width="128" height="74"/>
         <element name="Currency" positionX="-63" positionY="36" width="128" height="149"/>
         <element name="Payable" positionX="-18" positionY="72" width="128" height="119"/>
         <element name="PaymentMethod" positionX="-9" positionY="81" width="128" height="89"/>

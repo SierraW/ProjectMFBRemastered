@@ -18,3 +18,16 @@ extension BillPayment {
         return self.order < payment.order
     }
 }
+
+extension Payable {
+    func compare(to payable: Payable) -> Bool {
+        self.toStringRepresentation < payable.toStringRepresentation
+    }
+}
+
+
+extension RatedPayable {
+    func compare(to ratedPayable: RatedPayable) -> Bool {
+        self.toStringRepresentation < ratedPayable.toStringRepresentation
+    }
+}

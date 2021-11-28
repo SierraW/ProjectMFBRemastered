@@ -21,6 +21,12 @@ class UserData: ObservableObject {
 
 struct MainView: View {
     @EnvironmentObject var appData: AppData
+//    @Environment(\.managedObjectContext) private var viewContext
+//    
+//    @FetchRequest(
+//        sortDescriptors: [NSSortDescriptor(keyPath: \Bill.size, ascending: true)],
+//        animation: .default)
+//    private var fetchedObjects: FetchedResults<Bill>
     
     @State var viewState: ViewState? = .empty
     
@@ -31,9 +37,11 @@ struct MainView: View {
         case roomManagement = "Room Management"
         case currency = "Curreny"
         case paymentMethod = "Payment Method"
-        case payable = "Product"
+        case payable = "Product & Fix Value Discount"
         case ratedPayable = "Tax & Service"
         case debugPayableList = "[DEBUG] payable list"
+        case debugRatedPayableList = "[DEBUG] rated list"
+        case debugBILV = "[DEBUG] bill item list view"
 //        case Deposit
 //        case Withdraw
 //        case Management
@@ -98,6 +106,20 @@ struct MainView: View {
                         PayableListView(onSelect: {_ in})
                     )
                 }
+            case .debugRatedPayableList:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        RatedPayableListView(onSelect: {_ in})
+                    )
+                }
+            case .debugBILV:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        BillItemListView(onSubmit: { _, _ in
+                            //
+                        })
+                    )
+                }
             default:
                 return ContentWrapperView(title: self.rawValue) {
                     AnyView(
@@ -139,6 +161,16 @@ struct MainView: View {
             }
 
         }
+//        .onAppear {
+//            for object in fetchedObjects {
+//                viewContext.delete(object)
+//            }
+//            do {
+//                try viewContext.save()
+//            } catch {
+//                print("save error")
+//            }
+//        }
     }
 }
 

@@ -11,18 +11,12 @@ struct BillView: View {
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     
-    @State var showPayableRatedPayableListView = false
+    var onExit: () -> Void
     
     var body: some View {
         switch data.viewState {
         case .bill:
             billView
-                .sheet(isPresented: $showPayableRatedPayableListView) {
-                    PayableListView(dismissOnExit: true) { payable in
-                        data.addPayable(payable)
-                    }
-                }
-
         case .originalBillReview:
             originalBillReviewView
         case .splitByPayable:
@@ -36,81 +30,131 @@ struct BillView: View {
     
     var billView: some View {
         VStack {
-            List(data.items.indices, id:\.self) { index in
-                getItemViewCell(data.items[index])
-                    .contextMenu(menuItems: {
-                        Button(role: .destructive) {
-                            data.removePayable(index)
-                        } label: {
-                            Text("Delete")
-                        }
-
-                        
-                        Button(role: .destructive) {
-                            data.removePayable(index, all: true)
-                        } label: {
-                            Text("Delete All")
-                        }
-
-                    })
+            if data.items.count == 0 {
+                Text("Empty Bill")
+                    .foregroundColor(.gray)
+                    .bold()
             }
+            List {
+                ForEach(data.items.indices, id:\.self) { index in
+                    BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
+                        .contentShape(Rectangle())
+                        .contextMenu(menuItems: {
+                            Button {
+                                data.addItem(index)
+                            } label: {
+                                Text("Add One")
+                            }
+                            
+                            Button {
+                                data.removeItem(index)
+                            } label: {
+                                Text("Remove One")
+                            }
+                            
+                            Button(role: .destructive) {
+                                data.removeItem(index, all: true)
+                            } label: {
+                                Text("Remove All")
+                            }
+
+                        })
+                }
+                NavigationLink {
+                    PayableListView(dismissOnExit: true) { payable in
+                        data.addItem(payable)
+                    }
+                } label: {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "plus.circle")
+                        Text("Item")
+                        Spacer()
+                    }
+                    .foregroundColor(.blue)
+                }
+            }
+           
             HStack {
                 VStack {
                     if let timestamp = data.openTimestamp {
                         HStack {
-                            Text("Start Time")
                             Text(timestamp.toStringRepresentation)
+                            Spacer()
                         }
                     }
                     HStack {
-                        Text("State")
+                        Text("State:")
                         Text(data.viewState == .completed ? "Completed" : "Active")
+                        Spacer()
                     }
                 }
                 Spacer()
                 VStack {
                     HStack {
+                        Spacer()
                         Text("Subtotal")
                         Text(appData.majorCurrency.toStringRepresentation)
                         Text(data.subtotal.toStringRepresentation)
+                            .frame(width: 60, alignment: .trailing)
                     }
                     HStack {
+                        Spacer()
                         Text("Discount")
                         Text(appData.majorCurrency.toStringRepresentation)
                         Text(data.discount.toStringRepresentation)
+                            .frame(width: 60, alignment: .trailing)
                     }
                     HStack {
+                        Spacer()
                         Text("Tax & Service")
                         Text(appData.majorCurrency.toStringRepresentation)
                         Text(data.taxAndService.toStringRepresentation)
+                            .frame(width: 60, alignment: .trailing)
                     }
                     HStack {
+                        Spacer()
                         Text("Total")
+                            .bold()
                         Text(appData.majorCurrency.toStringRepresentation)
+                            .bold()
                         Text(data.total.toStringRepresentation)
+                            .bold()
+                            .frame(width: 60, alignment: .trailing)
                     }
+                    
                 }
             }
-            
+            .padding(.horizontal)
             HStack {
-                Button {
-                    showPayableRatedPayableListView = true
+                NavigationLink {
+                    BillItemListView { _, _ in
+                        //
+                    }
                 } label: {
                     Text("Add")
                 }
                 Spacer()
                 Button {
-                    //
+                    data.originalBillSubmit()
                 } label: {
-                    Text("Pay")
+                    Text("Submit")
                 }
             }
+            .padding(.top, 5)
+            .padding(.horizontal)
+            .padding(.bottom)
         }
         .navigationTitle(data.name)
+        .background(Color(UIColor.systemGroupedBackground))
     }
     
     var originalBillReviewView: some View {
-        Text("bill view")
+        BillTransactionView(enableSplitBill: true) {
+            
+        }
+            .environmentObject(appData)
+            .environmentObject(data)
     }
     
     var splitByPayableView: some View {
@@ -118,24 +162,21 @@ struct BillView: View {
     }
     
     var splitByAmountView: some View {
-        Text("bill view")
+        BillSplitByAmountView()
+            .environmentObject(appData)
+            .environmentObject(data)
     }
     
     var completedView: some View {
-        Text("bill view")
-    }
-    
-    func getItemViewCell(_ item: BillItem) -> some View {
-        HStack {
-            Text(item.toStringRepresentation)
-            Spacer()
-            Text("count: \(item.count)")
-            if let amount = item.subtotal as Decimal? {
-                Text(appData.majorCurrency.toStringRepresentation)
-                Text(amount.toStringRepresentation)
-                    .frame(width: 50)
+        VStack {
+            Text("bill view")
+            Button {
+                data.setInactive()
+                onExit()
+            } label: {
+                Text("New...")
             }
+
         }
-        .contentShape(Rectangle())
     }
 }

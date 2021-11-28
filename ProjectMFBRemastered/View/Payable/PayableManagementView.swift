@@ -54,19 +54,7 @@ struct PayableManagementView: View {
                     Section {
                         if let groupedPayableIndices = groups[groupName] {
                             ForEach(groupedPayableIndices, id:\.self) { index in
-                                HStack {
-                                    Text(payables[index].toStringRepresentation)
-                                    if payables[index].starred {
-                                        Image(systemName: "star.fill")
-                                            .foregroundColor(.yellow)
-                                    }
-                                    Spacer()
-                                    if let amount = payables[index].amount as Decimal? {
-                                        Text(appData.majorCurrency.toStringRepresentation)
-                                        Text(amount.toStringRepresentation)
-                                            .frame(width: 50)
-                                    }
-                                }
+                                PayableViewCell(majorCurrency: appData.majorCurrency, payable: payables[index])
                                 .contentShape(Rectangle())
                                 .contextMenu {
                                     Button(role: .destructive) {

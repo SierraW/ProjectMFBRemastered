@@ -9,7 +9,6 @@ import Foundation
 import CoreData
 
 class CurrencyController: ModelController {
-    
     func fetchCurrencies() -> [Currency] {
         let fetchRequest: NSFetchRequest<Currency> = Currency.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Currency.is_major, ascending: false), NSSortDescriptor(keyPath: \Currency.name, ascending: false)]
@@ -64,6 +63,17 @@ class CurrencyController: ModelController {
         return amount
     }
     
+    func getExchangeStringList(majorCurrency amount: Decimal) -> [String] {
+        var stringList: [String] = []
+        let currencies = self.fetchCurrencies()
+        for currency in currencies.filter({ cu in
+            !cu.is_major
+        }) {
+            let amount = CurrencyController.exchangeFromMajorCurrency(currency: currency, amount: amount)
+            stringList.append("\(currency.toStringRepresentation)\(amount.toStringRepresentation)")
+        }
+        return stringList
+    }
     
     func assignMajorCurrency(with newMajorCurrency: Currency, from currencies: [Currency]) {
         for currency in currencies {
