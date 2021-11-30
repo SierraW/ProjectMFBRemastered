@@ -31,3 +31,9 @@ extension RatedPayable: Comparable {
         lhs.toStringRepresentation < rhs.toStringRepresentation
     }
 }
+
+extension Tag: Comparable {
+    public static func < (lhs: Tag, rhs: Tag) -> Bool {
+        lhs.toStringRepresentation < rhs.toStringRepresentation
+    }
+}

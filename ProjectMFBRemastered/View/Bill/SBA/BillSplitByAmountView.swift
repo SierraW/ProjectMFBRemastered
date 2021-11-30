@@ -53,6 +53,7 @@ struct BillSplitByAmountView: View {
             VStack {
                 splitByAmountFormView
                 actionSection
+                    .padding(.horizontal)
                     .padding(.bottom)
             }
         }

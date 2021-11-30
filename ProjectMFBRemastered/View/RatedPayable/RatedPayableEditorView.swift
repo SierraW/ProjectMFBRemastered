@@ -15,6 +15,7 @@ struct RatedPayableEditorView: View {
     @State var rate = ""
     @State var starred = false
     @State var taxed = false
+    @State var is_deposit = false
     
     // model fields controls
     @State var confirmDelete = false
@@ -99,6 +100,12 @@ struct RatedPayableEditorView: View {
             }
             
             Section {
+                Toggle(isOn: $is_deposit) {
+                    Text("Promotion Item")
+                }
+                .contextMenu {
+                    Text("The value will make an negative effect on bill.")
+                }
                 Toggle(isOn: $starred) {
                     Text("Highlight")
                 }
@@ -151,6 +158,7 @@ struct RatedPayableEditorView: View {
                 rate = (ratedPayable.rate! as Decimal).toStringRepresentation
                 starred = ratedPayable.starred
                 taxed = ratedPayable.is_tax
+                is_deposit = ratedPayable.is_deposit
             }
         }
     }
@@ -193,7 +201,7 @@ struct RatedPayableEditorView: View {
             return
         }
         
-        if (controller.modifyOrCreateIfNotExist(name: name, ratedPayable: ratedPayable, rate: Decimal(string: rate) ?? 0, is_deposit: true, is_tax: taxed, starred: starred) != nil) {
+        if (controller.modifyOrCreateIfNotExist(name: name, ratedPayable: ratedPayable, rate: Decimal(string: rate) ?? 0, is_deposit: is_deposit, is_tax: taxed, starred: starred) != nil) {
             onExit()
             return
         }

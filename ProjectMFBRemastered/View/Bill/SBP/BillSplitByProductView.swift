@@ -90,26 +90,30 @@ struct BillSplitByProductView: View {
             }
             .hidden()
             
-            Form {
-                remainingBillSection
-                billListSection
-                ProceedPaymentSectionView()
-                    .environmentObject(data)
-                actionSection
-            }
-            .zIndex(0)
-            .navigationTitle("Split By Product")
-            .toolbar(content: {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        data.sbpResign()
-                    } label: {
-                        Text("Discard")
-                            .foregroundColor(.red)
-                    }
-
+            VStack {
+                Form {
+                    remainingBillSection
+                    billListSection
+                    ProceedPaymentSectionView()
+                        .environmentObject(data)
                 }
-            })
+                .zIndex(0)
+                .navigationTitle("Split By Product")
+                .toolbar(content: {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            data.sbpResign()
+                        } label: {
+                            Text("Discard")
+                                .foregroundColor(.red)
+                        }
+                        
+                    }
+                })
+                actionSection
+                    .padding(.horizontal)
+                    .padding(.bottom)
+            }
             if !cartProducts.isEmpty {
                 SBPCartFloatingView(cartProducts: $cartProducts, cartBillData: $selection)
                     .environmentObject(appData)
@@ -153,42 +157,42 @@ struct BillSplitByProductView: View {
             }
             ForEach(children) { bill in
                 BillListViewCell(bill: bill)
-                .contextMenu(menuItems: {
-                    Button(role: .destructive) {
-                        data.controller.delete(bill)
-                        data.reloadChildren()
-                    } label: {
-                        Text("Remove Bill")
-                    }
-
-                    if bill.completed {
-                        Button {
-                            data.splitByAmountUndoPayments(bill: bill)
+                    .contextMenu(menuItems: {
+                        Button(role: .destructive) {
+                            data.controller.delete(bill)
+                            data.reloadChildren()
                         } label: {
-                            Text("Undo Payments")
+                            Text("Remove Bill")
                         }
-                    } else if bill.combined {
-                        Button {
-                            data.splitByAmountUngroup(bill: bill)
-                        } label: {
-                            Text("Undo Group of \(bill.children?.count ?? 0)")
+                        
+                        if bill.completed {
+                            Button {
+                                data.splitByAmountUndoPayments(bill: bill)
+                            } label: {
+                                Text("Undo Payments")
+                            }
+                        } else if bill.combined {
+                            Button {
+                                data.splitByAmountUngroup(bill: bill)
+                            } label: {
+                                Text("Undo Group of \(bill.children?.count ?? 0)")
+                            }
+                        }
+                    })
+                    .listRowBackground(getSubBillViewCellColor(subBill: bill))
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        if bill.completed {
+                            return
+                        }
+                        withAnimation {
+                            if selection?.controller.bill == bill {
+                                selection = nil
+                            } else {
+                                selection = BillData(context: data.controller.viewContext, bill: bill)
+                            }
                         }
                     }
-                })
-                .listRowBackground(getSubBillViewCellColor(subBill: bill))
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    if bill.completed {
-                        return
-                    }
-                    withAnimation {
-                        if selection?.controller.bill == bill {
-                            selection = nil
-                        } else {
-                            selection = BillData(context: data.controller.viewContext, bill: bill)
-                        }
-                    }
-                }
             }
             if let _ = selection {
                 Button {
@@ -200,7 +204,7 @@ struct BillSplitByProductView: View {
                         Spacer()
                     }
                 }
-
+                
             }
         } header: {
             Text("Bills")
@@ -259,5 +263,5 @@ struct BillSplitByProductView: View {
     func submit() {
         data.submitBill(appData)
     }
-
+    
 }

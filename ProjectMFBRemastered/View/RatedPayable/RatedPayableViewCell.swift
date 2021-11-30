@@ -17,13 +17,15 @@ struct RatedPayableViewCell: View {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)
             }
+            Spacer()
             if ratedPayable.is_deposit {
                 Image(systemName: "d.square")
+                    .foregroundColor(.green)
                     .contextMenu {
                         Text("This is a promotion item.")
                     }
+                    .padding(.trailing)
             }
-            Spacer()
             if let rate = ratedPayable.rate as Decimal? {
                 Text("Rate:")
                 Text(rate.toStringRepresentation)

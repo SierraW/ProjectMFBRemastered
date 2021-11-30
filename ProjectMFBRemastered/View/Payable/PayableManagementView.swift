@@ -48,128 +48,133 @@ struct PayableManagementView: View {
     }
     
     var body: some View {
-        VStack {
-            Form {
-                ForEach(groups.keys.sorted(), id:\.self) { groupName in
-                    Section {
-                        if let groupedPayableIndices = groups[groupName] {
-                            ForEach(groupedPayableIndices, id:\.self) { index in
-                                PayableViewCell(majorCurrency: appData.majorCurrency, payable: payables[index])
-                                .contentShape(Rectangle())
-                                .contextMenu {
-                                    Button(role: .destructive) {
-                                        controller.delete(payables[index])
-                                        isLoading = true
-                                    } label: {
-                                        HStack {
-                                            Image(systemName: "trash")
-                                            Text("Delete")
-                                        }
-                                        
-                                    }
-                                }
-                                .onTapGesture {
-                                    if editingPayableIndex == nil {
-                                        editingPayableIndex = index
-                                    }
-                                }
-                            }
+        if isLoading {
+            Rectangle()
+                .fill(Color(UIColor.systemGroupedBackground))
+                .overlay(ProgressView())
+                .onAppear(perform: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation {
+                            isLoading = false
                         }
-                        
-                    } header: {
-                        Text(groupName)
                     }
-                }
-            }
-            Spacer()
-            
-            HStack {
-                Button {
-                    withAnimation {
-                        editingPayableIndex = -1
-                    }
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Add new product")
-                    }
-                    
-                }
-                .padding()
-                Spacer()
-            }
-            
-        }
-        .background(Color(UIColor.systemGroupedBackground))
-        .overlay(isLoading ?
-                 Rectangle().fill(Color(UIColor.systemGroupedBackground)).overlay(ProgressView()).onAppear(perform: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            withAnimation {
-                isLoading = false
-            }
-        }})
-                 : nil)
-        .sheet(item: $editingPayableIndex) { index in
-            VStack {
-                HStack {
-                    Image(systemName: "chevron.down.circle")
-                        .foregroundColor(.gray)
-                        .frame(width:50)
-                    Spacer()
-                    Text("Product Editor")
-                        .bold()
-                    Spacer()
-                    Spacer()
-                        .frame(width:50)
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    withAnimation {
-                        editingPayableIndex = nil
-                    }
-                }
-                .padding()
-                PayableEditorView(controller: controller, payable: index == -1 ? nil : payables[index], payables: payables, majorCurrency: appData.majorCurrency, onDelete: { payable in
-                    withAnimation {
-                        editingPayableIndex = nil
-                        controller.delete(payable)
-                    }
-                }, onExit: {
-                    isLoading = true
-                    withAnimation {
-                        editingPayableIndex = nil
-                    }
-                    
                 })
-            }
-            .background(Color(UIColor.systemGroupedBackground))
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    Menu {
-                        ForEach(SortType.allCases, id:\.rawValue) { sortType in
-                            Button {
-                                self.sortType = sortType
-                            } label: {
-                                HStack {
-                                    Text(sortType.rawValue)
-                                    if self.sortType == sortType {
-                                        Image(systemName: "checkmark")
+        } else {
+            VStack {
+                Form {
+                    ForEach(groups.keys.sorted(), id:\.self) { groupName in
+                        Section {
+                            if let groupedPayableIndices = groups[groupName] {
+                                ForEach(groupedPayableIndices, id:\.self) { index in
+                                    PayableViewCell(majorCurrency: appData.majorCurrency, payable: payables[index])
+                                    .contentShape(Rectangle())
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            controller.delete(payables[index])
+                                            isLoading = true
+                                        } label: {
+                                            HStack {
+                                                Image(systemName: "trash")
+                                                Text("Delete")
+                                            }
+                                            
+                                        }
+                                    }
+                                    .onTapGesture {
+                                        if editingPayableIndex == nil {
+                                            editingPayableIndex = index
+                                        }
                                     }
                                 }
                             }
+                            
+                        } header: {
+                            Text(groupName)
+                        }
+                    }
+                }
+                Spacer()
+                
+                HStack {
+                    Button {
+                        withAnimation {
+                            editingPayableIndex = -1
                         }
                     } label: {
                         HStack {
-                            Image(systemName: "arrow.left.arrow.right")
-                            Text("Alignment")
+                            Image(systemName: "plus.circle.fill")
+                            Text("Add new product")
+                        }
+                        
+                    }
+                    .padding()
+                    Spacer()
+                }
+                
+            }
+            .background(Color(UIColor.systemGroupedBackground))
+            .sheet(item: $editingPayableIndex) { index in
+                VStack {
+                    HStack {
+                        Image(systemName: "chevron.down.circle")
+                            .foregroundColor(.gray)
+                            .frame(width:50)
+                        Spacer()
+                        Text("Product Editor")
+                            .bold()
+                        Spacer()
+                        Spacer()
+                            .frame(width:50)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation {
+                            editingPayableIndex = nil
                         }
                     }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
+                    .padding()
+                    PayableEditorView(controller: controller, payable: index == -1 ? nil : payables[index], payables: payables, majorCurrency: appData.majorCurrency, onDelete: { payable in
+                        withAnimation {
+                            editingPayableIndex = nil
+                            controller.delete(payable)
+                        }
+                    }, onExit: {
+                        isLoading = true
+                        withAnimation {
+                            editingPayableIndex = nil
+                        }
+                        
+                    })
                 }
+                .background(Color(UIColor.systemGroupedBackground))
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Menu {
+                            ForEach(SortType.allCases, id:\.rawValue) { sortType in
+                                Button {
+                                    self.sortType = sortType
+                                } label: {
+                                    HStack {
+                                        Text(sortType.rawValue)
+                                        if self.sortType == sortType {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: "arrow.left.arrow.right")
+                                Text("Alignment")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                }
+        }
         }
     }
 }

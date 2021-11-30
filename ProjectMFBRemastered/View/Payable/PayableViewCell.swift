@@ -26,6 +26,7 @@ struct PayableViewCell: View {
                     .contextMenu {
                         Text("This is a promotion item.")
                     }
+                    .padding(.trailing)
             }
             if let amount = payable.amount as Decimal? {
                 Text(majorCurrency.toStringRepresentation)

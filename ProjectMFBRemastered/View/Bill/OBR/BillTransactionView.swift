@@ -113,6 +113,13 @@ struct BillTransactionView: View {
                 if enableSplitBill {
                     Spacer()
                     Button {
+                        data.setInactive()
+                    } label: {
+                        Text("Hold")
+                    }
+                    .padding(.trailing)
+                    
+                    Button {
                         data.originalBillResign()
                     } label: {
                         Text("Discard")
