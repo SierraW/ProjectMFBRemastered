@@ -145,9 +145,23 @@ struct BillTransactionView: View {
                 }
             }
             NavigationLink {
-                PayableListView(dismissOnExit: true) { payable in
-                    data.addItem(payable, isAddOn: true)
-                }
+                BillItemListView(onSubmit: { payableDict, ratedPayableDict in
+                    for key in payableDict.keys.sorted() {
+                        if let count = payableDict[key], count > 0 {
+                            data.addItem(key, count: count, calculateRatedSubtotals: false, isAddOn: true)
+                        }
+                    }
+                    for key in ratedPayableDict.keys.sorted() {
+                        if let count = ratedPayableDict[key], count > 0 {
+                            data.addItem(key, calculateRatedSubtotals: false, isAddOn: true)
+                        }
+                    }
+                    data.calculateRatedSubtotals()
+                    data.controller.managedSave()
+                })
+                    .environmentObject(appData)
+                    .environmentObject(data)
+                    .navigationTitle("Select items...")
             } label: {
                 HStack {
                     Spacer()

@@ -58,6 +58,21 @@ class BillController: ModelController {
         return bi
     }
     
+    func createBillItem(_ ratedPayable: RatedPayable, order: Int32, isAddOn: Bool) -> BillItem {
+        let bi = BillItem(context: viewContext)
+        bi.name = ratedPayable.toStringRepresentation
+        bi.ratedPayable = ratedPayable
+        bi.is_rated = true
+        bi.is_tax = false
+        bi.is_deposit = ratedPayable.is_deposit
+        bi.value = ratedPayable.rate
+        bi.order = order
+        bi.is_add_on = isAddOn
+        bi.count = 1
+        bill.addToItems(bi)
+        return bi
+    }
+    
     func submitOriginalBalance(_ balance: Decimal) {
         bill.originalBalance = NSDecimalNumber(decimal: balance)
         managedSave()

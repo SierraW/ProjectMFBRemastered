@@ -127,6 +127,16 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    func addItem(_ ratedPayable: RatedPayable, calculateRatedSubtotals: Bool = true, isAddOn: Bool = false) {
+        var item: BillItem
+        item = controller.createBillItem(ratedPayable, order: billItemsIdentifierFactory, isAddOn: isAddOn)
+        items.append(item)
+        if calculateRatedSubtotals {
+            self.calculateRatedSubtotals()
+            controller.managedSave()
+        }
+    }
+    
     func addItem(_ index: Int, count: Int = 1, calculateRatedSubtotals: Bool = true) { // todo make it one
         if items[index].is_rated {
             return

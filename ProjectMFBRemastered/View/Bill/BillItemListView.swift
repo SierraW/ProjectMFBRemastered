@@ -10,6 +10,7 @@ import SwiftUI
 struct BillItemListView: View {
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
+    @Environment(\.presentationMode) var presentationMode
     
     @State var selectRatedItems = false
     
@@ -17,6 +18,13 @@ struct BillItemListView: View {
     @State var ratedPayables: [RatedPayable: Int] = [:]
     
     @State var showCart = false
+    
+    var cartItemsCount : Int {
+        var count = 0
+        payables.forEach { count += $1}
+        ratedPayables.forEach { count += $1}
+        return count
+    }
     
     var onSubmit: ([Payable: Int], [RatedPayable: Int]) -> Void
     
@@ -46,8 +54,8 @@ struct BillItemListView: View {
                 .frame(height: 8)
             if !selectRatedItems {
                 NavigationView {
-                    PayableListView { _ in
-                        //
+                    PayableListView { payable in
+                        payables[payable] = (payables[payable] ?? 0) + 1
                     }
                     .navigationBarHidden(true)
                 }
@@ -55,8 +63,8 @@ struct BillItemListView: View {
                 
             } else {
                 NavigationView {
-                    RatedPayableListView { _ in
-                        //
+                    RatedPayableListView { ratedPayable in
+                        ratedPayables[ratedPayable] = (ratedPayables[ratedPayable] ?? 0) + 1
                     }
                     .navigationBarHidden(true)
                 }
@@ -72,11 +80,30 @@ struct BillItemListView: View {
                     HStack {
                         Image(systemName: "cart")
                         Text("View Cart")
+                        if cartItemsCount <= 50 {
+                            Image(systemName: "\(cartItemsCount).square.fill")
+                                .foregroundColor(.red)
+                                .scaledToFit()
+                        } else {
+                            Image(systemName: "tablecells.fill.badge.ellipsis")
+                                .foregroundColor(.red)
+                                .scaledToFit()
+                        }
                     }
                 }
             }
             .padding(5)
         }
+        .toolbar(content: {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    submit()
+                } label: {
+                    Text("Submit")
+                }
+
+            }
+        })
         .sheet(isPresented: $showCart) {
             shoppingCartView
         }
@@ -103,6 +130,16 @@ struct BillItemListView: View {
                             PayableViewCell(majorCurrency: appData.majorCurrency, payable: key)
                             Text("x \(payables[key] ?? 0)")
                         }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            if let count = payables[key] {
+                                if count < 2 {
+                                    payables.removeValue(forKey: key)
+                                } else {
+                                    payables[key] = count - 1
+                                }
+                            }
+                        }
                     }
                 } header: {
                     Text("Fix Value Items")
@@ -117,18 +154,35 @@ struct BillItemListView: View {
                             RatedPayableViewCell(ratedPayable: key)
                             Text("x \(ratedPayables[key] ?? 0)")
                         }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            if let count = ratedPayables[key] {
+                                if count < 2 {
+                                    ratedPayables.removeValue(forKey: key)
+                                } else {
+                                    ratedPayables[key] = count - 1
+                                }
+                            }
+                        }
                     }
                 } header: {
                     Text("Rate Items")
                 }
             }
             Button {
-                //
+                submit()
             } label: {
                 SubmitButtonView(title: "Submit", foregroundColor: .white, backgroundColor: .blue)
             }
             .padding(.bottom)
-
+            Button(role: .destructive) {
+                payables.removeAll()
+                ratedPayables.removeAll()
+                showCart = false
+            } label: {
+                Text("Clear")
+            }
+            .padding(.bottom)
         }
         .background(Color(UIColor.systemGroupedBackground))
     }
@@ -146,6 +200,13 @@ struct BillItemListView: View {
             }
         }
         .contentShape(Rectangle())
+    }
+    
+    func submit() {
+        if cartItemsCount > 0 {
+            onSubmit(payables, ratedPayables)
+        }
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
