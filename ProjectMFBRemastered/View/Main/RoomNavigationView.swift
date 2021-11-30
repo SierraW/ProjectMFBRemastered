@@ -26,7 +26,7 @@ struct RoomNavigationView: View {
     var body: some View {
         Section {
             HStack {
-                Text("Room")
+                Text("Rooms")
                     .bold()
                 .foregroundColor(.gray)
                 Spacer()

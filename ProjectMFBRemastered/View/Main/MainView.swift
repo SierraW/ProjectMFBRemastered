@@ -116,6 +116,8 @@ struct MainView: View {
                 }
                 RoomNavigationView()
                     .padding()
+                BillNavigationView()
+                    .padding()
                 Section {
                     DisclosureGroup {
                         ForEach(ViewState.allCases, id: \.rawValue) { state in

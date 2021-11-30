@@ -6,8 +6,21 @@
 //
 
 import Foundation
+import CoreData
 
 class RatedPayableController: TagController {
+    
+    static func firstTaxRatedPayable(_ context: NSManagedObjectContext) -> RatedPayable? {
+        let fetchRequest: NSFetchRequest<RatedPayable> = RatedPayable.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \RatedPayable.is_tax, ascending: false)]
+        do {
+            let result = try context.fetch(fetchRequest)
+            return result.first(where: {$0.is_tax})
+        } catch {
+            print("Fetch error in RatedPayableController, ftrp")
+        }
+        return nil
+    }
     
     func modifyOrCreateIfNotExist(name: String, ratedPayable: RatedPayable? = nil, rate: Decimal, is_deposit: Bool = false, is_tax: Bool = false, starred: Bool = false) -> RatedPayable? {
         if rate < 0 {

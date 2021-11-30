@@ -10,6 +10,9 @@ import Foundation
 extension BillData {
     convenience init(asChildOf billData: BillData) {
         let newBill = billData.controller.createChildBill()
+        for item in billData.items.filter({$0.is_rated}) {
+            let _ = billData.controller.createBillItem(from: item, to: newBill)
+        }
         self.init(context: billData.controller.viewContext, bill: newBill)
     }
     

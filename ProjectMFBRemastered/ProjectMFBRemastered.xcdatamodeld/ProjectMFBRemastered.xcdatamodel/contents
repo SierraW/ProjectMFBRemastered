@@ -16,6 +16,7 @@
         <relationship name="payments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BillPayment" inverseName="bill" inverseEntity="BillPayment"/>
         <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="bill" inverseEntity="Tag"/>
         <relationship name="total" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="BillTotal" inverseName="bill" inverseEntity="BillTotal"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="bill" inverseEntity="Transaction"/>
     </entity>
     <entity name="BillItem" representedClassName="BillItem" syncable="YES" codeGenerationType="class">
         <attribute name="count" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -97,6 +98,7 @@
         <attribute name="additionalDescription" optional="YES" attributeType="String"/>
         <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="bill" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Bill" inverseName="transactions" inverseEntity="Bill"/>
         <relationship name="currency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Currency" inverseName="transactions" inverseEntity="Currency"/>
         <relationship name="paymentMethod" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PaymentMethod" inverseName="transactions" inverseEntity="PaymentMethod"/>
         <relationship name="report" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionReport" inverseName="transactions" inverseEntity="TransactionReport"/>
@@ -119,7 +121,7 @@
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="user" inverseEntity="Transaction"/>
     </entity>
     <elements>
-        <element name="Bill" positionX="-63" positionY="-18" width="128" height="254"/>
+        <element name="Bill" positionX="-63" positionY="-18" width="128" height="269"/>
         <element name="BillItem" positionX="18" positionY="108" width="128" height="209"/>
         <element name="BillPayment" positionX="36" positionY="126" width="128" height="134"/>
         <element name="BillTotal" positionX="-18" positionY="144" width="128" height="74"/>
@@ -128,7 +130,7 @@
         <element name="PaymentMethod" positionX="-9" positionY="81" width="128" height="89"/>
         <element name="RatedPayable" positionX="0" positionY="90" width="128" height="119"/>
         <element name="Tag" positionX="-36" positionY="63" width="128" height="239"/>
-        <element name="Transaction" positionX="-54" positionY="54" width="128" height="149"/>
+        <element name="Transaction" positionX="-54" positionY="54" width="128" height="164"/>
         <element name="TransactionReport" positionX="0" positionY="90" width="128" height="74"/>
         <element name="User" positionX="-63" positionY="-9" width="128" height="149"/>
     </elements>

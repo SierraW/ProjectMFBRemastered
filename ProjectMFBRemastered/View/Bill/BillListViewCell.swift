@@ -13,23 +13,34 @@ struct BillListViewCell: View {
     var bill: Bill
     
     @State var isExpanded = false
+    var resultMode = false
     
     var body: some View {
         VStack {
             HStack {
-                Text(bill.toStringRepresentation)
+                Text(resultMode ? "\(bill.name) 🕓\(bill.openTimestamp?.timeStringRepresentation ?? "")" : bill.toStringRepresentation)
                 Spacer()
                 if bill.combined {
                     Image(systemName: "g.square")
                         .foregroundColor(.red)
                         .padding(.horizontal)
                 }
-                Text(appData.majorCurrency.toStringRepresentation)
-                if let total = bill.originalBalance as Decimal? {
-                    Text(total.toStringRepresentation)
+                if resultMode {
+                    if let total = bill.proceedBalance as Decimal? {
+                        Text(appData.majorCurrency.toStringRepresentation)
+                        Text(total.toStringRepresentation)
+                    } else {
+                        Text("ON HOLD")
+                            .foregroundColor(.blue)
+                    }
+                } else {
+                    Text(appData.majorCurrency.toStringRepresentation)
+                    if let total = bill.originalBalance as Decimal? {
+                        Text(total.toStringRepresentation)
+                    }
                 }
-                Image(systemName: "chevron.right")
-                    .rotationEffect(Angle(degrees: isExpanded ? 90 : 0))
+                Image(systemName: resultMode ?  isExpanded ? "archivebox.fill" : "archivebox" : "chevron.right")
+                    .rotationEffect(Angle(degrees: !resultMode && isExpanded ? 90 : 0))
                     .scaleEffect(isExpanded ? 1.2 : 1)
                     .padding(.leading)
                     .contentShape(Rectangle())
@@ -39,15 +50,32 @@ struct BillListViewCell: View {
                         }
                     }
             }
+            .frame(height: 50)
             .animation(.none, value: isExpanded)
             if isExpanded, let billItems = bill.items?.allObjects as? [BillItem] {
-                VStack {
-                    ForEach(billItems) { item in
-                        BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: item)
-                            .padding(.vertical, 5)
-                    }
-                }
+                detailView(billItems)
                 .padding(.leading)
+            }
+        }
+    }
+    
+    func detailView(_ billItems: [BillItem]) -> some View {
+        VStack {
+            if let total = bill.total, let total = total.total as Decimal? {
+                HStack {
+                    Text("Carried On Subtotal")
+                    Spacer()
+                    Text(appData.majorCurrency.toStringRepresentation)
+                    Text(total.toStringRepresentation)
+                }
+            }
+            ForEach(
+                billItems
+                    .sorted(by: { BillItem.calculationOrderComparator(lhs: $0, rhs: $1) })
+                    
+            ) { item in
+                BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: item)
+                    .padding(.vertical, 5)
             }
         }
     }

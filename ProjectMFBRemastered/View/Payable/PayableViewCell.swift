@@ -15,23 +15,26 @@ struct PayableViewCell: View {
     var body: some View {
         HStack {
             Text(payable.toStringRepresentation)
+            Spacer()
             if payable.starred {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)
             }
-            Spacer()
             if payable.is_deposit {
-                Image(systemName: "d.square")
-                    .foregroundColor(.green)
-                    .contextMenu {
-                        Text("This is a promotion item.")
-                    }
-                    .padding(.trailing)
+                Menu {
+                    Text("This is a Promotion Item")
+                } label: {
+                    Image(systemName: "p.square")
+                        .foregroundColor(.green)
+                }
             }
             if let amount = payable.amount as Decimal? {
-                Text(majorCurrency.toStringRepresentation)
-                Text(amount.toStringRepresentation)
-                    .frame(width: 60)
+                HStack {
+                    Text(majorCurrency.toStringRepresentation)
+                    Text(amount.toStringRepresentation)
+                        .frame(width: 60)
+                }
+                .padding(.leading)
             }
         }
     }

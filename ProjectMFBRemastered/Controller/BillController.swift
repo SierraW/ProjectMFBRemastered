@@ -43,6 +43,22 @@ class BillController: ModelController {
         super.init(context)
     }
     
+    func createBillItem(from billItem: BillItem, to bill: Bill) -> BillItem {
+        let bi = BillItem(context: viewContext)
+        bi.name = billItem.name
+        bi.payable = billItem.payable
+        bi.ratedPayable = billItem.ratedPayable
+        bi.is_rated = billItem.is_rated
+        bi.is_tax = billItem.is_tax
+        bi.is_deposit = billItem.is_deposit
+        bi.value = billItem.value
+        bi.order = billItem.order
+        bi.is_add_on = false
+        bi.count = billItem.count
+        bill.addToItems(bi)
+        return bi
+    }
+    
     func createBillItem(_ payable: Payable, order: Int32, isAddOn: Bool) -> BillItem {
         let bi = BillItem(context: viewContext)
         bi.name = payable.toStringRepresentation
@@ -63,7 +79,7 @@ class BillController: ModelController {
         bi.name = ratedPayable.toStringRepresentation
         bi.ratedPayable = ratedPayable
         bi.is_rated = true
-        bi.is_tax = false
+        bi.is_tax = ratedPayable.is_tax
         bi.is_deposit = ratedPayable.is_deposit
         bi.value = ratedPayable.rate
         bi.order = order

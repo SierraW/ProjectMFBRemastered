@@ -13,23 +13,34 @@ struct RatedPayableViewCell: View {
     var body: some View {
         HStack {
             Text(ratedPayable.toStringRepresentation)
+            Spacer()
             if ratedPayable.starred {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)
             }
-            Spacer()
             if ratedPayable.is_deposit {
-                Image(systemName: "d.square")
-                    .foregroundColor(.green)
-                    .contextMenu {
-                        Text("This is a promotion item.")
-                    }
-                    .padding(.trailing)
+                Menu {
+                    Text("This is a Promotion Item")
+                } label: {
+                    Image(systemName: "p.square")
+                        .foregroundColor(.green)
+                }
+            }
+            if ratedPayable.is_tax {
+                Menu {
+                    Text("This is a Tax Item")
+                } label: {
+                    Image(systemName: "t.square")
+                        .foregroundColor(.purple)
+                }
             }
             if let rate = ratedPayable.rate as Decimal? {
-                Text("Rate:")
-                Text(rate.toStringRepresentation)
-                    .frame(width: 50)
+                HStack {
+                    Text("Rate:")
+                    Text(rate.toStringRepresentation)
+                        .frame(width: 60)
+                }
+                .padding(.leading)
             }
         }
     }

@@ -94,6 +94,7 @@ struct BillItemListView: View {
             }
             .padding(5)
         }
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -207,6 +208,7 @@ struct BillItemListView: View {
             onSubmit(payables, ratedPayables)
         }
         presentationMode.wrappedValue.dismiss()
+        data.isLoading = true
     }
 }
 

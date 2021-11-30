@@ -43,7 +43,7 @@ struct BillTransactionView: View {
                             data.setComplete()
                             onExit()
                         } label: {
-                            Text("Submit Payment")
+                            Text("Submit Bill")
                         }
                     }
                 }
@@ -87,24 +87,8 @@ struct BillTransactionView: View {
     
     var reviewSectionView: some View {
         Section {
-            HStack {
-                Text(data.controller.bill.toStringRepresentation)
-                Spacer()
-                Text(appData.majorCurrency.toStringRepresentation)
-                if let originalBalance = data.originalBalance {
-                    Text(originalBalance.toStringRepresentation)
-                        .frame(width: 60, alignment: .trailing)
-                }
-                
-            }
-            .contextMenu {
-                Button {
-                    //
-                } label: {
-                    Text("View Original Bill")
-                }
-
-            }
+            BillListViewCell(bill: data.controller.bill)
+                .environmentObject(appData)
         } footer: {
             HStack {
                 Text("Bill State:")
@@ -260,19 +244,16 @@ struct BillTransactionView: View {
             }
             if !data.payments.isEmpty {
                 Spacer()
-                VStack {
-                    HStack {
-                        Text("Remaining")
-                            .bold()
-                        Text(appData.majorCurrency.toStringRepresentation)
-                            .bold()
-                        Text(remainingBalance.toStringRepresentation)
-                            .bold()
-                            .frame(width: 60, alignment: .trailing)
-                    }
-                    .font(.title)
-                    Spacer()
+                HStack {
+                    Text("Remaining")
+                        .bold()
+                    Text(appData.majorCurrency.toStringRepresentation)
+                        .bold()
+                    Text(remainingBalance.toStringRepresentation)
+                        .bold()
+                        .frame(width: 60, alignment: .trailing)
                 }
+                .font(.title)
                 
             }
         }

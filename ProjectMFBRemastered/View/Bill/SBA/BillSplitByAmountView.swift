@@ -21,10 +21,6 @@ struct BillSplitByAmountView: View {
         }
     }
     
-    var ableToSubmit: Bool {
-        children.first(where: {!$0.completed}) == nil
-    }
-    
     var onExit: () -> Void
     
     var body: some View {
@@ -50,13 +46,22 @@ struct BillSplitByAmountView: View {
             }
             .hidden()
             
+            splitByAmountFormView
+            
             VStack {
-                splitByAmountFormView
-                actionSection
-                    .padding(.horizontal)
-                    .padding(.bottom)
+                Spacer()
+                SBAFloatingActionView(selection: $selection) {
+                    makePayment()
+                } onExit: {
+                    onExit()
+                }
+                    .environmentObject(appData)
+                    .environmentObject(data)
             }
+            .padding(.horizontal)
+            .padding(.bottom)
         }
+        .background(Color(UIColor.systemGroupedBackground))
         .navigationTitle("Split Bill")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -74,36 +79,15 @@ struct BillSplitByAmountView: View {
     
     var splitByAmountFormView: some View {
         Form {
-            NavigationLink {
-                Text("Hello World!") // TODO: change this
-            } label: {
-                HStack {
-                    Text("View Original Bill")
-                        .foregroundColor(.gray)
-                    Spacer()
-                    Text(appData.majorCurrency.toStringRepresentation)
-                    Text(data.total.toStringRepresentation)
-                }
+            Section {
+                BillListViewCell(bill: data.controller.bill)
+                    .environmentObject(appData)
             }
-            
-            
-            
             
             Section {
                 ForEach(children) { bill in
-                    HStack {
-                        Text(bill.toStringRepresentation)
-                        Spacer()
-                        if bill.combined {
-                            Image(systemName: "g.square")
-                                .foregroundColor(.red)
-                                .padding(.horizontal)
-                        }
-                        Text(appData.majorCurrency.toStringRepresentation)
-                        if let total = bill.total?.total as Decimal? {
-                            Text(total.toStringRepresentation)
-                        }
-                    }
+                    BillListViewCell(bill: bill)
+                        .environmentObject(appData)
                     .contextMenu(menuItems: {
                         if bill.completed {
                             Button {
@@ -125,49 +109,28 @@ struct BillSplitByAmountView: View {
                         if bill.completed {
                             return
                         }
-                        if selection.contains(bill) {
-                            selection.remove(bill)
-                        } else {
-                            selection.insert(bill)
+                        withAnimation {
+                            if selection.contains(bill) {
+                                selection.remove(bill)
+                            } else {
+                                selection.insert(bill)
+                            }
                         }
+                        
                     }
-                }
-                if !selection.isEmpty {
-                    Button {
-                        makePayment()
-                    } label: {
-                        HStack {
-                            Spacer()
-                            Text("Make a Payment (\(selection.count))")
-                            Spacer()
-                        }
-                    }
-
                 }
             }
             
-            ProceedPaymentSectionView()
-                .environmentObject(data)
+            proceedPaymentSection
 
         }
     }
     
-    var actionSection: some View {
-        HStack {
-            if !data.controller.bill.isOnHold {
-                Button {
-                    data.setInactive()
-                    onExit()
-                } label: {
-                    Text("Hold")
-                }
-            }
-            Spacer()
-            if ableToSubmit {
-                Button {
-                    submit()
-                } label: {
-                    Text("Submit")
+    var proceedPaymentSection: some View {
+        Section {
+            DisclosureGroup("Proceed Payments (\(data.allPayments.count))") {
+                ForEach(data.allPayments) { billPayment in
+                    PaymentViewCell(billPayment: billPayment)
                 }
             }
         }
@@ -221,9 +184,5 @@ struct BillSplitByAmountView: View {
         data.reloadChildren()
         
         activeTransaction = BillData(context: data.controller.viewContext, bill: newBill)
-    }
-    
-    func submit() {
-        data.submitBill(appData)
     }
 }

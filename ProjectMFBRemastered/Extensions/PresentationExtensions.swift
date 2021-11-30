@@ -41,6 +41,34 @@ extension Date {
         formatter.dateFormat = "yyyy-MM-dd HH:mm EEEE"
         return formatter.string(from: self)
     }
+    
+    var dateStringRepresentation: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd EEEE"
+        return formatter.string(from: self)
+    }
+    
+    var timeStringRepresentation: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter.string(from: self)
+    }
+    
+    var simpleStringRepresentation: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM-dd EEEE"
+        return formatter.string(from: self)
+    }
+    
+    var yearString: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
+        return formatter.string(from: self)
+    }
+    
+    func listGroupRepresentation(now: Date) -> String {
+        "\(yearString == now.yearString ? "" : "\(yearString)-")\(simpleStringRepresentation)"
+    }
 }
 
 
@@ -68,30 +96,35 @@ extension Bill {
     }
     
     var toStringRepresentation: String {
-        if let items = self.items?.allObjects as? [BillItem], items.filter({!$0.is_add_on}).count > 0 {
-            var snapshotString = ""
-            let maxCount = 1
-            var count = 1
-            let orderedItems = items.filter({ bi in
-                !bi.is_add_on
-            }).sorted()
+        var snapshotString = ""
+        let maxCount = 1
+        var count = 0
+        if let total = self.total?.total as Decimal?, total > 0 {
+            snapshotString += "Carried-on total"
+            count += 1
+        }
+        if let items = self.items?.allObjects as? [BillItem] {
+            let orderedItems = items.sorted()
+            let maxItemsCount = orderedItems.count + count
             for item in orderedItems {
+                if count > 0 && count < maxItemsCount {
+                    snapshotString += ", "
+                }
                 snapshotString += item.toStringRepresentation
                 if count > maxCount {
-                    if orderedItems.count > count {
-                        let diff = orderedItems.count - count
+                    if maxItemsCount > count {
+                        let diff = maxItemsCount - count
                         snapshotString += "... and \(diff) more item\(diff < 2 ? "" : "s")"
                     }
-                    
                     break
-                } else if count < orderedItems.count {
-                    snapshotString += ", "
                 }
                 count += 1
             }
-            return snapshotString
         }
-        return "Preview Unavailable"
+        if snapshotString == "" {
+            return "Preview Unavailable"
+        }
+        return snapshotString
     }
 }
 

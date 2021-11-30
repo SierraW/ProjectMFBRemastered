@@ -19,9 +19,15 @@ class TransactionController: ModelController {
         super.init(viewContext)
     }
     
-    func makeTransaction(amount: Decimal, description additionalDescription: String?, paymentMethod: PaymentMethod, currency: Currency, tags: [Tag]?) -> Transaction {
+    func makeTransaction(bill: Bill, amount: Decimal, description additionalDescription: String?, paymentMethod: PaymentMethod, currency: Currency, tags: [Tag]?) -> Transaction {
+        var bill = bill
+        while (bill.parent != nil) {
+            bill = bill.parent!
+        }
+        
         let transaction = Transaction(context: viewContext)
         let roundedAmount = amount.rounded(toPlaces: 2)
+        transaction.bill = bill
         transaction.amount = roundedAmount as NSDecimalNumber
         transaction.additionalDescription = additionalDescription
         transaction.paymentMethod = paymentMethod
@@ -36,8 +42,8 @@ class TransactionController: ModelController {
         return transaction
     }
     
-    func transact(amount: Decimal, description additionalDescription: String?, paymentMethod: PaymentMethod, currency: Currency,  tags: [Tag]?) {
-        let transaction = makeTransaction(amount: amount, description: additionalDescription, paymentMethod: paymentMethod, currency: currency, tags: tags)
+    func transact(bill: Bill, amount: Decimal, description additionalDescription: String?, paymentMethod: PaymentMethod, currency: Currency,  tags: [Tag]?) {
+        let transaction = makeTransaction(bill: bill, amount: amount, description: additionalDescription, paymentMethod: paymentMethod, currency: currency, tags: tags)
         managedSave(for: transaction)
     }
     

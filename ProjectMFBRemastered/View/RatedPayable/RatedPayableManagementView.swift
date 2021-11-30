@@ -46,8 +46,7 @@ struct RatedPayableManagementView: View {
     
     var body: some View {
         if isLoading {
-            Rectangle()
-                .fill(Color(UIColor.systemGroupedBackground))
+            Color(UIColor.systemGroupedBackground)
                 .overlay(ProgressView())
                 .onAppear(perform: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

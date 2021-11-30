@@ -9,14 +9,26 @@ import SwiftUI
 
 struct BillView: View {
     @EnvironmentObject var appData: AppData
-    @EnvironmentObject var data: BillData
+    @StateObject var data: BillData
     
     var onExit: () -> Void
     
     var body: some View {
         switch data.viewState {
         case .bill:
-            billView
+            if data.isLoading {
+                Color(UIColor.systemGroupedBackground)
+                    .overlay(ProgressView())
+                    .onAppear(perform: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            withAnimation {
+                                data.isLoading = false
+                            }
+                        }
+                    })
+            } else {
+                billView
+            }
         case .originalBillReview:
             originalBillReviewView
         case .splitByPayable:
@@ -37,18 +49,21 @@ struct BillView: View {
             }
             List {
                 ForEach(data.items.indices, id:\.self) { index in
+                    
                     BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
                         .listRowBackground(index + 1 == data.items.count ? Color.gray : nil)
                         .contentShape(Rectangle())
                         .contextMenu(menuItems: {
                             Button {
                                 data.addItem(index)
+                                data.isLoading = true
                             } label: {
                                 Text("Add One")
                             }
                             
                             Button {
                                 data.removeItem(index)
+                                data.isLoading = true
                             } label: {
                                 Text("Remove One")
                             }
@@ -58,13 +73,28 @@ struct BillView: View {
                             } label: {
                                 Text("Remove All")
                             }
-
+                            
                         })
+                    
                 }
                 NavigationLink {
-                    PayableListView(dismissOnExit: true) { payable in
-                        data.addItem(payable)
-                    }
+                    BillItemListView(onSubmit: { payableDict, ratedPayableDict in
+                        for key in payableDict.keys.sorted() {
+                            if let count = payableDict[key], count > 0 {
+                                data.addItem(key, count: count, calculateRatedSubtotals: false)
+                            }
+                        }
+                        for key in ratedPayableDict.keys.sorted() {
+                            if let count = ratedPayableDict[key], count > 0 {
+                                data.addItem(key, calculateRatedSubtotals: false)
+                            }
+                        }
+                        data.calculateRatedSubtotals()
+                        data.controller.managedSave()
+                    })
+                        .environmentObject(appData)
+                        .environmentObject(data)
+                        .navigationTitle("Select items...")
                 } label: {
                     HStack {
                         Spacer()
@@ -75,7 +105,7 @@ struct BillView: View {
                     .foregroundColor(.blue)
                 }
             }
-           
+            
             HStack {
                 VStack {
                     if let timestamp = data.openTimestamp {
@@ -128,13 +158,6 @@ struct BillView: View {
             }
             .padding(.horizontal)
             HStack {
-                NavigationLink {
-                    BillItemListView { _, _ in
-                        //
-                    }
-                } label: {
-                    Text("Add")
-                }
                 Spacer()
                 Button {
                     data.originalBillSubmit()
@@ -152,38 +175,31 @@ struct BillView: View {
     
     var originalBillReviewView: some View {
         BillTransactionView(enableSplitBill: true) {
-            
+            onExit()
         }
-            .environmentObject(appData)
-            .environmentObject(data)
+        .environmentObject(appData)
+        .environmentObject(data)
     }
     
     var splitByPayableView: some View {
         BillSplitByProductView {
             onExit()
         }
-            .environmentObject(appData)
-            .environmentObject(data)
+        .environmentObject(appData)
+        .environmentObject(data)
     }
     
     var splitByAmountView: some View {
         BillSplitByAmountView {
             onExit()
         }
-            .environmentObject(appData)
-            .environmentObject(data)
+        .environmentObject(appData)
+        .environmentObject(data)
     }
     
     var completedView: some View {
-        VStack {
-            Text("bill view")
-            Button {
-                data.setInactive()
-                onExit()
-            } label: {
-                Text("New...")
-            }
-
-        }
+        HistoryBillPreview()
+            .environmentObject(appData)
+            .environmentObject(data)
     }
 }

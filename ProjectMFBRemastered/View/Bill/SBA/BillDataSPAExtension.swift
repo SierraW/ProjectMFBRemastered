@@ -37,8 +37,10 @@ extension BillData {
     }
     
     func splitByAmountResign() {
-        if let childrenSet = self.controller.bill.children {
-            self.controller.bill.removeFromChildren(childrenSet)
+        if let children = self.controller.bill.children?.allObjects as? [Bill] {
+            for child in children {
+                controller.delete(child)
+            }
         }
         self.children = []
     }

@@ -17,36 +17,42 @@ struct BillItemViewCell: View {
             Spacer()
             if billItem.is_deposit {
                 Menu {
-                    Text("Discount Item")
+                    Text("This is a Promotion Item")
                 } label: {
-                    Image(systemName: "d.square")
+                    Image(systemName: "p.square")
                         .foregroundColor(.green)
                 }
-                .padding(.horizontal)
+            }
+            if billItem.is_tax {
+                Menu {
+                    Text("This is a Tax Item")
+                } label: {
+                    Image(systemName: "t.square")
+                        .foregroundColor(.purple)
+                }
             }
             if billItem.is_rated {
-                HStack {
-                    Menu {
-                        Text("Rate Item")
-                    } label: {
-                        Image(systemName: "r.square")
-                    }
-                    if let rate = billItem.value as Decimal? {
-                        Text(rate.toStringRepresentation)
-                    }
+                Menu {
+                    Text("This is a Rate Item")
+                } label: {
+                    Image(systemName: "r.square")
+                        .foregroundColor(.red)
                 }
-                .padding(.horizontal)
-                
+                if let rate = billItem.value as Decimal? {
+                    Text(rate.toStringRepresentation)
+                }
             } else {
                 Text("x \(billItem.count)")
-                    .padding(.trailing)
                     
             }
-            if let amount = billItem.subtotal as Decimal? {
-                Text(majorCurrency.toStringRepresentation)
-                Text(amount.toStringRepresentation)
-                    .frame(width: 60, alignment: .trailing)
+            HStack {
+                if let amount = billItem.subtotal as Decimal? {
+                    Text(majorCurrency.toStringRepresentation)
+                    Text(amount.toStringRepresentation)
+                        .frame(width: 60, alignment: .trailing)
+                }
             }
+            .padding(.leading)
         }
     }
 }

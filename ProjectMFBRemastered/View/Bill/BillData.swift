@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import CoreData
+import UIKit
 
 class BillData: ObservableObject, Identifiable {
     enum ViewState {
@@ -61,6 +62,8 @@ class BillData: ObservableObject, Identifiable {
     
     @Published var billTotal: BillTotal? = nil
     
+    @Published var isLoading = false
+    
     var proceedBalance: Decimal? = nil
     
     init(context: NSManagedObjectContext, tag: Tag, associatedTag: Tag? = nil, payable: Payable? = nil, size: Int = 0) {
@@ -68,6 +71,9 @@ class BillData: ObservableObject, Identifiable {
         self.roomTag = tag
         self.associatedTag = associatedTag
         self.size = size
+        if let payable = payable, size > 0 {
+            addItem(payable, count: size)
+        }
     }
     
     init(context: NSManagedObjectContext, bill: Bill) {
@@ -185,14 +191,12 @@ class BillData: ObservableObject, Identifiable {
         for item in items.filter({ bi in
             bi.is_rated
         }).sorted(by: { lhs, rhs in
-            lhs.is_deposit || lhs.is_deposit == rhs.is_deposit
-        }).sorted(by: { lhs, rhs in
-            !lhs.is_tax || lhs.is_tax == rhs.is_tax
+            BillItem.calculationOrderComparator(lhs: lhs, rhs: rhs)
         }) {
             if let value = item.value as Decimal? {
                 if item.is_deposit {
                     if discountableTotal > 0 {
-                        let discountedValue = discountableTotal * value
+                        let discountedValue = (discountableTotal * value).rounded(toPlaces: 2)
                         discountableTotal -= discountedValue
                         item.subtotal = NSDecimalNumber(decimal: discountedValue)
                     } else {
@@ -200,7 +204,7 @@ class BillData: ObservableObject, Identifiable {
                     }
                 } else {
                     let subtotal = (discountableSubtotal > 0 ? discountableTotal : 0) + fixedTotal
-                    let chargedValue = subtotal * value
+                    let chargedValue = (subtotal * value).rounded(toPlaces: 2)
                     taxAndService += chargedValue
                     item.subtotal = NSDecimalNumber(decimal: chargedValue)
                 }
@@ -213,7 +217,7 @@ class BillData: ObservableObject, Identifiable {
         let transactionController = TransactionController(controller.viewContext, user: appData.user, majorCurrency: appData.majorCurrency)
         for payment in allPayments {
             if let amount = payment.amount as Decimal?, let paymentMethod = payment.paymentMethod, let currency = payment.currency {
-                transactionController.transact(amount: amount, description: payment.additionalDescription, paymentMethod: paymentMethod, currency: currency, tags: nil)
+                transactionController.transact(bill: controller.bill, amount: amount, description: payment.additionalDescription, paymentMethod: paymentMethod, currency: currency, tags: nil)
                 if let mce = payment.majorCurrencyEquivalent as Decimal? {
                     proceedBalance += mce
                 }

@@ -80,6 +80,7 @@ struct BillSplitByProductView: View {
             NavigationLink("", isActive: $activeTransaction) {
                 if let billData = selection {
                     BillTransactionView {
+                        selection = nil
                         activeTransaction = false
                     }
                     .environmentObject(appData)
@@ -90,30 +91,25 @@ struct BillSplitByProductView: View {
             }
             .hidden()
             
-            VStack {
-                Form {
-                    remainingBillSection
-                    billListSection
-                    ProceedPaymentSectionView()
-                        .environmentObject(data)
-                }
-                .zIndex(0)
-                .navigationTitle("Split By Product")
-                .toolbar(content: {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            data.sbpResign()
-                        } label: {
-                            Text("Discard")
-                                .foregroundColor(.red)
-                        }
-                        
-                    }
-                })
-                actionSection
-                    .padding(.horizontal)
-                    .padding(.bottom)
+            Form {
+                remainingBillSection
+                billListSection
+                proceedPaymentSection
             }
+            .zIndex(0)
+            .navigationTitle("Split By Product")
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        data.sbpResign()
+                    } label: {
+                        Text("Discard")
+                            .foregroundColor(.red)
+                    }
+                    
+                }
+            })
+            
             if !cartProducts.isEmpty {
                 SBPCartFloatingView(cartProducts: $cartProducts, cartBillData: $selection)
                     .environmentObject(appData)
@@ -122,6 +118,7 @@ struct BillSplitByProductView: View {
             }
             
         }
+        .background(Color(UIColor.systemGroupedBackground))
     }
     
     var remainingBillSection: some View {
@@ -146,6 +143,8 @@ struct BillSplitByProductView: View {
                 }
             }
             
+        } footer: {
+            actionSection
         }
     }
     
@@ -211,8 +210,19 @@ struct BillSplitByProductView: View {
         }
     }
     
+    var proceedPaymentSection: some View {
+        Section {
+            DisclosureGroup("Proceed Payments (\(data.allPayments.count))") {
+                ForEach(data.allPayments) { billPayment in
+                    PaymentViewCell(billPayment: billPayment)
+                }
+            }
+        }
+    }
+    
     var actionSection: some View {
         HStack {
+            Spacer()
             if !data.controller.bill.isOnHold {
                 Button {
                     data.setInactive()
@@ -220,8 +230,8 @@ struct BillSplitByProductView: View {
                 } label: {
                     Text("Hold")
                 }
+                .padding(.horizontal)
             }
-            Spacer()
             if ableToSubmit {
                 Button {
                     submit()
@@ -262,6 +272,7 @@ struct BillSplitByProductView: View {
     
     func submit() {
         data.submitBill(appData)
+        onExit()
     }
     
 }

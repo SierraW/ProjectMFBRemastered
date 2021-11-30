@@ -57,14 +57,18 @@
 		3BC78F8D27520CCC00F5844F /* BillDataSPAExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78F8C27520CCC00F5844F /* BillDataSPAExtension.swift */; };
 		3BC78F8F2752BC9D00F5844F /* StateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78F8E2752BC9D00F5844F /* StateExtension.swift */; };
 		3BC78F922752DBD500F5844F /* BillDataOBRExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78F912752DBD500F5844F /* BillDataOBRExtension.swift */; };
-		3BC78F972753245D00F5844F /* BillAnimationTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78F962753245D00F5844F /* BillAnimationTestView.swift */; };
 		3BC78F9A2754118500F5844F /* BillSplitByProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78F992754118500F5844F /* BillSplitByProductView.swift */; };
-		3BC78F9C27543D4100F5844F /* ProceedPaymentSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78F9B27543D4000F5844F /* ProceedPaymentSectionView.swift */; };
 		3BC78F9E2754553900F5844F /* BillDataSBPExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78F9D2754553900F5844F /* BillDataSBPExtension.swift */; };
 		3BC78FA4275560B900F5844F /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FA3275560B900F5844F /* RoundedButton.swift */; };
 		3BC78FA82755798100F5844F /* SBPCartFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FA72755798100F5844F /* SBPCartFloatingView.swift */; };
 		3BC78FAA2755AD9100F5844F /* BillListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FA92755AD9100F5844F /* BillListViewCell.swift */; };
 		3BC78FAC2755B37700F5844F /* BillExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FAB2755B37600F5844F /* BillExtension.swift */; };
+		3BC78FD52756A6C800F5844F /* HistoryBillPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FD42756A6C800F5844F /* HistoryBillPreview.swift */; };
+		3BC78FD72756B14B00F5844F /* PaymentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FD62756B14B00F5844F /* PaymentViewCell.swift */; };
+		3BC78FD92756B76900F5844F /* TransactionListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FD82756B76900F5844F /* TransactionListViewCell.swift */; };
+		3BC78FDB2756BB0300F5844F /* HistoryBillListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FDA2756BB0300F5844F /* HistoryBillListView.swift */; };
+		3BC78FDD2756C0DE00F5844F /* BillNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FDC2756C0DE00F5844F /* BillNavigationView.swift */; };
+		3BC78FDF2756CEAF00F5844F /* SBAFloatingActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FDE2756CEAF00F5844F /* SBAFloatingActionView.swift */; };
 		3BD581822746A36D00089113 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581812746A36D00089113 /* SearchBar.swift */; };
 		3BD581842746BC2E00089113 /* PayableListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581832746BC2E00089113 /* PayableListView.swift */; };
 		3BD581882746EAB200089113 /* BillSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581872746EAB200089113 /* BillSetupView.swift */; };
@@ -140,14 +144,18 @@
 		3BC78F8C27520CCC00F5844F /* BillDataSPAExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillDataSPAExtension.swift; sourceTree = "<group>"; };
 		3BC78F8E2752BC9D00F5844F /* StateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateExtension.swift; sourceTree = "<group>"; };
 		3BC78F912752DBD500F5844F /* BillDataOBRExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillDataOBRExtension.swift; sourceTree = "<group>"; };
-		3BC78F962753245D00F5844F /* BillAnimationTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillAnimationTestView.swift; sourceTree = "<group>"; };
 		3BC78F992754118500F5844F /* BillSplitByProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillSplitByProductView.swift; sourceTree = "<group>"; };
-		3BC78F9B27543D4000F5844F /* ProceedPaymentSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProceedPaymentSectionView.swift; sourceTree = "<group>"; };
 		3BC78F9D2754553900F5844F /* BillDataSBPExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillDataSBPExtension.swift; sourceTree = "<group>"; };
 		3BC78FA3275560B900F5844F /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		3BC78FA72755798100F5844F /* SBPCartFloatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBPCartFloatingView.swift; sourceTree = "<group>"; };
 		3BC78FA92755AD9100F5844F /* BillListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillListViewCell.swift; sourceTree = "<group>"; };
 		3BC78FAB2755B37600F5844F /* BillExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillExtension.swift; sourceTree = "<group>"; };
+		3BC78FD42756A6C800F5844F /* HistoryBillPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryBillPreview.swift; sourceTree = "<group>"; };
+		3BC78FD62756B14B00F5844F /* PaymentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewCell.swift; sourceTree = "<group>"; };
+		3BC78FD82756B76900F5844F /* TransactionListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewCell.swift; sourceTree = "<group>"; };
+		3BC78FDA2756BB0300F5844F /* HistoryBillListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryBillListView.swift; sourceTree = "<group>"; };
+		3BC78FDC2756C0DE00F5844F /* BillNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillNavigationView.swift; sourceTree = "<group>"; };
+		3BC78FDE2756CEAF00F5844F /* SBAFloatingActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBAFloatingActionView.swift; sourceTree = "<group>"; };
 		3BD581812746A36D00089113 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		3BD581832746BC2E00089113 /* PayableListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableListView.swift; sourceTree = "<group>"; };
 		3BD581872746EAB200089113 /* BillSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillSetupView.swift; sourceTree = "<group>"; };
@@ -247,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				3B4FBB1B2750424400EA538A /* TransactionView.swift */,
+				3BC78FD82756B76900F5844F /* TransactionListViewCell.swift */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -288,6 +297,7 @@
 				3BC78F8727514D4700F5844F /* BillSplitByAmountWizardView.swift */,
 				3BC78F8A27514D6700F5844F /* BillSplitByAmountView.swift */,
 				3BC78F8C27520CCC00F5844F /* BillDataSPAExtension.swift */,
+				3BC78FDE2756CEAF00F5844F /* SBAFloatingActionView.swift */,
 			);
 			path = SBA;
 			sourceTree = "<group>";
@@ -297,7 +307,6 @@
 			children = (
 				3B4FBB1227500AB500EA538A /* BillTransactionView.swift */,
 				3BC78F912752DBD500F5844F /* BillDataOBRExtension.swift */,
-				3BC78F962753245D00F5844F /* BillAnimationTestView.swift */,
 			);
 			path = OBR;
 			sourceTree = "<group>";
@@ -310,6 +319,15 @@
 				3BC78FA72755798100F5844F /* SBPCartFloatingView.swift */,
 			);
 			path = SBP;
+			sourceTree = "<group>";
+		};
+		3BC78FB32755D59100F5844F /* History */ = {
+			isa = PBXGroup;
+			children = (
+				3BC78FDA2756BB0300F5844F /* HistoryBillListView.swift */,
+				3BC78FD42756A6C800F5844F /* HistoryBillPreview.swift */,
+			);
+			path = History;
 			sourceTree = "<group>";
 		};
 		3BD581862746EA5F00089113 /* Bill */ = {
@@ -325,8 +343,8 @@
 				3BD581AD274D769C00089113 /* BillListVIew.swift */,
 				3B4FBB16275016C000EA538A /* BillItemListView.swift */,
 				3B4FBB27275098D900EA538A /* BillItemViewCell.swift */,
-				3BC78F9B27543D4000F5844F /* ProceedPaymentSectionView.swift */,
 				3BC78FA92755AD9100F5844F /* BillListViewCell.swift */,
+				3BC78FD62756B14B00F5844F /* PaymentViewCell.swift */,
 			);
 			path = Bill;
 			sourceTree = "<group>";
@@ -375,6 +393,7 @@
 		3BEEE314273C53960056AF54 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3BC78FB32755D59100F5844F /* History */,
 				3B4FBB1A275035A600EA538A /* Transaction */,
 				3BD581862746EA5F00089113 /* Bill */,
 				3B8FA0EE2744C14700D7D4AD /* Room */,
@@ -417,6 +436,7 @@
 				3BEEE320273C58440056AF54 /* MainView.swift */,
 				3B203010273F0FD60016B537 /* ContentWrapperView.swift */,
 				3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */,
+				3BC78FDC2756C0DE00F5844F /* BillNavigationView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -515,12 +535,13 @@
 				3B20301B273F65DB0016B537 /* TagManagementView.swift in Sources */,
 				3B4FBB262750933400EA538A /* PayableViewCell.swift in Sources */,
 				3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */,
-				3BC78F9C27543D4100F5844F /* ProceedPaymentSectionView.swift in Sources */,
 				3BC78FA82755798100F5844F /* SBPCartFloatingView.swift in Sources */,
 				3B8FA1052746252700D7D4AD /* RatedPayableManagementView.swift in Sources */,
 				3B4FBB1927502AE800EA538A /* LabelledDivider.swift in Sources */,
 				3BEEE30B273C53840056AF54 /* Persistence.swift in Sources */,
+				3BC78FDB2756BB0300F5844F /* HistoryBillListView.swift in Sources */,
 				3B8FA0F22744C1F100D7D4AD /* RoomEditorView.swift in Sources */,
+				3BC78FD52756A6C800F5844F /* HistoryBillPreview.swift in Sources */,
 				3B203016273F2A540016B537 /* IdentifiableExtensions.swift in Sources */,
 				3B20ED3E2744275900B96DB6 /* ModalExtension.swift in Sources */,
 				3BC78F8B27514D6700F5844F /* BillSplitByAmountView.swift in Sources */,
@@ -528,7 +549,10 @@
 				3BC78F9E2754553900F5844F /* BillDataSBPExtension.swift in Sources */,
 				3B4FBB17275016C000EA538A /* BillItemListView.swift in Sources */,
 				3B202FFD273ED52D0016B537 /* CurrencyController.swift in Sources */,
+				3BC78FDF2756CEAF00F5844F /* SBAFloatingActionView.swift in Sources */,
 				3BADA68C2742CF71000B1D33 /* TransactionAmountTextField.swift in Sources */,
+				3BC78FD92756B76900F5844F /* TransactionListViewCell.swift in Sources */,
+				3BC78FDD2756C0DE00F5844F /* BillNavigationView.swift in Sources */,
 				3B4FBB2027507A9C00EA538A /* PaymentMethodPickerView.swift in Sources */,
 				3B20ED35274373C300B96DB6 /* TagController.swift in Sources */,
 				3BC78F8827514D4700F5844F /* BillSplitByAmountWizardView.swift in Sources */,
@@ -569,7 +593,6 @@
 				3BD5818E2749E28700089113 /* RoomNavigationView.swift in Sources */,
 				3B4FBB1327500AB500EA538A /* BillTransactionView.swift in Sources */,
 				3B8FA0F62745800700D7D4AD /* PayableController.swift in Sources */,
-				3BC78F972753245D00F5844F /* BillAnimationTestView.swift in Sources */,
 				3B203006273EDB200016B537 /* CurrencyManagementView.swift in Sources */,
 				3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */,
 				3BD581AA274C56C600089113 /* BillController.swift in Sources */,
@@ -579,6 +602,7 @@
 				3B4FBB1E2750776000EA538A /* CurrencyPickerView.swift in Sources */,
 				3B20301D273F6C080016B537 /* TagEditionView.swift in Sources */,
 				3B4FBB0F274EF00800EA538A /* SortingExtension.swift in Sources */,
+				3BC78FD72756B14B00F5844F /* PaymentViewCell.swift in Sources */,
 				3B20ED3C274384E700B96DB6 /* HideKeyboardExtension.swift in Sources */,
 				3B203000273ED5DD0016B537 /* ModelController.swift in Sources */,
 				3B4FBB2C2750BB5F00EA538A /* SubmitButtonView.swift in Sources */,
