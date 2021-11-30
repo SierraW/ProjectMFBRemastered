@@ -74,9 +74,7 @@ extension Bill {
             var count = 1
             let orderedItems = items.filter({ bi in
                 !bi.is_add_on
-            }).sorted { lhs, rhs in
-                lhs.compare(to: rhs)
-            }
+            }).sorted()
             for item in orderedItems {
                 snapshotString += item.toStringRepresentation
                 if count > maxCount {

@@ -21,6 +21,12 @@ struct BillSplitByAmountView: View {
         }
     }
     
+    var ableToSubmit: Bool {
+        children.first(where: {!$0.completed}) == nil
+    }
+    
+    var onExit: () -> Void
+    
     var body: some View {
         ZStack {
             let showBillTransactionView = Binding  {
@@ -44,7 +50,11 @@ struct BillSplitByAmountView: View {
             }
             .hidden()
             
-            splitByAmountFormView
+            VStack {
+                splitByAmountFormView
+                actionSection
+                    .padding(.bottom)
+            }
         }
         .navigationTitle("Split Bill")
         .toolbar {
@@ -135,46 +145,40 @@ struct BillSplitByAmountView: View {
                 }
             }
             
-            Section {
-                DisclosureGroup("Proceed Payments (\(data.allPayments.count))") {
-                    ForEach(data.allPayments) { billPayment in
-                        HStack {
-                            Text(billPayment.toStringRepresentation)
-                            Spacer()
-                            if let currency = billPayment.currency {
-                                Text(currency.toStringRepresentation)
-                            }
-                            if let amount = billPayment.amount as Decimal? {
-                                Text(amount.toStringRepresentation)
-                            }
-                        }
-                    }
-                }
-            }
-            
-            Button {
-                //
-            } label: {
-                Text("Submit")
-            }
+            ProceedPaymentSectionView()
+                .environmentObject(data)
 
         }
     }
     
-    func getSubBillViewCell(subBill: String) -> some View {
+    var actionSection: some View {
         HStack {
-            
+            if !data.controller.bill.isOnHold {
+                Button {
+                    data.setInactive()
+                    onExit()
+                } label: {
+                    Text("Hold")
+                }
+            }
+            Spacer()
+            if ableToSubmit {
+                Button {
+                    submit()
+                } label: {
+                    Text("Submit")
+                }
+            }
         }
-        
     }
     
-    func getSubBillViewCellColor(subBill: Bill) -> Color {
+    func getSubBillViewCellColor(subBill: Bill) -> Color? {
         if subBill.completed {
             return Color.green
         } else if selection.contains(subBill) {
             return Color(UIColor.systemGray5)
         } else {
-            return Color(UIColor.systemBackground)
+            return nil
         }
     }
     
@@ -216,5 +220,9 @@ struct BillSplitByAmountView: View {
         data.reloadChildren()
         
         activeTransaction = BillData(context: data.controller.viewContext, bill: newBill)
+    }
+    
+    func submit() {
+        data.submitBill(appData)
     }
 }

@@ -38,6 +38,7 @@ struct BillView: View {
             List {
                 ForEach(data.items.indices, id:\.self) { index in
                     BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
+                        .listRowBackground(index + 1 == data.items.count ? Color.gray : nil)
                         .contentShape(Rectangle())
                         .contextMenu(menuItems: {
                             Button {
@@ -158,11 +159,17 @@ struct BillView: View {
     }
     
     var splitByPayableView: some View {
-        Text("bill view")
+        BillSplitByProductView {
+            onExit()
+        }
+            .environmentObject(appData)
+            .environmentObject(data)
     }
     
     var splitByAmountView: some View {
-        BillSplitByAmountView()
+        BillSplitByAmountView {
+            onExit()
+        }
             .environmentObject(appData)
             .environmentObject(data)
     }

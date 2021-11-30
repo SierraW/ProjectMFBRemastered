@@ -23,6 +23,8 @@ class BillData: ObservableObject, Identifiable {
             return .bill
         } else if proceedBalance != nil {
             return .completed
+        } else if mandatoryShowSplitByProductView {
+            return .splitByPayable
         } else if children.count == 0 {
             return .originalBillReview
         } else {
@@ -52,7 +54,10 @@ class BillData: ObservableObject, Identifiable {
     @Published var payments: [BillPayment] = []
     
     var parent: Bill? = nil
+    
     @Published var children: [Bill] = []
+    
+    @Published var mandatoryShowSplitByProductView = false
     
     @Published var billTotal: BillTotal? = nil
     
@@ -74,9 +79,7 @@ class BillData: ObservableObject, Identifiable {
         self.associatedTag = bill.associatedTag
         self.originalBalance = bill.originalBalance as Decimal?
         if let items = bill.items?.allObjects as? [BillItem] {
-            self.items = items.sorted(by: { lhs, rhs in
-                lhs.compare(to: rhs)
-            })
+            self.items = items.sorted()
         }
         
         reloadPayments()
@@ -100,9 +103,7 @@ class BillData: ObservableObject, Identifiable {
     
     func reloadPayments() {
         if let payments = controller.bill.payments?.allObjects as? [BillPayment] {
-            self.payments = payments.sorted(by: { lhs, rhs in
-                lhs.compare(to: rhs)
-            })
+            self.payments = payments.sorted()
         } else {
             payments = []
         }
@@ -195,6 +196,22 @@ class BillData: ObservableObject, Identifiable {
                 }
             }
         }
+    }
+    
+    func submitBill(_ appData: AppData) {
+        var proceedBalance: Decimal = 0
+        let transactionController = TransactionController(controller.viewContext, user: appData.user, majorCurrency: appData.majorCurrency)
+        for payment in allPayments {
+            if let amount = payment.amount as Decimal?, let paymentMethod = payment.paymentMethod, let currency = payment.currency {
+                transactionController.transact(amount: amount, description: payment.additionalDescription, paymentMethod: paymentMethod, currency: currency, tags: nil)
+                if let mce = payment.majorCurrencyEquivalent as Decimal? {
+                    proceedBalance += mce
+                }
+            }
+        }
+        controller.bill.proceedBalance = NSDecimalNumber(decimal: proceedBalance)
+        self.proceedBalance = proceedBalance
+        setInactive()
     }
 }
 

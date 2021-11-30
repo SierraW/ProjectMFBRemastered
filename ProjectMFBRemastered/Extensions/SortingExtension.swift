@@ -7,27 +7,27 @@
 
 import Foundation
 
-extension BillItem {
-    func compare(to item: BillItem) -> Bool {
-        return self.order < item.order
+extension BillItem: Comparable {
+    public static func < (lhs: BillItem, rhs: BillItem) -> Bool {
+        lhs.order < rhs.order
     }
 }
 
-extension BillPayment {
-    func compare(to payment: BillPayment) -> Bool {
-        return self.order < payment.order
+extension BillPayment: Comparable {
+    public static func < (lhs: BillPayment, rhs: BillPayment) -> Bool {
+        lhs.order < rhs.order
     }
 }
 
-extension Payable {
-    func compare(to payable: Payable) -> Bool {
-        self.toStringRepresentation < payable.toStringRepresentation
+extension Payable: Comparable {
+    public static func < (lhs: Payable, rhs: Payable) -> Bool {
+        lhs.toStringRepresentation < rhs.toStringRepresentation
     }
 }
 
 
-extension RatedPayable {
-    func compare(to ratedPayable: RatedPayable) -> Bool {
-        self.toStringRepresentation < ratedPayable.toStringRepresentation
+extension RatedPayable: Comparable {
+    public static func < (lhs: RatedPayable, rhs: RatedPayable) -> Bool {
+        lhs.toStringRepresentation < rhs.toStringRepresentation
     }
 }

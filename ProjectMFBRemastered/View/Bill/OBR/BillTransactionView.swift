@@ -15,7 +15,6 @@ struct BillTransactionView: View {
     @State var showEquivalentAmount = false
     
     @State var showSBAMenu = false
-    @State var showSBPMenu = false
     
     var enableSplitBill = false
     
@@ -72,7 +71,7 @@ struct BillTransactionView: View {
                             Text("Split by totals")
                         }
                         Button {
-                            showSBPMenu.toggle()
+                            data.showSplitByProductView()
                         } label: {
                             Text("Split by products")
                         }
@@ -178,8 +177,12 @@ struct BillTransactionView: View {
                 TransactionView(amountDue: remainingBalance) { paymentMethod, currency, amount, majorCurrencyEquivalent, additionalDescription in
                     data.submitBillPayment(paymentMethod: paymentMethod, currency: currency, amount: amount, majorCurrencyEquivalent: majorCurrencyEquivalent, additionalDescription: additionalDescription)
                     if data.currentBillPaymentBalance >= data.total {
-                        data.setComplete()
-                        onExit()
+                        if enableSplitBill {
+                            data.submitBill(appData)
+                        } else {
+                            data.setComplete()
+                            onExit()
+                        }
                     }
                 }
             } label: {
@@ -238,7 +241,6 @@ struct BillTransactionView: View {
                 Spacer()
                 VStack {
                     HStack {
-                        Spacer()
                         Text("Remaining")
                             .bold()
                         Text(appData.majorCurrency.toStringRepresentation)
@@ -247,6 +249,7 @@ struct BillTransactionView: View {
                             .bold()
                             .frame(width: 60, alignment: .trailing)
                     }
+                    .font(.title)
                     Spacer()
                 }
                 

@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct CurrencyPickerView: View {
+    enum Presentation {
+        case full
+        case normal
+    }
+    
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
@@ -21,6 +26,8 @@ struct CurrencyPickerView: View {
     
     @State private var disabled = false
     
+    @State var presentation: Presentation = .normal
+    
     var onChange: (Currency) -> Void
     
     var currencies: [Currency] {
@@ -33,7 +40,7 @@ struct CurrencyPickerView: View {
                 Text("Not Set").tag(-1)
             }
             ForEach(currencies.indices, id: \.self) {index in
-                Text(currencies[index].toStringRepresentation).tag(index)
+                Text(presentation == .normal ? currencies[index].toStringRepresentation : currencies[index].name ?? "err").tag(index)
             }
         }
         .pickerStyle(.menu)
@@ -43,6 +50,11 @@ struct CurrencyPickerView: View {
             }
         })
         .disabled(disabled)
+    }
+    
+    func presentation(_ value: Presentation) -> CurrencyPickerView {
+        self.presentation = value
+        return self
     }
     
     func allowNull() -> CurrencyPickerView {

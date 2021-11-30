@@ -98,9 +98,7 @@ struct BillItemListView: View {
                         Text("Empty...")
                             .foregroundColor(.gray)
                     }
-                    ForEach(payables.keys.sorted(by: { lhs, rhs in
-                        lhs.compare(to: rhs)
-                    })) { key in
+                    ForEach(payables.keys.sorted()) { key in
                         HStack {
                             PayableViewCell(majorCurrency: appData.majorCurrency, payable: key)
                             Text("x \(payables[key] ?? 0)")
@@ -114,9 +112,7 @@ struct BillItemListView: View {
                         Text("Empty...")
                             .foregroundColor(.gray)
                     }
-                    ForEach(ratedPayables.keys.sorted(by: { lhs, rhs in
-                        lhs.compare(to: rhs)
-                    })) { key in
+                    ForEach(ratedPayables.keys.sorted()) { key in
                         HStack {
                             RatedPayableViewCell(ratedPayable: key)
                             Text("x \(ratedPayables[key] ?? 0)")
