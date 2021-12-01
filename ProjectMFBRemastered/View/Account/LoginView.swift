@@ -13,6 +13,7 @@ struct LoginView: View {
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \User.disabled, ascending: true),
                           NSSortDescriptor(keyPath: \User.is_highlighted, ascending: false)],
+        predicate: NSPredicate(format: "disabled = NO"),
         animation: .default)
     private var fetchedUsers: FetchedResults<User>
     

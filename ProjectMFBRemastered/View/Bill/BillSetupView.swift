@@ -52,16 +52,6 @@ struct BillSetupView: View {
                 .environmentObject(appData)
             }
             .hidden()
-            NavigationLink("Tag Selector", isActive: $selectingTag) {
-                TagSelectView(sortType: .highlighted, dismissOnExit: true) { tag in
-                    withAnimation {
-                        associatedTag = tag
-                        selectingTag = false
-                    }
-                }
-                .navigationTitle("Select a Tag...")
-            }
-            .hidden()
             Form {
                 Section {
                     if let associatedTag = associatedTag {
@@ -80,6 +70,7 @@ struct BillSetupView: View {
                             } label: {
                                 Text("Add new tag")
                             }
+                            .buttonStyle(.plain)
                         }
                         ForEach(tags) { tag in
                             Button {
@@ -87,6 +78,7 @@ struct BillSetupView: View {
                             } label: {
                                 Text(tag.toStringRepresentation)
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                     

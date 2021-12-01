@@ -25,17 +25,23 @@ struct MainView: View {
     @State var viewState: ViewState? = nil
     
     enum ViewState: String, CaseIterable {
-        case register = "Registeration"
-        case tag = "Tag"
-        case roomManagement = "Room Management"
-        case currency = "Curreny"
-        case paymentMethod = "Payment Method"
         case payable = "Product & Fix Value Discount"
         case ratedPayable = "Tax, Service & Rated Discount"
-        case debug = "[Debug] Storage Manager"
+        case register = "Registeration"
+        case user = "Users"
+        case paymentMethod = "Payment Method"
+        case currency = "Curreny"
+        case roomManagement = "Room Management"
+        case tag = "Tag"
         
         var view: ContentWrapperView {
             switch self {
+            case .user:
+                return ContentWrapperView(title: self.rawValue) {
+                    AnyView(
+                        UserManagementView()
+                    )
+                }
             case .register:
                 return ContentWrapperView(title: self.rawValue) {
                     AnyView(
@@ -80,12 +86,6 @@ struct MainView: View {
                         RatedPayableManagementView()
                     )
                 }
-            case .debug:
-                return ContentWrapperView(title: self.rawValue) {
-                    AnyView(
-                        DatabaseMonitor()
-                    )
-                }
             }
         }
     }
@@ -104,24 +104,32 @@ struct MainView: View {
                         }
                     }
                 }
-                RoomNavigationView()
-                    .padding()
-                BillNavigationView()
-                    .padding()
-                Section {
-                    DisclosureGroup {
-                        ForEach(ViewState.allCases, id: \.rawValue) { state in
-                            NavigationLink(state.rawValue, tag: state, selection: $viewState) {
-                                state.view
-                                    .environmentObject(appData)
+                
+                if appData.user.is_root {
+                    RootNavigationView()
+                } else {
+                    RoomNavigationView()
+                        .padding()
+                    BillNavigationView()
+                        .padding()
+                }
+                
+                if appData.user.is_superuser || appData.user.is_root {
+                    Section {
+                        DisclosureGroup {
+                            ForEach(ViewState.allCases, id: \.rawValue) { state in
+                                NavigationLink(state.rawValue, tag: state, selection: $viewState) {
+                                    state.view
+                                        .environmentObject(appData)
+                                }
                             }
-                        }
-                    } label: {
-                        HStack {
-                            Text("Settings")
-                                .bold()
-                                .foregroundColor(.gray)
-                            Spacer()
+                        } label: {
+                            HStack {
+                                Text("Settings")
+                                    .bold()
+                                    .foregroundColor(.gray)
+                                Spacer()
+                            }
                         }
                     }
                 }

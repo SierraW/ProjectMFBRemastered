@@ -38,6 +38,7 @@ struct TagListView: View {
         var roomIndices: [Int] = []
         var payableIndices: [Int] = []
         var ratedPayableIndices: [Int] = []
+        var associatedIndices: [Int] = []
         var disjointIndices: [Int] = []
         
         for index in orderedTags.indices {
@@ -59,6 +60,10 @@ struct TagListView: View {
                 ratedPayableIndices.append(index)
                 belongsToAGroup = true
             }
+            if tag.is_associated {
+                associatedIndices.append(index)
+                belongsToAGroup = true
+            }
             if !belongsToAGroup {
                 disjointIndices.append(index)
             }
@@ -68,6 +73,7 @@ struct TagListView: View {
         dict["Room"] = roomIndices
         dict["Product"] = payableIndices
         dict["Tax & Service"] = ratedPayableIndices
+        dict["Room Associated Tags"] = associatedIndices
         if !disjointIndices.isEmpty {
             dict["Ungrouped"] = disjointIndices
         }

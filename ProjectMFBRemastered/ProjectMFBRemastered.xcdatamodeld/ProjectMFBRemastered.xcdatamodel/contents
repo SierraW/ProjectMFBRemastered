@@ -79,7 +79,7 @@
         <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="ratedPayable" inverseEntity="Tag"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
-        <attribute name="is_associated" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="is_associated" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="is_group" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_payable" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_rated" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
