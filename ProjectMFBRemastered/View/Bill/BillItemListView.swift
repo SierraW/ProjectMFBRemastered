@@ -208,7 +208,6 @@ struct BillItemListView: View {
             onSubmit(payables, ratedPayables)
         }
         presentationMode.wrappedValue.dismiss()
-        data.isLoading = true
     }
 }
 

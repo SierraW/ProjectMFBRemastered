@@ -61,7 +61,7 @@
         <attribute name="discountable" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="is_deposit" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="starred" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <relationship name="billItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BillItem" inverseName="payable" inverseEntity="BillItem"/>
+        <relationship name="billItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BillItem" inverseName="payable" inverseEntity="BillItem"/>
         <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="payable" inverseEntity="Tag"/>
     </entity>
     <entity name="PaymentMethod" representedClassName="PaymentMethod" syncable="YES" codeGenerationType="class">
@@ -75,7 +75,7 @@
         <attribute name="is_tax" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="rate" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="starred" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <relationship name="billItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BillItem" inverseName="ratedPayable" inverseEntity="BillItem"/>
+        <relationship name="billItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BillItem" inverseName="ratedPayable" inverseEntity="BillItem"/>
         <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="ratedPayable" inverseEntity="Tag"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">

@@ -9,26 +9,14 @@ import SwiftUI
 
 struct BillView: View {
     @EnvironmentObject var appData: AppData
-    @StateObject var data: BillData
+    @EnvironmentObject var data: BillData
     
     var onExit: () -> Void
     
     var body: some View {
         switch data.viewState {
         case .bill:
-            if data.isLoading {
-                Color(UIColor.systemGroupedBackground)
-                    .overlay(ProgressView())
-                    .onAppear(perform: {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            withAnimation {
-                                data.isLoading = false
-                            }
-                        }
-                    })
-            } else {
-                billView
-            }
+            billView
         case .originalBillReview:
             originalBillReviewView
         case .splitByPayable:
@@ -56,14 +44,12 @@ struct BillView: View {
                         .contextMenu(menuItems: {
                             Button {
                                 data.addItem(index)
-                                data.isLoading = true
                             } label: {
                                 Text("Add One")
                             }
                             
                             Button {
                                 data.removeItem(index)
-                                data.isLoading = true
                             } label: {
                                 Text("Remove One")
                             }

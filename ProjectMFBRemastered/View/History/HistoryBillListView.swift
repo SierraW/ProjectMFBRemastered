@@ -79,10 +79,11 @@ struct HistoryBillListView: View {
                                     }
                             } else {
                                 NavigationLink {
-                                    BillView(data: BillData(context: viewContext, bill: bill)) {
+                                    BillView{
                                         
                                     }
                                     .environmentObject(appData)
+                                    .environmentObject(BillData(context: viewContext, bill: bill))
                                 } label: {
                                     BillListViewCell(bill: bill, resultMode: true)
                                         .environmentObject(appData)

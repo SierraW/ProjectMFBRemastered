@@ -62,8 +62,6 @@ class BillData: ObservableObject, Identifiable {
     
     @Published var billTotal: BillTotal? = nil
     
-    @Published var isLoading = false
-    
     var proceedBalance: Decimal? = nil
     
     init(context: NSManagedObjectContext, tag: Tag, associatedTag: Tag? = nil, payable: Payable? = nil, size: Int = 0) {

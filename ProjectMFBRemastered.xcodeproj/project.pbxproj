@@ -69,6 +69,7 @@
 		3BC78FDB2756BB0300F5844F /* HistoryBillListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FDA2756BB0300F5844F /* HistoryBillListView.swift */; };
 		3BC78FDD2756C0DE00F5844F /* BillNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FDC2756C0DE00F5844F /* BillNavigationView.swift */; };
 		3BC78FDF2756CEAF00F5844F /* SBAFloatingActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FDE2756CEAF00F5844F /* SBAFloatingActionView.swift */; };
+		3BC78FE227570C0D00F5844F /* DatabaseMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78FE127570C0D00F5844F /* DatabaseMonitor.swift */; };
 		3BD581822746A36D00089113 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581812746A36D00089113 /* SearchBar.swift */; };
 		3BD581842746BC2E00089113 /* PayableListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581832746BC2E00089113 /* PayableListView.swift */; };
 		3BD581882746EAB200089113 /* BillSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581872746EAB200089113 /* BillSetupView.swift */; };
@@ -156,6 +157,7 @@
 		3BC78FDA2756BB0300F5844F /* HistoryBillListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryBillListView.swift; sourceTree = "<group>"; };
 		3BC78FDC2756C0DE00F5844F /* BillNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillNavigationView.swift; sourceTree = "<group>"; };
 		3BC78FDE2756CEAF00F5844F /* SBAFloatingActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBAFloatingActionView.swift; sourceTree = "<group>"; };
+		3BC78FE127570C0D00F5844F /* DatabaseMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseMonitor.swift; sourceTree = "<group>"; };
 		3BD581812746A36D00089113 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		3BD581832746BC2E00089113 /* PayableListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableListView.swift; sourceTree = "<group>"; };
 		3BD581872746EAB200089113 /* BillSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillSetupView.swift; sourceTree = "<group>"; };
@@ -330,6 +332,14 @@
 			path = History;
 			sourceTree = "<group>";
 		};
+		3BC78FE02757063100F5844F /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				3BC78FE127570C0D00F5844F /* DatabaseMonitor.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
 		3BD581862746EA5F00089113 /* Bill */ = {
 			isa = PBXGroup;
 			children = (
@@ -393,6 +403,7 @@
 		3BEEE314273C53960056AF54 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3BC78FE02757063100F5844F /* Debug */,
 				3BC78FB32755D59100F5844F /* History */,
 				3B4FBB1A275035A600EA538A /* Transaction */,
 				3BD581862746EA5F00089113 /* Bill */,
@@ -537,6 +548,7 @@
 				3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */,
 				3BC78FA82755798100F5844F /* SBPCartFloatingView.swift in Sources */,
 				3B8FA1052746252700D7D4AD /* RatedPayableManagementView.swift in Sources */,
+				3BC78FE227570C0D00F5844F /* DatabaseMonitor.swift in Sources */,
 				3B4FBB1927502AE800EA538A /* LabelledDivider.swift in Sources */,
 				3BEEE30B273C53840056AF54 /* Persistence.swift in Sources */,
 				3BC78FDB2756BB0300F5844F /* HistoryBillListView.swift in Sources */,

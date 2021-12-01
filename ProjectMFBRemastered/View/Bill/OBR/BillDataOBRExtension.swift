@@ -29,7 +29,6 @@ extension BillData {
         originalBalance = total
         controller.submitOriginalBalance(total)
         if let taxItem = RatedPayableController.firstTaxRatedPayable(controller.viewContext) {
-            print("not here")
             addItem(taxItem, isAddOn: true)
         }
     }
@@ -42,8 +41,7 @@ extension BillData {
         items.removeAll { bi in
             bi.is_add_on
         }
-        originalBalance = nil
-        
+        self.originalBalance = nil
     }
     
     func submitBillPayment(paymentMethod: PaymentMethod, currency: Currency, amount: Decimal, majorCurrencyEquivalent: Decimal, additionalDescription: String?) {
