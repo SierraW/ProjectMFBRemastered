@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B1707A12757224700FC8350 /* DBSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707A02757224700FC8350 /* DBSwitchView.swift */; };
+		3B1707A327572B4100FC8350 /* TagEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707A227572B4100FC8350 /* TagEditorView.swift */; };
+		3B1707A52757318E00FC8350 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707A42757318E00FC8350 /* TagListView.swift */; };
 		3B202FFD273ED52D0016B537 /* CurrencyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B202FFC273ED52D0016B537 /* CurrencyController.swift */; };
 		3B203000273ED5DD0016B537 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B202FFF273ED5DD0016B537 /* ModelController.swift */; };
 		3B203002273ED6000016B537 /* DecimalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B203001273ED6000016B537 /* DecimalExtension.swift */; };
@@ -18,7 +21,6 @@
 		3B203016273F2A540016B537 /* IdentifiableExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B203015273F2A540016B537 /* IdentifiableExtensions.swift */; };
 		3B203018273F556A0016B537 /* TrimmingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B203017273F556A0016B537 /* TrimmingExtensions.swift */; };
 		3B20301B273F65DB0016B537 /* TagManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20301A273F65DB0016B537 /* TagManagementView.swift */; };
-		3B20301D273F6C080016B537 /* TagEditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20301C273F6C080016B537 /* TagEditionView.swift */; };
 		3B20ED35274373C300B96DB6 /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20ED34274373C300B96DB6 /* TagController.swift */; };
 		3B20ED3C274384E700B96DB6 /* HideKeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20ED3B274384E700B96DB6 /* HideKeyboardExtension.swift */; };
 		3B20ED3E2744275900B96DB6 /* ModalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20ED3D2744275900B96DB6 /* ModalExtension.swift */; };
@@ -73,7 +75,7 @@
 		3BD581822746A36D00089113 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581812746A36D00089113 /* SearchBar.swift */; };
 		3BD581842746BC2E00089113 /* PayableListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581832746BC2E00089113 /* PayableListView.swift */; };
 		3BD581882746EAB200089113 /* BillSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581872746EAB200089113 /* BillSetupView.swift */; };
-		3BD5818A2746F95600089113 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581892746F95600089113 /* TagListView.swift */; };
+		3BD5818A2746F95600089113 /* TagSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581892746F95600089113 /* TagSelectView.swift */; };
 		3BD5818C2749E1EC00089113 /* BillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5818B2749E1EC00089113 /* BillView.swift */; };
 		3BD5818E2749E28700089113 /* RoomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD5818D2749E28700089113 /* RoomNavigationView.swift */; };
 		3BD581AA274C56C600089113 /* BillController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581A9274C56C600089113 /* BillController.swift */; };
@@ -94,6 +96,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B1707A02757224700FC8350 /* DBSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSwitchView.swift; sourceTree = "<group>"; };
+		3B1707A227572B4100FC8350 /* TagEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditorView.swift; sourceTree = "<group>"; };
+		3B1707A42757318E00FC8350 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		3B202FFC273ED52D0016B537 /* CurrencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyController.swift; sourceTree = "<group>"; };
 		3B202FFF273ED5DD0016B537 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		3B203001273ED6000016B537 /* DecimalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalExtension.swift; sourceTree = "<group>"; };
@@ -106,7 +111,6 @@
 		3B203015273F2A540016B537 /* IdentifiableExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableExtensions.swift; sourceTree = "<group>"; };
 		3B203017273F556A0016B537 /* TrimmingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrimmingExtensions.swift; sourceTree = "<group>"; };
 		3B20301A273F65DB0016B537 /* TagManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagManagementView.swift; sourceTree = "<group>"; };
-		3B20301C273F6C080016B537 /* TagEditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditionView.swift; sourceTree = "<group>"; };
 		3B20ED34274373C300B96DB6 /* TagController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagController.swift; sourceTree = "<group>"; };
 		3B20ED3B274384E700B96DB6 /* HideKeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboardExtension.swift; sourceTree = "<group>"; };
 		3B20ED3D2744275900B96DB6 /* ModalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalExtension.swift; sourceTree = "<group>"; };
@@ -161,7 +165,7 @@
 		3BD581812746A36D00089113 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		3BD581832746BC2E00089113 /* PayableListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableListView.swift; sourceTree = "<group>"; };
 		3BD581872746EAB200089113 /* BillSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillSetupView.swift; sourceTree = "<group>"; };
-		3BD581892746F95600089113 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
+		3BD581892746F95600089113 /* TagSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSelectView.swift; sourceTree = "<group>"; };
 		3BD5818B2749E1EC00089113 /* BillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillView.swift; sourceTree = "<group>"; };
 		3BD5818D2749E28700089113 /* RoomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomNavigationView.swift; sourceTree = "<group>"; };
 		3BD581A9274C56C600089113 /* BillController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillController.swift; sourceTree = "<group>"; };
@@ -237,8 +241,9 @@
 			isa = PBXGroup;
 			children = (
 				3B20301A273F65DB0016B537 /* TagManagementView.swift */,
-				3B20301C273F6C080016B537 /* TagEditionView.swift */,
-				3BD581892746F95600089113 /* TagListView.swift */,
+				3BD581892746F95600089113 /* TagSelectView.swift */,
+				3B1707A227572B4100FC8350 /* TagEditorView.swift */,
+				3B1707A42757318E00FC8350 /* TagListView.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -336,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				3BC78FE127570C0D00F5844F /* DatabaseMonitor.swift */,
+				3B1707A02757224700FC8350 /* DBSwitchView.swift */,
 			);
 			path = Debug;
 			sourceTree = "<group>";
@@ -559,6 +565,7 @@
 				3BC78F8B27514D6700F5844F /* BillSplitByAmountView.swift in Sources */,
 				3B203018273F556A0016B537 /* TrimmingExtensions.swift in Sources */,
 				3BC78F9E2754553900F5844F /* BillDataSBPExtension.swift in Sources */,
+				3B1707A12757224700FC8350 /* DBSwitchView.swift in Sources */,
 				3B4FBB17275016C000EA538A /* BillItemListView.swift in Sources */,
 				3B202FFD273ED52D0016B537 /* CurrencyController.swift in Sources */,
 				3BC78FDF2756CEAF00F5844F /* SBAFloatingActionView.swift in Sources */,
@@ -587,7 +594,7 @@
 				3BEEE321273C58440056AF54 /* MainView.swift in Sources */,
 				3BEEE316273C560F0056AF54 /* LandingView.swift in Sources */,
 				3B4FBB2427508FD800EA538A /* RatedPayableListView.swift in Sources */,
-				3BD5818A2746F95600089113 /* TagListView.swift in Sources */,
+				3BD5818A2746F95600089113 /* TagSelectView.swift in Sources */,
 				3BD581842746BC2E00089113 /* PayableListView.swift in Sources */,
 				3BC78F8F2752BC9D00F5844F /* StateExtension.swift in Sources */,
 				3BC78F8D27520CCC00F5844F /* BillDataSPAExtension.swift in Sources */,
@@ -603,16 +610,17 @@
 				3BEEE319273C57080056AF54 /* RegisterView.swift in Sources */,
 				3B4FBB2A2750ACD900EA538A /* RatedPayableViewCell.swift in Sources */,
 				3BD5818E2749E28700089113 /* RoomNavigationView.swift in Sources */,
+				3B1707A52757318E00FC8350 /* TagListView.swift in Sources */,
 				3B4FBB1327500AB500EA538A /* BillTransactionView.swift in Sources */,
 				3B8FA0F62745800700D7D4AD /* PayableController.swift in Sources */,
 				3B203006273EDB200016B537 /* CurrencyManagementView.swift in Sources */,
+				3B1707A327572B4100FC8350 /* TagEditorView.swift in Sources */,
 				3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */,
 				3BD581AA274C56C600089113 /* BillController.swift in Sources */,
 				3B20300C273EEFB90016B537 /* PresentationExtensions.swift in Sources */,
 				3BEEE324273C5A000056AF54 /* EncryptExtension.swift in Sources */,
 				3BD581822746A36D00089113 /* SearchBar.swift in Sources */,
 				3B4FBB1E2750776000EA538A /* CurrencyPickerView.swift in Sources */,
-				3B20301D273F6C080016B537 /* TagEditionView.swift in Sources */,
 				3B4FBB0F274EF00800EA538A /* SortingExtension.swift in Sources */,
 				3BC78FD72756B14B00F5844F /* PaymentViewCell.swift in Sources */,
 				3B20ED3C274384E700B96DB6 /* HideKeyboardExtension.swift in Sources */,

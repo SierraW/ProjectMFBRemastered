@@ -22,25 +22,26 @@ class TagController: ModelController {
         return []
     }
     
-    func modifyOrCreateIfNotExist(name: String, tag: Tag? = nil, is_group: Bool = false, is_room: Bool = false, is_payable: Bool = false, is_rated: Bool = false, starred: Bool = false) -> Tag? {
+    func modifyOrCreateIfNotExist(name: String, tag: Tag? = nil, is_group: Bool = false, is_room: Bool = false, is_payable: Bool = false, is_rated: Bool = false, is_associated: Bool = false, starred: Bool = false) -> Tag? {
         if tag?.name != name && fetchTags().contains(where: { tag in
             tag.name == name
         }) {
             return nil
         }
         if let tag = tag {
-            return modifyTag(name: name, tag: tag, is_group: is_group, is_room: is_room, is_payable: is_payable, is_rated: is_rated, starred: starred)
+            return modifyTag(name: name, tag: tag, is_group: is_group, is_room: is_room, is_payable: is_payable, is_rated: is_rated, is_associated: is_associated, starred: starred)
         } else {
-            return modifyTag(name: name, tag: Tag(context: viewContext), is_group: is_group, is_room: is_room, is_payable: is_payable, is_rated: is_rated, starred: starred)
+            return modifyTag(name: name, tag: Tag(context: viewContext), is_group: is_group, is_room: is_room, is_payable: is_payable, is_rated: is_rated, is_associated: is_associated, starred: starred)
         }
     }
     
-    private func modifyTag(name: String, tag: Tag, is_group: Bool = false, is_room: Bool = false, is_payable: Bool = false, is_rated: Bool = false, starred: Bool = false) -> Tag? {
+    private func modifyTag(name: String, tag: Tag, is_group: Bool = false, is_room: Bool = false, is_payable: Bool = false, is_rated: Bool = false, is_associated: Bool = false, starred: Bool = false) -> Tag? {
         tag.name = name
         tag.is_room = is_room
         tag.is_group = is_group
         tag.is_payable = is_payable
         tag.is_rated = is_rated
+        tag.is_associated = is_associated
         tag.starred = starred
         managedSave()
         return tag

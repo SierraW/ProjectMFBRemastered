@@ -8,73 +8,101 @@
 import SwiftUI
 
 struct TagManagementView: View {
+    // environment
+    @EnvironmentObject var appData: AppData
+    
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var viewContext
+    
+    // fetch requests
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)],
         animation: .default)
     private var fetchedTags: FetchedResults<Tag>
     
     var tags: [Tag] {
-        fetchedTags.map({$0})
+        switch sortType {
+        default:
+            return fetchedTags.map({$0})
+        }
     }
     
-    @State var editingIndex: Int? = nil
+    // controller
+    var controller: TagController {
+        TagController(viewContext)
+    }
+    
+    // edit control
+    @State var editingTagIndex: Int? = nil
+    
+    // sort type
+    @State var sortType: SortType = .name
+    
+    enum SortType: String, CaseIterable {
+        case name = "Name"
+        case symbol = "Symbol"
+    }
     
     var body: some View {
-        Form {
-            DisclosureGroup("Tag Tree") {
-                VStack {
-                    Text("Tree View")
+        VStack {
+            TagListView(tags: fetchedTags.map({$0})) { index in
+                withAnimation {
+                    editingTagIndex = index
                 }
             }
-            
-            Section {
-                ForEach(tags.indices, id:\.self) { index in
-                    HStack {
-                        Text(tags[index].toStringRepresentation)
-                        Spacer()
-                    }
-                    .contentShape(Rectangle())
-                    .contextMenu(menuItems: {
-                        Button(role: .destructive) {
-                            TagController(viewContext).delete(tags[index])
-                        } label: {
-                            Text("Delete")
-                        }
-
-                    })
-                    .onTapGesture {
-                        withAnimation {
-                            editingIndex = index
-                        }
-                    }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Color(UIColor.systemGroupedBackground))
+        .sheet(item: $editingTagIndex) { index in
+            VStack {
+                HStack {
+                    Image(systemName: "chevron.down.circle")
+                        .foregroundColor(.gray)
+                        .frame(width:50)
+                    Spacer()
+                    Text("Tag Editor")
+                        .bold()
+                    Spacer()
+                    Spacer()
+                        .frame(width:50)
                 }
-            } header: {
-                Text("Tag List")
-            }
-
-        }
-        .sheet(item: $editingIndex) { index in
-            TagEditionView(tag: index == -1 ? nil : tags[index], allTags: tags)
-        }
-        .navigationTitle("Tags")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
+                .contentShape(Rectangle())
+                .onTapGesture {
                     withAnimation {
-                        editingIndex = -1
+                        editingTagIndex = nil
                     }
-                } label: {
-                    Text("Add")
                 }
-
+                .padding()
+                TagEditorView(controller: controller, tag: index == -1 ? nil : tags[index], tags: tags, onDelete: { tag in
+                    withAnimation {
+                        editingTagIndex = nil
+                        controller.delete(tag)
+                    }
+                }, onExit: {
+                    withAnimation {
+                        editingTagIndex = nil
+                    }
+                })
+            }
+            .background(Color(UIColor.systemGroupedBackground))
+        }
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                HStack {
+                    Button {
+                        withAnimation {
+                            editingTagIndex = -1
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("Add new tag")
+                        }
+                        
+                    }
+                    Spacer()
+                }
             }
         }
-    }
-}
-
-struct TagManagementView_Previews: PreviewProvider {
-    static var previews: some View {
-        TagManagementView()
     }
 }

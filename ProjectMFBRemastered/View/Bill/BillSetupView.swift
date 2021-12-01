@@ -11,7 +11,21 @@ struct BillSetupView: View {
     @EnvironmentObject var appData: AppData
     @Environment(\.managedObjectContext) private var viewContext
     
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)],
+        predicate: NSPredicate(format: "is_associated = YES"),
+        animation: .default)
+    private var fetchedTags: FetchedResults<Tag>
+    
+    var tags: [Tag] {
+        fetchedTags.filter { tag in
+            tag.name?.contains(searchString) ?? false
+        }
+    }
+    
     var room: Tag
+    
+    @State var searchString: String = ""
     
     @State var associatedTag: Tag? = nil
     @State var selectingTag = false
@@ -39,7 +53,7 @@ struct BillSetupView: View {
             }
             .hidden()
             NavigationLink("Tag Selector", isActive: $selectingTag) {
-                TagListView(sortType: .highlighted, dismissOnExit: true) { tag in
+                TagSelectView(sortType: .highlighted, dismissOnExit: true) { tag in
                     withAnimation {
                         associatedTag = tag
                         selectingTag = false
@@ -49,19 +63,35 @@ struct BillSetupView: View {
             }
             .hidden()
             Form {
-                
                 Section {
-                    HStack {
-                        Text("Tagged As")
-                        Spacer()
+                    if let associatedTag = associatedTag {
                         Button {
-                            selectingTag.toggle()
+                            self.associatedTag = nil
                         } label: {
-                            Text(associatedTag?.toStringRepresentation ?? "Not Set")
+                            Text(associatedTag.toStringRepresentation)
+                        }
+                    } else {
+                        SearchBar(text: $searchString) {
+                            submitSearchString()
+                        }
+                        if !searchString.isEmpty {
+                            Button {
+                                submitSearchString()
+                            } label: {
+                                Text("Add new tag")
+                            }
+                        }
+                        ForEach(tags) { tag in
+                            Button {
+                                associatedTag = tag
+                            } label: {
+                                Text(tag.toStringRepresentation)
+                            }
                         }
                     }
+                    
                 } header: {
-                    Text("Tag")
+                    Text("Associated Tag")
                 }
                 
                 Section {
@@ -105,5 +135,19 @@ struct BillSetupView: View {
             }
         }
         .navigationTitle(Text(room.toStringRepresentation))
+    }
+    
+    func submitSearchString() {
+        searchString.trimmingWhitespacesAndNewlines()
+        if let tag = tags.first(where: { tag in
+            tag.name == searchString
+        }) {
+            associatedTag = tag
+        } else {
+            let tagController = TagController(viewContext)
+            if let tag = tagController.modifyOrCreateIfNotExist(name: searchString, is_associated: true) {
+                associatedTag = tag
+            }
+        }
     }
 }

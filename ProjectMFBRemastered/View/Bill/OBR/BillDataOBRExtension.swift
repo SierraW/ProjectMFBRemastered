@@ -38,9 +38,7 @@ extension BillData {
             bi.is_add_on
         }))
         payments = []
-        items.removeAll { bi in
-            bi.is_add_on
-        }
+        reloadItems()
         self.originalBalance = nil
     }
     

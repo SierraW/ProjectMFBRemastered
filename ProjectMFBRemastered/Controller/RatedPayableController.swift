@@ -39,7 +39,7 @@ class RatedPayableController: TagController {
         if let tag = ratedPayable.tag {
             tag.name = name
         } else {
-            ratedPayable.tag = modifyOrCreateIfNotExist(name: name, is_payable: true)
+            ratedPayable.tag = modifyOrCreateIfNotExist(name: name, is_rated: true)
         }
         
         ratedPayable.rate = NSDecimalNumber(decimal: rate)

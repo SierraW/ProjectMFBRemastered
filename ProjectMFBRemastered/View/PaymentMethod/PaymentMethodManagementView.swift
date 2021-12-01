@@ -41,59 +41,39 @@ struct PaymentMethodManagementView: View {
     }
     
     var body: some View {
-        VStack {
-            Form {
-                Section {
-                    ForEach(paymentMethods.indices, id:\.self) { index in
-                        HStack {
-                            Text(paymentMethods[index].toStringRepresentation)
-                            Spacer()
-                            if let currency = paymentMethods[index].assignedCurrency {
-                                Text("Assigned Currency:")
-                                Text(currency.toStringRepresentation)
-                                    .frame(width: 60)
-                            }
-                        }
-                        .contentShape(Rectangle())
-                        .contextMenu {
-                            Button(role: .destructive) {
-                                controller.delete(paymentMethods[index])
-                            } label: {
-                                HStack {
-                                    Image(systemName: "trash")
-                                    Text("Delete")
-                                }
-                                
-                            }
-                        }
-                        .onTapGesture {
-                            if editingPaymentMethodIndex == nil {
-                                editingPaymentMethodIndex = index
-                            }
-                        }
-                    }
-                } header: {
-                    Text("Payment Method List")
-                }
-            }
-            Spacer()
-            
-            HStack {
-                Button {
-                    withAnimation {
-                        editingPaymentMethodIndex = -1
-                    }
-                } label: {
+        Form {
+            Section {
+                ForEach(paymentMethods.indices, id:\.self) { index in
                     HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Add new payment method")
+                        Text(paymentMethods[index].toStringRepresentation)
+                        Spacer()
+                        if let currency = paymentMethods[index].assignedCurrency {
+                            Text("Assigned Currency:")
+                            Text(currency.toStringRepresentation)
+                                .frame(width: 60)
+                        }
                     }
-                    
+                    .contentShape(Rectangle())
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            controller.delete(paymentMethods[index])
+                        } label: {
+                            HStack {
+                                Image(systemName: "trash")
+                                Text("Delete")
+                            }
+                            
+                        }
+                    }
+                    .onTapGesture {
+                        if editingPaymentMethodIndex == nil {
+                            editingPaymentMethodIndex = index
+                        }
+                    }
                 }
-                .padding()
-                Spacer()
+            } header: {
+                Text("Payment Method List")
             }
-            
         }
         .background(Color(UIColor.systemGroupedBackground))
         .sheet(item: $editingPaymentMethodIndex) { index in
@@ -130,6 +110,22 @@ struct PaymentMethodManagementView: View {
             .background(Color(UIColor.systemGroupedBackground))
         }
         .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                HStack {
+                    Button {
+                        withAnimation {
+                            editingPaymentMethodIndex = -1
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("Add new payment method")
+                        }
+                        
+                    }
+                    Spacer()
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Menu {

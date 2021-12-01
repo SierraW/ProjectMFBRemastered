@@ -130,13 +130,13 @@ struct PayableListView: View {
     }
     
     func getPayableViewCell(_ payable: Payable) -> some View {
-        PayableViewCell(majorCurrency: appData.majorCurrency, payable: payable)
-        .contentShape(Rectangle())
-        .onTapGesture {
+        Button {
             onSelect(payable)
             if dismissOnExit {
                 presentationMode.wrappedValue.dismiss()
             }
+        } label: {
+            PayableViewCell(majorCurrency: appData.majorCurrency, payable: payable)
         }
     }
 }

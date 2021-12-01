@@ -61,34 +61,34 @@ struct BillTransactionView: View {
         })
         .background(Color(UIColor.systemGroupedBackground))
         .navigationTitle("Review Bill")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    if enableSplitBill {
-                        Button {
-                            showSBAMenu.toggle()
-                        } label: {
-                            Text("Split by totals")
-                        }
-                        Button {
-                            data.showSplitByProductView()
-                        } label: {
-                            Text("Split by products")
-                        }
-                    } else {
-                        Text("Split Bill Unavailable")
-                    }
-                } label: {
-                    Image(systemName: "rectangle.split.3x1.fill")
-                }
-            }
-        }
     }
     
     var reviewSectionView: some View {
         Section {
             BillListViewCell(bill: data.controller.bill)
                 .environmentObject(appData)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Menu {
+                            if enableSplitBill {
+                                Button {
+                                    showSBAMenu.toggle()
+                                } label: {
+                                    Text("Split by totals")
+                                }
+                                Button {
+                                    data.showSplitByProductView()
+                                } label: {
+                                    Text("Split by products")
+                                }
+                            } else {
+                                Text("Split Bill Unavailable")
+                            }
+                        } label: {
+                            Image(systemName: "rectangle.split.3x1.fill")
+                        }
+                    }
+                }
         } footer: {
             HStack {
                 Text("Bill State:")

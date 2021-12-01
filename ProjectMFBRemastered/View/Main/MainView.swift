@@ -21,12 +21,6 @@ class UserData: ObservableObject {
 
 struct MainView: View {
     @EnvironmentObject var appData: AppData
-    //    @Environment(\.managedObjectContext) private var viewContext
-    //
-    //    @FetchRequest(
-    //        sortDescriptors: [NSSortDescriptor(keyPath: \Bill.size, ascending: true)],
-    //        animation: .default)
-    //    private var fetchedObjects: FetchedResults<Bill>
     
     @State var viewState: ViewState? = nil
     
@@ -39,16 +33,6 @@ struct MainView: View {
         case payable = "Product & Fix Value Discount"
         case ratedPayable = "Tax, Service & Rated Discount"
         case debug = "[Debug] Storage Manager"
-        //        case Withdraw
-        //        case Management
-        //        case User
-        //        case Report
-        //        case Transactions
-        
-        //        case Payable
-        //        case Bill
-        //        case BillHistory
-        //        case Room
         
         var view: ContentWrapperView {
             switch self {

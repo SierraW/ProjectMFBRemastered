@@ -37,54 +37,34 @@ struct RoomManagementView: View {
     }
     
     var body: some View {
-        VStack {
-            Form {
-                Section {
-                    ForEach(rooms.indices, id:\.self) { index in
-                        HStack {
-                            Text(rooms[index].toStringRepresentation)
-                            Spacer()
-                        }
-                        .contentShape(Rectangle())
-                        .contextMenu {
-                            Button(role: .destructive) {
-                                controller.delete(rooms[index])
-                            } label: {
-                                HStack {
-                                    Image(systemName: "trash")
-                                    Text("Delete")
-                                }
-                                
-                            }
-                        }
-                        .onTapGesture {
-                            if editingRoomIndex == nil {
-                                editingRoomIndex = index
-                            }
-                        }
-                    }
-                } header: {
-                    Text("Room List")
-                }
-            }
-            Spacer()
-            
-            HStack {
-                Button {
-                    withAnimation {
-                        editingRoomIndex = -1
-                    }
-                } label: {
+        Form {
+            Section {
+                ForEach(rooms.indices, id:\.self) { index in
                     HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Add new room")
+                        Text(rooms[index].toStringRepresentation)
+                        Spacer()
                     }
-                    
+                    .contentShape(Rectangle())
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            controller.delete(rooms[index])
+                        } label: {
+                            HStack {
+                                Image(systemName: "trash")
+                                Text("Delete")
+                            }
+                            
+                        }
+                    }
+                    .onTapGesture {
+                        if editingRoomIndex == nil {
+                            editingRoomIndex = index
+                        }
+                    }
                 }
-                .padding()
-                Spacer()
+            } header: {
+                Text("Room List")
             }
-            
         }
         .background(Color(UIColor.systemGroupedBackground))
         .sheet(item: $editingRoomIndex) { index in
@@ -121,6 +101,22 @@ struct RoomManagementView: View {
             .background(Color(UIColor.systemGroupedBackground))
         }
         .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                HStack {
+                    Button {
+                        withAnimation {
+                            editingRoomIndex = -1
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("Add new room")
+                        }
+                        
+                    }
+                    Spacer()
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Menu {

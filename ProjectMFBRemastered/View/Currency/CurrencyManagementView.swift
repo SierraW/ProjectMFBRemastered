@@ -55,96 +55,76 @@ struct CurrencyManagementView: View {
     var initialSetup = false
     
     var body: some View {
-        VStack {
-            Form {
-                // specialized section
-                Section {
+        Form {
+            // specialized section
+            Section {
+                HStack {
+                    Text("Major Currency")
+                    Spacer()
+                    Picker("", selection: $selectedMajorCurrencyIndex) {
+                        if initialSetup {
+                            Text("Not Set").tag(-1)
+                        }
+                        ForEach(currencies.indices, id: \.self) {index in
+                            Text(currencies[index].toStringRepresentation).tag(index)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .onChange(of: selectedMajorCurrencyIndex, perform: { newValue in
+                        if initialSetup, selectedMajorCurrencyIndex >= 0 {
+                            controller.assignMajorCurrency(with: currencies[newValue], from: currencies)
+                        } else if selectedMajorCurrencyIndex >= 0, currencies[selectedMajorCurrencyIndex] != appData.majorCurrency {
+                            controller.assignMajorCurrency(with: currencies[newValue], from: currencies)
+                            withAnimation {
+                                appData.onLogout()
+                            }
+                        }
+                    })
+                    .disabled(!majorCurrencyUnlocked)
+                }
+            } header: {
+                if !initialSetup {
+                    Text("Settings")
+                }
+            } footer: {
+                if initialSetup {
+                    Text("Requried")
+                }
+            }
+            // default section
+            Section {
+                ForEach(currencies.indices, id:\.self) { index in
                     HStack {
-                        Text("Major Currency")
+                        Text(currencies[index].toStringRepresentation)
                         Spacer()
-                        Picker("", selection: $selectedMajorCurrencyIndex) {
-                            if initialSetup {
-                                Text("Not Set").tag(-1)
-                            }
-                            ForEach(currencies.indices, id: \.self) {index in
-                                Text(currencies[index].toStringRepresentation).tag(index)
-                            }
+                        if !currencies[index].is_major, let rate = currencies[index].rate as Decimal? {
+                            Text("Exchange rate:")
+                            Text(rate.toStringRepresentation)
+                                .frame(width: 40)
                         }
-                        .pickerStyle(.menu)
-                        .onChange(of: selectedMajorCurrencyIndex, perform: { newValue in
-                            if initialSetup, selectedMajorCurrencyIndex >= 0 {
-                                controller.assignMajorCurrency(with: currencies[newValue], from: currencies)
-                            } else if selectedMajorCurrencyIndex >= 0, currencies[selectedMajorCurrencyIndex] != appData.majorCurrency {
-                                controller.assignMajorCurrency(with: currencies[newValue], from: currencies)
-                                withAnimation {
-                                    appData.onLogout()
-                                }
+                    }
+                    .contentShape(Rectangle())
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            controller.delete(currencies[index])
+                        } label: {
+                            HStack {
+                                Image(systemName: "trash")
+                                Text("Delete")
                             }
-                        })
-                        .disabled(!majorCurrencyUnlocked)
+                            
+                        }
+                        .disabled(currencies[index].is_major)
                     }
-                } header: {
-                    if !initialSetup {
-                        Text("Settings")
-                    }
-                } footer: {
-                    if initialSetup {
-                        Text("Requried")
+                    .onTapGesture {
+                        if editingCurrencyIndex == nil {
+                            editingCurrencyIndex = index
+                        }
                     }
                 }
-                // default section
-                Section {
-                    ForEach(currencies.indices, id:\.self) { index in
-                        HStack {
-                            Text(currencies[index].toStringRepresentation)
-                            Spacer()
-                            if !currencies[index].is_major, let rate = currencies[index].rate as Decimal? {
-                                Text("Exchange rate:")
-                                Text(rate.toStringRepresentation)
-                                    .frame(width: 40)
-                            }
-                        }
-                        .contentShape(Rectangle())
-                        .contextMenu {
-                            Button(role: .destructive) {
-                                controller.delete(currencies[index])
-                            } label: {
-                                HStack {
-                                    Image(systemName: "trash")
-                                    Text("Delete")
-                                }
-                                
-                            }
-                            .disabled(currencies[index].is_major)
-                        }
-                        .onTapGesture {
-                            if editingCurrencyIndex == nil {
-                                editingCurrencyIndex = index
-                            }
-                        }
-                    }
-                } header: {
-                    Text("Currency List")
-                }
+            } header: {
+                Text("Currency List")
             }
-            Spacer()
-            
-            HStack {
-                Button {
-                    withAnimation {
-                        editingCurrencyIndex = -1
-                    }
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Add new currency")
-                    }
-                    
-                }
-                .padding()
-                Spacer()
-            }
-            
         }
         .background(Color(UIColor.systemGroupedBackground))
         .sheet(item: $editingCurrencyIndex) { index in
@@ -181,6 +161,22 @@ struct CurrencyManagementView: View {
             .background(Color(UIColor.systemGroupedBackground))
         }
         .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                HStack {
+                    Button {
+                        withAnimation {
+                            editingCurrencyIndex = -1
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("Add new currency")
+                        }
+                        
+                    }
+                    Spacer()
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Menu {

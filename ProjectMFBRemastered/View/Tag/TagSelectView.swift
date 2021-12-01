@@ -1,29 +1,34 @@
 //
-//  TagSeletView.swift
+//  TagListView.swift
 //  ProjectMFBRemastered
 //
-//  Created by Yiyao Zhang on 2021-11-30.
+//  Created by Yiyao Zhang on 2021-11-18.
 //
 
 import SwiftUI
 
-struct TagListView: View {
+struct TagSelectView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)],
+        animation: .default)
+    private var fetchedTag: FetchedResults<Tag>
+    
     @State var searchString = ""
     
     @State var sortType: SortType = .name
     
-    var tags: [Tag]
-    
-    var orderedTags: [Tag] {
+    var tags: [Tag] {
         var resultTags: [Tag]
         
         switch sortType {
         case .highlighted:
-            resultTags = tags.sorted { lhs, rhs in
+            resultTags = fetchedTag.sorted { lhs, rhs in
                 lhs.starred || lhs.starred == rhs.starred
             }
         default:
-            resultTags = tags.map({$0})
+            resultTags = fetchedTag.map({$0})
         }
         if !searchString.isEmpty {
             return resultTags.filter { tag in
@@ -40,8 +45,8 @@ struct TagListView: View {
         var ratedPayableIndices: [Int] = []
         var disjointIndices: [Int] = []
         
-        for index in orderedTags.indices {
-            let tag = orderedTags[index]
+        for index in tags.indices {
+            let tag = tags[index]
             var belongsToAGroup = false
             if tag.is_group {
                 groupIndices.append(index)
@@ -68,15 +73,13 @@ struct TagListView: View {
         dict["Room"] = roomIndices
         dict["Product"] = payableIndices
         dict["Tax & Service"] = ratedPayableIndices
-        if !disjointIndices.isEmpty {
-            dict["Ungrouped"] = disjointIndices
-        }
         return dict
     }
     
     @State var productView = false
     
-    var onSelect: (Int) -> Void
+    var dismissOnExit = false
+    var onSelect: (Tag) -> Void
     
     enum SortType: String, CaseIterable {
         case name = "Name"
@@ -91,12 +94,8 @@ struct TagListView: View {
             Form {
                 if productView {
                     Section {
-                        ForEach(orderedTags.indices, id: \.self) { index in
-                            getTagViewCell(orderedTags[index])
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    onSelect(index)
-                                }
+                        ForEach(tags.indices, id: \.self) { index in
+                            getTagViewCell(tags[index])
                         }
                     } header: {
                         Text(searchString.isEmpty ? "All Tags" : "Search Result")
@@ -106,11 +105,7 @@ struct TagListView: View {
                         Section {
                             if let groupedPayableIndices = groups[groupName] {
                                 ForEach(groupedPayableIndices, id:\.self) { index in
-                                    getTagViewCell(orderedTags[index])
-                                        .contentShape(Rectangle())
-                                        .onTapGesture {
-                                            onSelect(index)
-                                        }
+                                    getTagViewCell(tags[index])
                                 }
                             }
                         } header: {
@@ -184,6 +179,13 @@ struct TagListView: View {
                     }
                 }
                 .foregroundColor(.gray)
+            }
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onSelect(tag)
+            if dismissOnExit {
+                presentationMode.wrappedValue.dismiss()
             }
         }
     }

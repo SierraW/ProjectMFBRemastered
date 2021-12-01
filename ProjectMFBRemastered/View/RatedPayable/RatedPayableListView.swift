@@ -107,13 +107,13 @@ struct RatedPayableListView: View {
     }
     
     func getRatedPayableViewCell(_ ratedPayable: RatedPayable) -> some View {
-        RatedPayableViewCell(ratedPayable: ratedPayable)
-        .contentShape(Rectangle())
-        .onTapGesture {
+        Button {
             onSelect(ratedPayable)
             if dismissOnExit {
                 presentationMode.wrappedValue.dismiss()
             }
+        } label: {
+            RatedPayableViewCell(ratedPayable: ratedPayable)
         }
     }
 }

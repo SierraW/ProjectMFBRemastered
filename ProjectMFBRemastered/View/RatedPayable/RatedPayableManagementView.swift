@@ -56,50 +56,30 @@ struct RatedPayableManagementView: View {
                     }
                 })
         } else {
-            VStack {
-                Form {
-                    // default section
-                    Section {
-                        ForEach(ratedPayables.indices, id:\.self) { index in
-                            RatedPayableViewCell(ratedPayable: ratedPayables[index])
-                                .contentShape(Rectangle())
-                                .contextMenu {
-                                    Button(role: .destructive) {
-                                        controller.delete(ratedPayables[index])
-                                    } label: {
-                                        HStack {
-                                            Image(systemName: "trash")
-                                            Text("Delete")
-                                        }
-                                        
+            Form {
+                // default section
+                Section {
+                    ForEach(ratedPayables.indices, id:\.self) { index in
+                        RatedPayableViewCell(ratedPayable: ratedPayables[index])
+                            .contentShape(Rectangle())
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    controller.delete(ratedPayables[index])
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "trash")
+                                        Text("Delete")
                                     }
+                                    
                                 }
-                                .onTapGesture {
-                                    if editingRatedPayableIndex == nil {
-                                        editingRatedPayableIndex = index
-                                    }
+                            }
+                            .onTapGesture {
+                                if editingRatedPayableIndex == nil {
+                                    editingRatedPayableIndex = index
                                 }
-                        }
+                            }
                     }
                 }
-                Spacer()
-                
-                HStack {
-                    Button {
-                        withAnimation {
-                            editingRatedPayableIndex = -1
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "plus.circle.fill")
-                            Text("Add new tax & service")
-                        }
-                        
-                    }
-                    .padding()
-                    Spacer()
-                }
-                
             }
             .background(Color(UIColor.systemGroupedBackground))
             .sheet(item: $editingRatedPayableIndex) { index in
@@ -138,6 +118,22 @@ struct RatedPayableManagementView: View {
                 .background(Color(UIColor.systemGroupedBackground))
             }
             .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    HStack {
+                        Button {
+                            withAnimation {
+                                editingRatedPayableIndex = -1
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("Add new tax & service")
+                            }
+                            
+                        }
+                        Spacer()
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         Menu {

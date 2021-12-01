@@ -94,6 +94,8 @@ class BillData: ObservableObject, Identifiable {
         
         reloadChildren()
         
+        reloadItems()
+        
         self.proceedBalance = bill.proceedBalance as Decimal?
     }
     
@@ -113,10 +115,18 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    func reloadItems() {
+        if let items = controller.bill.items?.allObjects as? [BillItem] {
+            self.items = items.sorted()
+        } else {
+            items = []
+        }
+    }
+    
     func addItem(_ payable: Payable, count: Int = 1, calculateRatedSubtotals: Bool = true, isAddOn: Bool = false) {
         var item: BillItem
-        if let index = items.firstIndex(where: { $0.payable == payable && $0.is_add_on == isAddOn }) {
-            item = items.remove(at: index)
+        if let firstItem = items.first(where: { $0.payable == payable && $0.is_add_on == isAddOn }) {
+            item = firstItem
         } else {
             item = controller.createBillItem(payable, order: billItemsIdentifierFactory, isAddOn: isAddOn)
         }
@@ -124,10 +134,10 @@ class BillData: ObservableObject, Identifiable {
         if let value = item.value as Decimal? {
             item.subtotal = NSDecimalNumber(decimal: value * Decimal(item.count))
         }
-        items.append(item)
         if calculateRatedSubtotals {
             self.calculateRatedSubtotals()
             controller.managedSave()
+            reloadItems()
         }
     }
     
@@ -145,15 +155,15 @@ class BillData: ObservableObject, Identifiable {
         if items[index].is_rated {
             return
         }
-        let item = items.remove(at: index)
+        let item = items[index]
         item.count += Int32(count)
         if let value = item.value as Decimal? {
             item.subtotal = NSDecimalNumber(decimal: value * Decimal(item.count))
-            items.append(item)
         }
         if calculateRatedSubtotals {
             self.calculateRatedSubtotals()
             controller.managedSave()
+            reloadItems()
         }
     }
     

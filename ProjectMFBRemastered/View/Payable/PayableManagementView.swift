@@ -59,57 +59,37 @@ struct PayableManagementView: View {
                     }
                 })
         } else {
-            VStack {
-                Form {
-                    ForEach(groups.keys.sorted(), id:\.self) { groupName in
-                        Section {
-                            if let groupedPayableIndices = groups[groupName] {
-                                ForEach(groupedPayableIndices, id:\.self) { index in
-                                    PayableViewCell(majorCurrency: appData.majorCurrency, payable: payables[index])
-                                    .contentShape(Rectangle())
-                                    .contextMenu {
-                                        Button(role: .destructive) {
-                                            controller.delete(payables[index])
-                                            isLoading = true
-                                        } label: {
-                                            HStack {
-                                                Image(systemName: "trash")
-                                                Text("Delete")
-                                            }
-                                            
+            Form {
+                ForEach(groups.keys.sorted(), id:\.self) { groupName in
+                    Section {
+                        if let groupedPayableIndices = groups[groupName] {
+                            ForEach(groupedPayableIndices, id:\.self) { index in
+                                PayableViewCell(majorCurrency: appData.majorCurrency, payable: payables[index])
+                                .contentShape(Rectangle())
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        controller.delete(payables[index])
+                                        isLoading = true
+                                    } label: {
+                                        HStack {
+                                            Image(systemName: "trash")
+                                            Text("Delete")
                                         }
+                                        
                                     }
-                                    .onTapGesture {
-                                        if editingPayableIndex == nil {
-                                            editingPayableIndex = index
-                                        }
+                                }
+                                .onTapGesture {
+                                    if editingPayableIndex == nil {
+                                        editingPayableIndex = index
                                     }
                                 }
                             }
-                            
-                        } header: {
-                            Text(groupName)
-                        }
-                    }
-                }
-                Spacer()
-                
-                HStack {
-                    Button {
-                        withAnimation {
-                            editingPayableIndex = -1
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "plus.circle.fill")
-                            Text("Add new product")
                         }
                         
+                    } header: {
+                        Text(groupName)
                     }
-                    .padding()
-                    Spacer()
                 }
-                
             }
             .background(Color(UIColor.systemGroupedBackground))
             .sheet(item: $editingPayableIndex) { index in
@@ -148,6 +128,22 @@ struct PayableManagementView: View {
                 .background(Color(UIColor.systemGroupedBackground))
             }
             .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    HStack {
+                        Button {
+                            withAnimation {
+                                editingPayableIndex = -1
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("Add new product")
+                            }
+                            
+                        }
+                        Spacer()
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         Menu {

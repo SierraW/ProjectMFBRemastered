@@ -96,10 +96,10 @@ class BillController: ModelController {
     
     func resignOriginalBill(proceedPayments: [BillPayment], addOns: [BillItem]) {
         for payment in proceedPayments {
-            bill.removeFromPayments(payment)
+            delete(payment)
         }
         for addOn in addOns {
-            bill.removeFromItems(addOn)
+            delete(addOn)
         }
         bill.originalBalance = nil
         managedSave()
