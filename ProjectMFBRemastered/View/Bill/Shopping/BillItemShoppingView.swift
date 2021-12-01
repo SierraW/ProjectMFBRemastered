@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BillItemListView: View {
+struct BillItemShoppingView: View {
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     @Environment(\.presentationMode) var presentationMode
@@ -29,82 +29,61 @@ struct BillItemListView: View {
     var onSubmit: ([Payable: Int], [RatedPayable: Int]) -> Void
     
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Text("Fix Value Items")
-                    .padding()
-                    .foregroundColor(!selectRatedItems ? Color(UIColor.systemGray) : .blue)
-                    .background(!selectRatedItems ?  Rectangle().foregroundColor(Color(UIColor.systemGroupedBackground)) : nil)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        selectRatedItems.toggle()
-                    }
-                Spacer()
-                Text("Rate Items")
-                    .padding()
-                    .foregroundColor(selectRatedItems ? Color(UIColor.systemGray) : .blue)
-                    .background(selectRatedItems ?  Rectangle().foregroundColor(Color(UIColor.systemGroupedBackground)) : nil)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        selectRatedItems.toggle()
-                    }
-            }
-            .edgesIgnoringSafeArea(.bottom)
-            Color(UIColor.systemGroupedBackground)
-                .frame(height: 8)
-            if !selectRatedItems {
-                NavigationView {
-                    PayableListView { payable in
-                        payables[payable] = (payables[payable] ?? 0) + 1
-                    }
-                    .navigationBarHidden(true)
-                }
-                .navigationViewStyle(.stack)
-                
-            } else {
-                NavigationView {
-                    RatedPayableListView { ratedPayable in
-                        ratedPayables[ratedPayable] = (ratedPayables[ratedPayable] ?? 0) + 1
-                    }
-                    .navigationBarHidden(true)
-                }
-                .navigationViewStyle(.stack)
-                
-            }
-            Button  {
-                showCart.toggle()
-            } label: {
-                VStack {
-                    Image(systemName: "chevron.up")
-                        .padding(.bottom, 1)
-                    HStack {
-                        Image(systemName: "cart")
-                        Text("View Cart")
-                        if cartItemsCount <= 50 {
-                            Image(systemName: "\(cartItemsCount).square.fill")
-                                .foregroundColor(.red)
-                                .scaledToFit()
-                        } else {
-                            Image(systemName: "tablecells.fill.badge.ellipsis")
-                                .foregroundColor(.red)
-                                .scaledToFit()
+        ZStack {
+            VStack(spacing: 0) {
+                HStack {
+                    Text("Fix Value Items")
+                        .padding()
+                        .foregroundColor(!selectRatedItems ? Color(UIColor.systemGray) : .blue)
+                        .background(!selectRatedItems ?  Rectangle().foregroundColor(Color(UIColor.systemGroupedBackground)) : nil)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            selectRatedItems = false
                         }
+                    Spacer()
+                    Text("Rate Items")
+                        .padding()
+                        .foregroundColor(selectRatedItems ? Color(UIColor.systemGray) : .blue)
+                        .background(selectRatedItems ?  Rectangle().foregroundColor(Color(UIColor.systemGroupedBackground)) : nil)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            selectRatedItems = true
+                        }
+                }
+                .edgesIgnoringSafeArea(.bottom)
+                Color(UIColor.systemGroupedBackground)
+                    .frame(height: 8)
+                if !selectRatedItems {
+                    NavigationView {
+                        PayableListView { payable in
+                            payables[payable] = (payables[payable] ?? 0) + 1
+                        }
+                        .navigationBarHidden(true)
                     }
+                    .navigationViewStyle(.stack)
+                    
+                } else {
+                    NavigationView {
+                        RatedPayableListView { ratedPayable in
+                            ratedPayables[ratedPayable] = (ratedPayables[ratedPayable] ?? 0) + 1
+                        }
+                        .navigationBarHidden(true)
+                    }
+                    .navigationViewStyle(.stack)
+                    
                 }
             }
-            .padding(5)
+            
+            VStack {
+                Spacer()
+                BillItemShoppingFloatingView(payables: $payables, ratedPayables: $ratedPayables, showCart: $showCart) {
+                    submit()
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar(content: {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    submit()
-                } label: {
-                    Text("Submit")
-                }
-
-            }
-        })
         .sheet(isPresented: $showCart) {
             shoppingCartView
         }
@@ -204,6 +183,7 @@ struct BillItemListView: View {
     }
     
     func submit() {
+        showCart = false
         if cartItemsCount > 0 {
             onSubmit(payables, ratedPayables)
         }
@@ -211,10 +191,10 @@ struct BillItemListView: View {
     }
 }
 
-struct BillItemListView_Previews: PreviewProvider {
+struct BillItemShoppingView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            BillItemListView() { _, _ in
+            BillItemShoppingView() { _, _ in
                 
             }
         }

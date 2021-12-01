@@ -28,6 +28,14 @@ struct PayableViewCell: View {
                         .foregroundColor(.green)
                 }
             }
+            if payable.discountable {
+                Menu {
+                    Text("This item can effect by promotion item")
+                } label: {
+                    Image(systemName: "d.square")
+                        .foregroundColor(.blue)
+                }
+            }
             if let amount = payable.amount as Decimal? {
                 HStack {
                     Text(majorCurrency.toStringRepresentation)

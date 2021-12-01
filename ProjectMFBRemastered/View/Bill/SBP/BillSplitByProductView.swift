@@ -245,6 +245,7 @@ struct BillSplitByProductView: View {
     func addToCart(_ product: Payable) {
         withAnimation {
             cartProducts[product] = (cartProducts[product] ?? 0) + 1
+            data.reloadChildren()
         }
     }
     

@@ -18,13 +18,13 @@ struct DatabaseMonitor: View {
     @State var payable = [Payable]()
     @State var ratedPayable = [RatedPayable]()
     
-    @State var paymentMethod = "No Set"
-    @State var currency = "No Set"
-    @State var tag = "No Set"
-    @State var transaction = "No Set"
-    @State var transactionReport = "No Set"
+    @State var paymentMethod = [PaymentMethod]()
+    @State var currency = [Currency]()
+    @State var tag = [Tag]()
+    @State var transaction = [Transaction]()
+    @State var transactionReport = [TransactionReport]()
     
-    @State var user = "No Set"
+    @State var user = [User]()
     
     
     var body: some View {
@@ -154,31 +154,76 @@ struct DatabaseMonitor: View {
                 HStack {
                     Text("Payment Method")
                     Spacer()
-                    Text(paymentMethod)
+                    Text("\(paymentMethod.count)")
+                }
+                .onAppear {
+                    let fetchRequest: NSFetchRequest<PaymentMethod> = PaymentMethod.fetchRequest()
+                    do {
+                        let result = try viewContext.fetch(fetchRequest)
+                        paymentMethod = result
+                    } catch {
+                        print("Fetch error")
+                    }
                 }
                 
                 HStack {
                     Text("Currency")
                     Spacer()
-                    Text(currency)
+                    Text("\(currency.count)")
+                }
+                .onAppear {
+                    let fetchRequest: NSFetchRequest<Currency> = Currency.fetchRequest()
+                    do {
+                        let result = try viewContext.fetch(fetchRequest)
+                        currency = result
+                    } catch {
+                        print("Fetch error")
+                    }
                 }
                 
                 HStack {
                     Text("Tag")
                     Spacer()
-                    Text(tag)
+                    Text("\(tag.count)")
+                }
+                .onAppear {
+                    let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
+                    do {
+                        let result = try viewContext.fetch(fetchRequest)
+                        tag = result
+                    } catch {
+                        print("Fetch error")
+                    }
                 }
                 
                 HStack {
                     Text("Transaction")
                     Spacer()
-                    Text(transaction)
+                    Text("\(transaction.count)")
+                }
+                .onAppear {
+                    let fetchRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
+                    do {
+                        let result = try viewContext.fetch(fetchRequest)
+                        transaction = result
+                    } catch {
+                        print("Fetch error")
+                    }
                 }
                 
                 HStack {
                     Text("Transaction Report")
                     Spacer()
-                    Text(transactionReport)
+                    Text("\(transactionReport.count)")
+                }
+                .onAppear {
+                    let fetchRequest: NSFetchRequest<TransactionReport> = TransactionReport.fetchRequest()
+                    do {
+                        let result = try viewContext.fetch(fetchRequest)
+                        transactionReport = result
+                    } catch {
+                        print("Fetch error")
+                    }
                 }
             } header: {
                 Text("Core Layer")
@@ -188,7 +233,16 @@ struct DatabaseMonitor: View {
                 HStack {
                     Text("User")
                     Spacer()
-                    Text(user)
+                    Text("\(user.count)")
+                }
+                .onAppear {
+                    let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+                    do {
+                        let result = try viewContext.fetch(fetchRequest)
+                        user = result
+                    } catch {
+                        print("Fetch error")
+                    }
                 }
             } header: {
                 Text("Essential Layer")

@@ -16,6 +16,10 @@ struct BillTransactionView: View {
     
     @State var showSBAMenu = false
     
+    var controller: CurrencyController {
+        CurrencyController(viewContext, staticContent: true)
+    }
+    
     var enableSplitBill = false
     
     var onExit: () -> Void
@@ -31,8 +35,12 @@ struct BillTransactionView: View {
         return result > 0 ? result : 0
     }
     
+    var remainingExchangedBalance: [Currency: Decimal] {
+        controller.getExchangedCurrencyDict(majorCurrency: remainingBalance)
+    }
+    
     var body: some View {
-        VStack {
+        ZStack {
             Form {
                 reviewSectionView
                 addOnSectionView
@@ -48,11 +56,16 @@ struct BillTransactionView: View {
                     }
                 }
             }
-            totalsSectionView
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
-                .padding(.horizontal)
-                .padding(.bottom)
+            
+            VStack {
+                Spacer()
+                totalsSectionView
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                    .frame(maxHeight: 170)
+            }
         }
         .sheet(isPresented: $showSBAMenu, content: {
             BillSplitByAmountWizardView()
@@ -65,7 +78,7 @@ struct BillTransactionView: View {
     
     var reviewSectionView: some View {
         Section {
-            BillListViewCell(bill: data.controller.bill)
+            BillListViewCell(bill: data.controller.bill, hideAddOnItems: true)
                 .environmentObject(appData)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -98,6 +111,7 @@ struct BillTransactionView: View {
                     Spacer()
                     Button {
                         data.setInactive()
+                        onExit()
                     } label: {
                         Text("Hold")
                     }
@@ -129,19 +143,8 @@ struct BillTransactionView: View {
                 }
             }
             NavigationLink {
-                BillItemListView(onSubmit: { payableDict, ratedPayableDict in
-                    for key in payableDict.keys.sorted() {
-                        if let count = payableDict[key], count > 0 {
-                            data.addItem(key, count: count, calculateRatedSubtotals: false, isAddOn: true)
-                        }
-                    }
-                    for key in ratedPayableDict.keys.sorted() {
-                        if let count = ratedPayableDict[key], count > 0 {
-                            data.addItem(key, calculateRatedSubtotals: false, isAddOn: true)
-                        }
-                    }
-                    data.calculateRatedSubtotals()
-                    data.controller.managedSave()
+                BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
+                    data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict, isAddOn: true)
                 })
                     .environmentObject(appData)
                     .environmentObject(data)
@@ -205,56 +208,65 @@ struct BillTransactionView: View {
     }
     
     var totalsSectionView: some View {
-        HStack {
-            if data.payments.isEmpty {
-                Spacer()
-            }
-            VStack {
-                HStack {
-                    Spacer()
-                    Text("Subtotal")
-                    Text(appData.majorCurrency.toStringRepresentation)
-                    Text(data.subtotal.toStringRepresentation)
-                        .frame(width: 60, alignment: .trailing)
+        GeometryReader { geometry in
+            HStack {
+                VStack {
+                    HStack {
+                        Text("Subtotal")
+                        Text(appData.majorCurrency.toStringRepresentation)
+                        Spacer()
+                        Text(data.subtotal.toStringRepresentation)
+                            .frame(width: 60, alignment: .trailing)
+                    }
+                    HStack {
+                        Text("Discount")
+                        Text(appData.majorCurrency.toStringRepresentation)
+                        Spacer()
+                        Text(data.discount.toStringRepresentation)
+                            .frame(width: 60, alignment: .trailing)
+                    }
+                    HStack {
+                        Text("Tax & Service")
+                        Text(appData.majorCurrency.toStringRepresentation)
+                        Spacer()
+                        Text(data.taxAndService.toStringRepresentation)
+                            .frame(width: 60, alignment: .trailing)
+                    }
+                    HStack {
+                        Text("Total")
+                            .bold()
+                        Text(appData.majorCurrency.toStringRepresentation)
+                            .bold()
+                        Spacer()
+                        Text(data.total.toStringRepresentation)
+                            .bold()
+                            .frame(width: 60, alignment: .trailing)
+                    }
                 }
-                HStack {
-                    Spacer()
-                    Text("Discount")
-                    Text(appData.majorCurrency.toStringRepresentation)
-                    Text(data.discount.toStringRepresentation)
-                        .frame(width: 60, alignment: .trailing)
+                .frame(width: geometry.size.width / 2)
+                Divider()
+                VStack {
+                    HStack {
+                        Text("Remaining")
+                        Text(appData.majorCurrency.toStringRepresentation)
+                            .bold()
+                        Text(remainingBalance.toStringRepresentation)
+                            .bold()
+                    }
+                    .padding(2)
+                    ForEach(remainingExchangedBalance.keys.sorted()) { key in
+                        HStack {
+                            Text(key.toStringRepresentation)
+                            if let amount = remainingExchangedBalance[key] {
+                                Text(amount.toStringRepresentation)
+                            }
+                        }
+                        .foregroundColor(.gray)
+                    }
+                    
                 }
-                HStack {
-                    Spacer()
-                    Text("Tax & Service")
-                    Text(appData.majorCurrency.toStringRepresentation)
-                    Text(data.taxAndService.toStringRepresentation)
-                        .frame(width: 60, alignment: .trailing)
-                }
-                HStack {
-                    Spacer()
-                    Text("Total")
-                        .bold()
-                    Text(appData.majorCurrency.toStringRepresentation)
-                        .bold()
-                    Text(data.total.toStringRepresentation)
-                        .bold()
-                        .frame(width: 60, alignment: .trailing)
-                }
-            }
-            if !data.payments.isEmpty {
-                Spacer()
-                HStack {
-                    Text("Remaining")
-                        .bold()
-                    Text(appData.majorCurrency.toStringRepresentation)
-                        .bold()
-                    Text(remainingBalance.toStringRepresentation)
-                        .bold()
-                        .frame(width: 60, alignment: .trailing)
-                }
-                .font(.title)
-                
+
+                .frame(width: geometry.size.width / 2)
             }
         }
     }

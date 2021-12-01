@@ -65,7 +65,7 @@ class BillData: ObservableObject, Identifiable {
     var proceedBalance: Decimal? = nil
     
     init(context: NSManagedObjectContext, tag: Tag, associatedTag: Tag? = nil, payable: Payable? = nil, size: Int = 0) {
-        self.controller = BillController(new: tag, context: context)
+        self.controller = BillController(new: tag, associatedTag: associatedTag, size: size, context: context)
         self.roomTag = tag
         self.associatedTag = associatedTag
         self.size = size
@@ -118,8 +118,17 @@ class BillData: ObservableObject, Identifiable {
     func reloadItems() {
         if let items = controller.bill.items?.allObjects as? [BillItem] {
             self.items = items.sorted()
+            self.items.shuffle()
         } else {
             items = []
+        }
+    }
+    
+    func reloadItemsAndCalculateRatedSubtotals() {
+        DispatchQueue.main.async {
+            self.reloadItems()
+            self.calculateRatedSubtotals()
+            self.controller.managedSave()
         }
     }
     
@@ -135,9 +144,7 @@ class BillData: ObservableObject, Identifiable {
             item.subtotal = NSDecimalNumber(decimal: value * Decimal(item.count))
         }
         if calculateRatedSubtotals {
-            self.calculateRatedSubtotals()
-            controller.managedSave()
-            reloadItems()
+            reloadItemsAndCalculateRatedSubtotals()
         }
     }
     
@@ -146,8 +153,7 @@ class BillData: ObservableObject, Identifiable {
         item = controller.createBillItem(ratedPayable, order: billItemsIdentifierFactory, isAddOn: isAddOn)
         items.append(item)
         if calculateRatedSubtotals {
-            self.calculateRatedSubtotals()
-            controller.managedSave()
+            reloadItemsAndCalculateRatedSubtotals()
         }
     }
     
@@ -161,26 +167,22 @@ class BillData: ObservableObject, Identifiable {
             item.subtotal = NSDecimalNumber(decimal: value * Decimal(item.count))
         }
         if calculateRatedSubtotals {
-            self.calculateRatedSubtotals()
-            controller.managedSave()
-            reloadItems()
+            reloadItemsAndCalculateRatedSubtotals()
         }
     }
     
     func removeItem(_ index: Int, all: Bool = false) {
-        let item = items.remove(at: index)
+        let item = items[index]
         
         if !all && item.count > 1 {
             item.count -= 1
             if let value = item.value as Decimal? {
                 item.subtotal = NSDecimalNumber(decimal: value * Decimal(item.count))
-                items.append(item)
             }
         } else {
             controller.delete(item, save: false)
         }
-        self.calculateRatedSubtotals()
-        controller.managedSave()
+        reloadItemsAndCalculateRatedSubtotals()
     }
     
     func calculateRatedSubtotals() {

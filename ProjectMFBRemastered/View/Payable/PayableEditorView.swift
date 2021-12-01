@@ -122,9 +122,9 @@ struct PayableEditorView: View {
                     Button {
                         creatingNewGroup.toggle()
                     } label: {
-                        Image(systemName: "plus.circle")
+                        Image(systemName: creatingNewGroup ? "x.circle.fill" : "plus.circle")
+                            .foregroundColor(creatingNewGroup ? .gray : nil)
                     }
-                    .disabled(creatingNewGroup)
                 }
                 
                 if creatingNewGroup {

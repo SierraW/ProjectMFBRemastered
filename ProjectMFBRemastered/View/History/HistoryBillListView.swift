@@ -12,15 +12,14 @@ struct HistoryBillListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Bill.openTimestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Bill.openTimestamp, ascending: false)],
         predicate: NSPredicate(format: "parent = nil"),
         animation: .default)
     private var fetchedBill: FetchedResults<Bill>
     
     var bills: [Bill] {
         let fetchedBill = fetchedBill.filter { bill in
-//            bill.tag != nil
-            true
+            bill.tag != nil
         }
         if !searchString.isEmpty {
             return fetchedBill.filter { bill in
@@ -45,16 +44,6 @@ struct HistoryBillListView: View {
             }
             billsSection
         }
-//        .onAppear(perform: {
-//            for bill in fetchedBill {
-//                viewContext.delete(bill)
-//                do {
-//                    try viewContext.save()
-//                } catch {
-//                    print("err")
-//                }
-//            }
-//        })
         .sheet(item: $selection, content: { billData in
             HistoryBillPreview()
                 .environmentObject(appData)

@@ -105,13 +105,13 @@ struct MainView: View {
                     }
                 }
                 
+                RoomNavigationView()
+                    .padding()
+                BillNavigationView()
+                    .padding()
+                
                 if appData.user.is_root {
                     RootNavigationView()
-                } else {
-                    RoomNavigationView()
-                        .padding()
-                    BillNavigationView()
-                        .padding()
                 }
                 
                 if appData.user.is_superuser || appData.user.is_root {
@@ -134,6 +134,7 @@ struct MainView: View {
                     }
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(.columns)
     }

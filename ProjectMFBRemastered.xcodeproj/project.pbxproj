@@ -15,6 +15,7 @@
 		3B1707AD27574A9500FC8350 /* UserEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707AC27574A9500FC8350 /* UserEditorView.swift */; };
 		3B1707AF2757517000FC8350 /* RootNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707AE2757517000FC8350 /* RootNavigationView.swift */; };
 		3B1707B2275755CE00FC8350 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1707B1275755CE00FC8350 /* CloudKit.framework */; };
+		3B1707B72757D89000FC8350 /* BillItemShoppingFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707B62757D89000FC8350 /* BillItemShoppingFloatingView.swift */; };
 		3B202FFD273ED52D0016B537 /* CurrencyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B202FFC273ED52D0016B537 /* CurrencyController.swift */; };
 		3B203000273ED5DD0016B537 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B202FFF273ED5DD0016B537 /* ModelController.swift */; };
 		3B203002273ED6000016B537 /* DecimalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B203001273ED6000016B537 /* DecimalExtension.swift */; };
@@ -34,7 +35,7 @@
 		3B4FBB0F274EF00800EA538A /* SortingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB0E274EF00800EA538A /* SortingExtension.swift */; };
 		3B4FBB11274EF84000EA538A /* BillLandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB10274EF84000EA538A /* BillLandingView.swift */; };
 		3B4FBB1327500AB500EA538A /* BillTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB1227500AB500EA538A /* BillTransactionView.swift */; };
-		3B4FBB17275016C000EA538A /* BillItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB16275016C000EA538A /* BillItemListView.swift */; };
+		3B4FBB17275016C000EA538A /* BillItemShoppingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB16275016C000EA538A /* BillItemShoppingView.swift */; };
 		3B4FBB1927502AE800EA538A /* LabelledDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB1827502AE800EA538A /* LabelledDivider.swift */; };
 		3B4FBB1C2750424400EA538A /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB1B2750424400EA538A /* TransactionView.swift */; };
 		3B4FBB1E2750776000EA538A /* CurrencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB1D2750776000EA538A /* CurrencyPickerView.swift */; };
@@ -108,6 +109,7 @@
 		3B1707AC27574A9500FC8350 /* UserEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEditorView.swift; sourceTree = "<group>"; };
 		3B1707AE2757517000FC8350 /* RootNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationView.swift; sourceTree = "<group>"; };
 		3B1707B1275755CE00FC8350 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		3B1707B62757D89000FC8350 /* BillItemShoppingFloatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemShoppingFloatingView.swift; sourceTree = "<group>"; };
 		3B202FFC273ED52D0016B537 /* CurrencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyController.swift; sourceTree = "<group>"; };
 		3B202FFF273ED5DD0016B537 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		3B203001273ED6000016B537 /* DecimalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalExtension.swift; sourceTree = "<group>"; };
@@ -128,7 +130,7 @@
 		3B4FBB0E274EF00800EA538A /* SortingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingExtension.swift; sourceTree = "<group>"; };
 		3B4FBB10274EF84000EA538A /* BillLandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillLandingView.swift; sourceTree = "<group>"; };
 		3B4FBB1227500AB500EA538A /* BillTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillTransactionView.swift; sourceTree = "<group>"; };
-		3B4FBB16275016C000EA538A /* BillItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemListView.swift; sourceTree = "<group>"; };
+		3B4FBB16275016C000EA538A /* BillItemShoppingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemShoppingView.swift; sourceTree = "<group>"; };
 		3B4FBB1827502AE800EA538A /* LabelledDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelledDivider.swift; sourceTree = "<group>"; };
 		3B4FBB1B2750424400EA538A /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		3B4FBB1D2750776000EA538A /* CurrencyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPickerView.swift; sourceTree = "<group>"; };
@@ -221,6 +223,15 @@
 				3B1707B1275755CE00FC8350 /* CloudKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3B1707B32757D52700FC8350 /* Shopping */ = {
+			isa = PBXGroup;
+			children = (
+				3B4FBB16275016C000EA538A /* BillItemShoppingView.swift */,
+				3B1707B62757D89000FC8350 /* BillItemShoppingFloatingView.swift */,
+			);
+			path = Shopping;
 			sourceTree = "<group>";
 		};
 		3B202FF9273DCA9A0016B537 /* Currency */ = {
@@ -375,6 +386,7 @@
 		3BD581862746EA5F00089113 /* Bill */ = {
 			isa = PBXGroup;
 			children = (
+				3B1707B32757D52700FC8350 /* Shopping */,
 				3BC78F902752DBBE00F5844F /* OBR */,
 				3BC78F982754116400F5844F /* SBP */,
 				3BC78F8927514D5400F5844F /* SBA */,
@@ -383,7 +395,6 @@
 				3BD5818B2749E1EC00089113 /* BillView.swift */,
 				3BD581AB274C581100089113 /* BillData.swift */,
 				3BD581AD274D769C00089113 /* BillListVIew.swift */,
-				3B4FBB16275016C000EA538A /* BillItemListView.swift */,
 				3B4FBB27275098D900EA538A /* BillItemViewCell.swift */,
 				3BC78FA92755AD9100F5844F /* BillListViewCell.swift */,
 				3BC78FD62756B14B00F5844F /* PaymentViewCell.swift */,
@@ -598,7 +609,7 @@
 				3B203018273F556A0016B537 /* TrimmingExtensions.swift in Sources */,
 				3BC78F9E2754553900F5844F /* BillDataSBPExtension.swift in Sources */,
 				3B1707A12757224700FC8350 /* DBSwitchView.swift in Sources */,
-				3B4FBB17275016C000EA538A /* BillItemListView.swift in Sources */,
+				3B4FBB17275016C000EA538A /* BillItemShoppingView.swift in Sources */,
 				3B202FFD273ED52D0016B537 /* CurrencyController.swift in Sources */,
 				3BC78FDF2756CEAF00F5844F /* SBAFloatingActionView.swift in Sources */,
 				3BADA68C2742CF71000B1D33 /* TransactionAmountTextField.swift in Sources */,
@@ -644,6 +655,7 @@
 				3BD5818E2749E28700089113 /* RoomNavigationView.swift in Sources */,
 				3B1707A52757318E00FC8350 /* TagListView.swift in Sources */,
 				3B4FBB1327500AB500EA538A /* BillTransactionView.swift in Sources */,
+				3B1707B72757D89000FC8350 /* BillItemShoppingFloatingView.swift in Sources */,
 				3B8FA0F62745800700D7D4AD /* PayableController.swift in Sources */,
 				3B203006273EDB200016B537 /* CurrencyManagementView.swift in Sources */,
 				3B1707A327572B4100FC8350 /* TagEditorView.swift in Sources */,
@@ -790,7 +802,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Y2V53HBZ8;
 				ENABLE_PREVIEWS = YES;
@@ -820,7 +832,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Y2V53HBZ8;
 				ENABLE_PREVIEWS = YES;

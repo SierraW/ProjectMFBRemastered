@@ -11,6 +11,10 @@ struct HistoryBillPreview: View {
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     
+    var bill: Bill {
+        data.controller.bill
+    }
+    
     var proceedBalance: [Currency: Decimal] {
         var dict = [Currency: Decimal]()
         for payment in data.allPayments {
@@ -22,19 +26,12 @@ struct HistoryBillPreview: View {
     }
     
     var body: some View {
-        ZStack {
+        VStack {
+            Text("\(bill.name) 🕓\(bill.openTimestamp?.toStringRepresentation ?? "")")
+                .padding(.top)
             content
-            VStack {
-                Spacer()
-                Button {
-                    //
-                } label: {
-                    SubmitButtonView(title: "Delete", foregroundColor: .white, backgroundColor: .red)
-                }
-            }
-            .padding(.bottom)
         }
-        
+        .background(Color(uiColor: .systemGroupedBackground))
     }
     
     var content: some View {

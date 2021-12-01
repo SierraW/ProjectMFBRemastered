@@ -35,9 +35,11 @@ class BillController: ModelController {
         super.init(context)
     }
     
-    init(new tag: Tag, context: NSManagedObjectContext) {
+    init(new tag: Tag, associatedTag: Tag?, size: Int, context: NSManagedObjectContext) {
         self.bill = Bill(context: context)
         self.bill.tag = tag
+        self.bill.size = Int16(size)
+        self.bill.associatedTag = associatedTag
         self.bill.activeTag = tag
         self.bill.openTimestamp = Date()
         super.init(context)

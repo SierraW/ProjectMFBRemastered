@@ -14,6 +14,7 @@ struct BillListViewCell: View {
     
     @State var isExpanded = false
     var resultMode = false
+    var hideAddOnItems = false
     
     var body: some View {
         VStack {
@@ -45,13 +46,10 @@ struct BillListViewCell: View {
                     .padding(.leading)
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        withAnimation {
-                            isExpanded.toggle()
-                        }
+                        isExpanded.toggle()
                     }
             }
             .frame(height: 50)
-            .animation(.none, value: isExpanded)
             if isExpanded, let billItems = bill.items?.allObjects as? [BillItem] {
                 detailView(billItems)
                 .padding(.leading)
@@ -74,8 +72,10 @@ struct BillListViewCell: View {
                     .sorted(by: { BillItem.calculationOrderComparator(lhs: $0, rhs: $1) })
                     
             ) { item in
-                BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: item)
-                    .padding(.vertical, 5)
+                if !hideAddOnItems || !item.is_add_on {
+                    BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: item)
+                        .padding(.vertical, 5)
+                }
             }
         }
     }

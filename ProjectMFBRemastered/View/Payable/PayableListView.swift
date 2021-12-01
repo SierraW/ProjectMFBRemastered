@@ -137,6 +137,7 @@ struct PayableListView: View {
             }
         } label: {
             PayableViewCell(majorCurrency: appData.majorCurrency, payable: payable)
+                .foregroundColor(Color(uiColor: .label))
         }
     }
 }

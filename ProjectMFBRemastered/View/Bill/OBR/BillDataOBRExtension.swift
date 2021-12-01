@@ -42,6 +42,20 @@ extension BillData {
         self.originalBalance = nil
     }
     
+    func addItems(payableDict: [Payable: Int], ratedPayableDict: [RatedPayable: Int], isAddOn: Bool = false) {
+        for key in payableDict.keys.sorted() {
+            if let count = payableDict[key], count > 0 {
+                addItem(key, count: count, calculateRatedSubtotals: false, isAddOn: isAddOn)
+            }
+        }
+        for key in ratedPayableDict.keys.sorted() {
+            if let count = ratedPayableDict[key], count > 0 {
+                addItem(key, calculateRatedSubtotals: false, isAddOn: isAddOn)
+            }
+        }
+        reloadItemsAndCalculateRatedSubtotals()
+    }
+    
     func submitBillPayment(paymentMethod: PaymentMethod, currency: Currency, amount: Decimal, majorCurrencyEquivalent: Decimal, additionalDescription: String?) {
         let billPayment = controller.createBillPayment()
         billPayment.paymentMethod = paymentMethod

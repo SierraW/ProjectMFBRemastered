@@ -69,16 +69,16 @@ struct BillSetupView: View {
                                 submitSearchString()
                             } label: {
                                 Text("Add new tag")
+                                    .foregroundColor(Color(uiColor: .label))
                             }
-                            .buttonStyle(.plain)
                         }
                         ForEach(tags) { tag in
                             Button {
                                 associatedTag = tag
                             } label: {
                                 Text(tag.toStringRepresentation)
+                                    .foregroundColor(Color(uiColor: .label))
                             }
-                            .buttonStyle(.plain)
                         }
                     }
                     

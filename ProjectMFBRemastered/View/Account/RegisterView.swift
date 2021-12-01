@@ -15,7 +15,8 @@ struct RegisterView: View {
         animation: .default)
     private var users: FetchedResults<User>
     
-    @State var username: String = ""
+    @State var firstname = ""
+    @State var lastname = ""
     @State var isUsernameDuplicated: Bool = false
     @State var password: String = ""
     @State var confirmPassword: String = ""
@@ -25,8 +26,10 @@ struct RegisterView: View {
     @State var passwordMismatchError = false
     @State var userExistError = false
     
+    @State var isSuccess = false
+    
     var fieldsUnsatisfied: Bool {
-        username.count < 3 || password.count < 3
+        firstname.isEmpty || lastname.isEmpty || password.count < 3
     }
     
     var isSettingUpRootUser = false
@@ -41,8 +44,11 @@ struct RegisterView: View {
     var registerForm: some View {
         Form {
             Section {
-                TextField("Username", text: $username, onCommit: {
-                    username.trimmingWhitespacesAndNewlines()
+                TextField("Firstname", text: $firstname, onCommit: {
+                    firstname.trimmingWhitespacesAndNewlines()
+                })
+                TextField("Lastname", text: $lastname, onCommit: {
+                    lastname.trimmingWhitespacesAndNewlines()
                 })
                 SecureField("Password", text: $password) {
                     password.trimmingWhitespacesAndNewlines()
@@ -52,10 +58,6 @@ struct RegisterView: View {
                 Text("Account")
             } footer: {
                 VStack(spacing: 10) {
-                    HStack {
-                        Text("Username and password must constain at least 3 characters")
-                        Spacer()
-                    }
                     if passwordMismatchError {
                         HStack {
                             Text("Password does not matched").foregroundColor(.red)
@@ -65,6 +67,12 @@ struct RegisterView: View {
                     if userExistError {
                         HStack {
                             Text("User already exist").foregroundColor(.red)
+                            Spacer()
+                        }
+                    }
+                    if isSuccess {
+                        HStack {
+                            Text("Success!").foregroundColor(.green)
                             Spacer()
                         }
                     }
@@ -103,6 +111,10 @@ struct RegisterView: View {
     
     
     func register() {
+        firstname.trimmingWhitespacesAndNewlines()
+        lastname.trimmingWhitespacesAndNewlines()
+        let name = self.firstname + " " + self.lastname
+        
         if fieldsUnsatisfied {
             return
         }
@@ -111,12 +123,12 @@ struct RegisterView: View {
             return
         }
         if let _ = users.first(where: { item in
-            item.username == self.username
+            item.username == name
         }) {
             return
         }
         let newUser = User(context: viewContext)
-        newUser.username = self.username
+        newUser.username = name
         newUser.password = self.password.sha256()
         newUser.is_superuser = self.isSuperuser
         newUser.is_root = self.isSettingUpRootUser
@@ -127,7 +139,24 @@ struct RegisterView: View {
             let nsError = error as NSError
             print(nsError)
         }
+        isSuccess = true
+        resetFields()
         onExit(newUser)
+    }
+    
+    func resetFields() {
+        firstname = ""
+        lastname = ""
+        isUsernameDuplicated = false
+        password = ""
+        confirmPassword = ""
+        isSuperuser = false
+        isHighlighted = false
+        
+        passwordMismatchError = false
+        userExistError = false
+        
+        isSuccess = false
     }
 }
 

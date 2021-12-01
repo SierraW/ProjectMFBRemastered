@@ -38,6 +38,9 @@ struct BillSplitByAmountWizardView: View {
     
     var body: some View {
         VStack {
+            Text("Split By Total")
+                .font(.headline)
+                .padding(.top)
             Form {
                 Section {
                     HStack {
@@ -49,6 +52,9 @@ struct BillSplitByAmountWizardView: View {
                                 data.splitByAmountSubmit(splitCount: numberOfBills)
                             }
                         }
+                        .onAppear(perform: {
+                            numberOfBillsString = "\(data.size)"
+                        })
                         .font(.title)
                         .foregroundColor(.blue)
                     }

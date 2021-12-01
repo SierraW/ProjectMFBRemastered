@@ -31,13 +31,20 @@ extension BillData {
     
     func sbpAddToCart(miniProductDict: [Payable: Int]) {
         for key in miniProductDict.keys.sorted() {
-            addItem(key, count: miniProductDict[key] ?? 0, calculateRatedSubtotals: false, isAddOn: false)
+            if let count = miniProductDict[key], count > 0 {
+                addItem(key, count: count, calculateRatedSubtotals: false, isAddOn: false)
+            }
         }
-        calculateRatedSubtotals()
-        let total = total
-        controller.bill.originalBalance = NSDecimalNumber(decimal: total)
-        originalBalance = total
-        controller.managedSave()
-        reloadChildren()
+        
+        DispatchQueue.main.async {
+            self.reloadItems()
+            self.calculateRatedSubtotals()
+            let total = self.total
+            self.controller.bill.originalBalance = NSDecimalNumber(decimal: total)
+            self.originalBalance = total
+            self.controller.managedSave()
+        }
+        
+        
     }
 }

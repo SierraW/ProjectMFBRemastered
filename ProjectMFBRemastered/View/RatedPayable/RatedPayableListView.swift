@@ -114,6 +114,7 @@ struct RatedPayableListView: View {
             }
         } label: {
             RatedPayableViewCell(ratedPayable: ratedPayable)
+                .foregroundColor(Color(uiColor: .label))
         }
     }
 }

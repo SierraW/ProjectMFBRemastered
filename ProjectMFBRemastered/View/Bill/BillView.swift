@@ -63,19 +63,8 @@ struct BillView: View {
                     
                 }
                 NavigationLink {
-                    BillItemListView(onSubmit: { payableDict, ratedPayableDict in
-                        for key in payableDict.keys.sorted() {
-                            if let count = payableDict[key], count > 0 {
-                                data.addItem(key, count: count, calculateRatedSubtotals: false)
-                            }
-                        }
-                        for key in ratedPayableDict.keys.sorted() {
-                            if let count = ratedPayableDict[key], count > 0 {
-                                data.addItem(key, calculateRatedSubtotals: false)
-                            }
-                        }
-                        data.calculateRatedSubtotals()
-                        data.controller.managedSave()
+                    BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
+                        data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict)
                     })
                         .environmentObject(appData)
                         .environmentObject(data)
@@ -143,6 +132,12 @@ struct BillView: View {
             }
             .padding(.horizontal)
             HStack {
+                Button {
+                    //
+                } label: {
+                    Text(data.associatedTag == nil ? "Add Tag" : data.associatedTag!.toStringRepresentation)
+                }
+
                 Spacer()
                 Button {
                     data.originalBillSubmit()
