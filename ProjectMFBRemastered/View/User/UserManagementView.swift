@@ -50,6 +50,7 @@ struct UserManagementView: View {
                                 controller.delete(user)
                             }
                         })
+                            .environmentObject(appData)
                     } label: {
                         HStack {
                             Text(user.toStringRepresentation)

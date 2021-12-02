@@ -37,36 +37,7 @@ struct SBAFloatingActionView: View {
                     .background(RoundedRectangle(cornerRadius: 5).fill(Color(UIColor.systemGray5)))
                 }
                 .transition(.moveAndFade)
-            } else {
-                Spacer()
             }
-            
-            Menu {
-                if !data.controller.bill.isOnHold {
-                    Button(role: .destructive) {
-                        data.setInactive()
-                        onExit()
-                    } label: {
-                        Text("Hold")
-                            .foregroundColor(.blue)
-                    }
-                }
-                Button {
-                    if ableToSubmit {
-                        data.submitBill(appData)
-                        onExit()
-                    }
-                } label: {
-                    Text("Submit")
-                        .foregroundColor(.blue)
-                }
-                .disabled(!ableToSubmit)
-            } label: {
-                Image(systemName: "ellipsis.circle.fill")
-                    .padding(10)
-                    .background(Circle().fill(Color(UIColor.systemGray5)))
-            }
-            .padding(.leading)
         }
     }
 }

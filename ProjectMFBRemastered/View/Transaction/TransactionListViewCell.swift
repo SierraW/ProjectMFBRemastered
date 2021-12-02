@@ -53,37 +53,24 @@ struct TransactionListViewCell: View {
     var detailView: some View {
         VStack {
             HStack {
-                Text("OPERATOR")
+                Text("Operator")
                 Spacer()
                 if let user = transaction.user {
                     Text(user.toStringRepresentation)
                 }
             }
+            .padding(.bottom, 5)
             HStack {
-                Text("BILL")
+                Text("Tag")
                 Spacer()
-            }
-            if let bill = transaction.bill {
-                HStack {
-                    BillListViewCell(bill: bill)
-                        .environmentObject(appData)
-                }
-            } else {
-                Text("Error Bill")
-            }
-            HStack {
-                Text("Tags")
-                Spacer()
-            }
-            if let tags = transaction.tags?.allObjects as? [Tag], tags.count > 0 {
-                ForEach(tags) { tag in
-                    HStack {
-                        Spacer()
+                if let tags = transaction.tags?.allObjects as? [Tag], tags.count > 0 {
+                    ForEach(tags) { tag in
                         Text(tag.toStringRepresentation)
                     }
+                } else {
+                    Text("Empty")
+                        .foregroundColor(.gray)
                 }
-            } else {
-                Text("Empty")
             }
         }
     }

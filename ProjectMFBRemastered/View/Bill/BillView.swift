@@ -11,6 +11,8 @@ struct BillView: View {
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     
+    @State var isLoading = false
+    
     var onExit: () -> Void
     
     var body: some View {
@@ -36,34 +38,46 @@ struct BillView: View {
                     .bold()
             }
             List {
-                ForEach(data.items.indices, id:\.self) { index in
-                    BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
-                        .listRowBackground(index + 1 == data.items.count ? Color.gray : nil)
-                        .contentShape(Rectangle())
-                        .contextMenu(menuItems: {
-                            Button {
-                                data.addItem(index)
-                            } label: {
-                                Text("Add One")
+                if isLoading {
+                    Color(UIColor.systemBackground)
+                        .overlay(ProgressView())
+                        .onAppear(perform: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                isLoading = false
                             }
-                            
-                            Button {
-                                data.removeItem(index)
-                            } label: {
-                                Text("Remove One")
-                            }
-                            
-                            Button(role: .destructive) {
-                                data.removeItem(index, all: true)
-                            } label: {
-                                Text("Remove All")
-                            }
-                            
                         })
-                    
+                } else {
+                    ForEach(data.items.indices, id:\.self) { index in
+                        BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
+                            .listRowBackground(index + 1 == data.items.count ? Color.gray : nil)
+                            .contentShape(Rectangle())
+                            .contextMenu(menuItems: {
+//                                Button {
+//                                    data.addItem(index)
+//                                } label: {
+//                                    Text("Add One")
+//                                }
+//
+//                                Button {
+//                                    data.removeItem(index)
+//                                } label: {
+//                                    Text("Remove One")
+//                                }
+                                
+                                Button(role: .destructive) {
+                                    isLoading = true
+                                    data.removeItem(index, all: true)
+                                } label: {
+                                    Text("Remove All")
+                                }
+                                
+                            })
+                    }
                 }
+                
                 NavigationLink {
                     BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
+                        isLoading = true
                         data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict)
                     })
                         .environmentObject(appData)
@@ -137,6 +151,7 @@ struct BillView: View {
                 } label: {
                     Text(data.associatedTag == nil ? "Add Tag" : data.associatedTag!.toStringRepresentation)
                 }
+                .disabled(true)
 
                 Spacer()
                 Button {

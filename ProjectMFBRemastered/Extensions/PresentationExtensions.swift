@@ -156,6 +156,6 @@ extension BillItem {
 
 extension BillPayment {
     var toStringRepresentation: String {
-        "\(self.paymentMethod?.toStringRepresentation ?? "err") \(self.currency?.toStringRepresentation ?? "err")"
+        "\(self.paymentMethod?.toStringRepresentation ?? "err") - \(self.currency?.name ?? "err")"
     }
 }

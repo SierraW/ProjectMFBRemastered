@@ -11,8 +11,8 @@ struct LoginView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \User.disabled, ascending: true),
-                          NSSortDescriptor(keyPath: \User.is_highlighted, ascending: false)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \User.is_highlighted, ascending: false),
+                          NSSortDescriptor(keyPath: \User.lastLoginTimestamp, ascending: false)],
         predicate: NSPredicate(format: "disabled = NO"),
         animation: .default)
     private var fetchedUsers: FetchedResults<User>
@@ -104,6 +104,12 @@ struct LoginView: View {
         withAnimation {
             let selectedUser = users[selectedUserIndex]
             if selectedUser.password == password.sha256() {
+                selectedUser.lastLoginTimestamp = Date()
+                do {
+                    try viewContext.save()
+                } catch {
+                    print("Login date cannot saved.")
+                }
                 onExit(selectedUser)
             } else {
                 withAnimation {

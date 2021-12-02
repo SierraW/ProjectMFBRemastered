@@ -73,7 +73,7 @@ struct LandingView: View {
     }
     
     var initialSetup: some View {
-        RegisterView(isSettingUpRootUser: true) { _ in
+        RegisterationView(isSettingUpRootUser: true) { _ in
         }
     }
     

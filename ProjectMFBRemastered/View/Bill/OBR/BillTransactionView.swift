@@ -16,6 +16,8 @@ struct BillTransactionView: View {
     
     @State var showSBAMenu = false
     
+    @State var isLoading = false
+    
     var controller: CurrencyController {
         CurrencyController(viewContext, staticContent: true)
     }
@@ -78,7 +80,7 @@ struct BillTransactionView: View {
     
     var reviewSectionView: some View {
         Section {
-            BillListViewCell(bill: data.controller.bill, hideAddOnItems: true)
+            BillListViewCell(bill: data.controller.bill, hideTotal: true, hideAddOnItems: true)
                 .environmentObject(appData)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -130,16 +132,27 @@ struct BillTransactionView: View {
     
     var addOnSectionView: some View {
         Section {
-            ForEach(addOnsIndices, id: \.self) { index in
-                BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
-                .contentShape(Rectangle())
-                .contextMenu {
-                    Button(role: .destructive) {
-                        data.removeItem(index, all: true)
-                    } label: {
-                        Text("Delete")
-                    }
+            if isLoading {
+                Color(UIColor.secondarySystemGroupedBackground)
+                    .overlay(ProgressView())
+                    .frame(height: 100)
+                    .onAppear(perform: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            isLoading = false
+                        }
+                    })
+            } else {
+                ForEach(addOnsIndices, id: \.self) { index in
+                    BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
+                    .contentShape(Rectangle())
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            data.removeItem(index, all: true)
+                        } label: {
+                            Text("Delete")
+                        }
 
+                    }
                 }
             }
             NavigationLink {
@@ -149,6 +162,9 @@ struct BillTransactionView: View {
                     .environmentObject(appData)
                     .environmentObject(data)
                     .navigationTitle("Select items...")
+                    .onDisappear {
+                        isLoading = true
+                    }
             } label: {
                 HStack {
                     Spacer()

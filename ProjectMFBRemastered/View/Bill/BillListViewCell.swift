@@ -11,10 +11,31 @@ struct BillListViewCell: View {
     @EnvironmentObject var appData: AppData
     
     var bill: Bill
+    var total: Decimal? = nil
+    var hideTotal = false
     
     @State var isExpanded = false
     var resultMode = false
     var hideAddOnItems = false
+    
+    var computedTotal: Decimal {
+        var total: Decimal = 0
+        if let carriedOnSubtotal = bill.total, let carriedOnSubtotal = carriedOnSubtotal.total as Decimal? {
+            total += carriedOnSubtotal
+        }
+        if let billItems = bill.items?.allObjects as? [BillItem] {
+            for item in billItems {
+                if let subtotal = item.subtotal as Decimal? {
+                    if item.is_deposit {
+                        total -= subtotal
+                    } else {
+                        total += subtotal
+                    }
+                }
+            }
+        }
+        return total
+    }
     
     var body: some View {
         VStack {
@@ -26,18 +47,22 @@ struct BillListViewCell: View {
                         .foregroundColor(.red)
                         .padding(.horizontal)
                 }
-                if resultMode {
-                    if let total = bill.proceedBalance as Decimal? {
-                        Text(appData.majorCurrency.toStringRepresentation)
-                        Text(total.toStringRepresentation)
+                if !hideTotal {
+                    if resultMode {
+                        if let total = bill.proceedBalance as Decimal? {
+                            Text(appData.majorCurrency.toStringRepresentation)
+                            Text(total.toStringRepresentation)
+                        } else {
+                            Text("ON HOLD")
+                                .foregroundColor(.blue)
+                        }
                     } else {
-                        Text("ON HOLD")
-                            .foregroundColor(.blue)
-                    }
-                } else {
-                    Text(appData.majorCurrency.toStringRepresentation)
-                    if let total = bill.originalBalance as Decimal? {
-                        Text(total.toStringRepresentation)
+                        Text(appData.majorCurrency.toStringRepresentation)
+                        if let total = total {
+                            Text(total.toStringRepresentation)
+                        } else {
+                            Text(computedTotal.toStringRepresentation)
+                        }
                     }
                 }
                 Image(systemName: resultMode ?  isExpanded ? "archivebox.fill" : "archivebox" : "chevron.right")

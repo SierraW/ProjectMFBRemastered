@@ -31,6 +31,9 @@ class AccountController: ModelController {
     }
     
     func setDisabled(_ user: User, value: Bool) {
+        if user.is_root {
+            return
+        }
         user.disabled = value
         managedSave()
     }

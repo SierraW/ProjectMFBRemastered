@@ -22,12 +22,11 @@ extension BillData {
     }
     
     func originalBillSubmit() {
-        if originalBalance != nil {
+        if isSubmitted {
             return
         }
-        let total = total
-        originalBalance = total
-        controller.submitOriginalBalance(total)
+        isSubmitted = true
+        controller.submitOriginalBalance()
         if let taxItem = RatedPayableController.firstTaxRatedPayable(controller.viewContext) {
             addItem(taxItem, isAddOn: true)
         }
@@ -39,7 +38,7 @@ extension BillData {
         }))
         payments = []
         reloadItems()
-        self.originalBalance = nil
+        self.isSubmitted = false
     }
     
     func addItems(payableDict: [Payable: Int], ratedPayableDict: [RatedPayable: Int], isAddOn: Bool = false) {

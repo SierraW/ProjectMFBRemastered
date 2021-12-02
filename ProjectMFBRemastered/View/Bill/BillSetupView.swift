@@ -11,24 +11,11 @@ struct BillSetupView: View {
     @EnvironmentObject var appData: AppData
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)],
-        predicate: NSPredicate(format: "is_associated = YES"),
-        animation: .default)
-    private var fetchedTags: FetchedResults<Tag>
-    
-    var tags: [Tag] {
-        fetchedTags.filter { tag in
-            tag.name?.contains(searchString) ?? false
-        }
-    }
-    
     var room: Tag
     
     @State var searchString: String = ""
     
     @State var associatedTag: Tag? = nil
-    @State var selectingTag = false
     
     @State var servicePayable: Payable? = nil
     @State var selectingPayable = false
@@ -61,24 +48,8 @@ struct BillSetupView: View {
                             Text(associatedTag.toStringRepresentation)
                         }
                     } else {
-                        SearchBar(text: $searchString) {
-                            submitSearchString()
-                        }
-                        if !searchString.isEmpty {
-                            Button {
-                                submitSearchString()
-                            } label: {
-                                Text("Add new tag")
-                                    .foregroundColor(Color(uiColor: .label))
-                            }
-                        }
-                        ForEach(tags) { tag in
-                            Button {
-                                associatedTag = tag
-                            } label: {
-                                Text(tag.toStringRepresentation)
-                                    .foregroundColor(Color(uiColor: .label))
-                            }
+                        TagSearchView { tag in
+                            self.associatedTag = tag
                         }
                     }
                     
@@ -127,19 +98,5 @@ struct BillSetupView: View {
             }
         }
         .navigationTitle(Text(room.toStringRepresentation))
-    }
-    
-    func submitSearchString() {
-        searchString.trimmingWhitespacesAndNewlines()
-        if let tag = tags.first(where: { tag in
-            tag.name == searchString
-        }) {
-            associatedTag = tag
-        } else {
-            let tagController = TagController(viewContext)
-            if let tag = tagController.modifyOrCreateIfNotExist(name: searchString, is_associated: true) {
-                associatedTag = tag
-            }
-        }
     }
 }

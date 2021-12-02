@@ -60,7 +60,7 @@ struct SetupWizardView: View {
                 }
 
             } else {
-                RegisterView { user in
+                RegisterationView { user in
                     withAnimation {
                         if let user = user {
                             rootUser = user

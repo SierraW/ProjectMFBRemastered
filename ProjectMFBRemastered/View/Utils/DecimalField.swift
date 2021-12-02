@@ -31,7 +31,7 @@ struct DecimalField: View {
             .keyboardType(.decimalPad)
             .onReceive(Just(value)) { newValue in
                 
-                var editedString = newValue.replacingOccurrences(of: ".", with: "")
+                var editedString = newValue.replacingOccurrences(of: ".", with: "").replacingOccurrences(of: ",", with: "")
                 
                 if let correctedInt = Int(editedString) {
                     editedString = "\(correctedInt)"

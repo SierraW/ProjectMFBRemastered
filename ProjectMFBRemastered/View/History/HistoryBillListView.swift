@@ -59,8 +59,8 @@ struct HistoryBillListView: View {
                 Section {
                     if let groupBills = groups[groupName] {
                         ForEach(groupBills) { bill in
-                            if bill.proceedBalance != nil {
-                                BillListViewCell(bill: bill, resultMode: true)
+                            if let proceedBalance = bill.proceedBalance as Decimal? {
+                                BillListViewCell(bill: bill, total: proceedBalance, resultMode: true)
                                     .environmentObject(appData)
                                     .contentShape(Rectangle())
                                     .onTapGesture {

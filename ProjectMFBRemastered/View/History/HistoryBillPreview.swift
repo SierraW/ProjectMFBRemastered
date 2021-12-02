@@ -37,7 +37,7 @@ struct HistoryBillPreview: View {
     var content: some View {
         List {
             Section {
-                BillListViewCell(bill: data.controller.bill)
+                BillListViewCell(bill: data.controller.bill, total: data.total)
                     .environmentObject(appData)
             } header: {
                 Text("Original Bill")
@@ -91,7 +91,8 @@ struct HistoryBillPreview: View {
                 DisclosureGroup {
                     if let transactions = data.controller.bill.transactions?.allObjects as? [Transaction] {
                         ForEach(transactions) { transaction in
-                            
+                            TransactionListViewCell(transaction: transaction)
+                                .environmentObject(appData)
                         }
                     }
                 } label: {

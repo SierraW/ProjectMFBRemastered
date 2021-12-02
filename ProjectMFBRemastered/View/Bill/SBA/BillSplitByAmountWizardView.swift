@@ -14,6 +14,8 @@ struct BillSplitByAmountWizardView: View {
     
     @State var numberOfBillsString = "0"
     
+    @State var submitting = false
+    
     var numberOfBills: Int? {
         Int(numberOfBillsString)
     }
@@ -93,9 +95,11 @@ struct BillSplitByAmountWizardView: View {
                 HStack {
                     Spacer()
                     Button {
+                        submitting = true
                         if let numberOfBills = numberOfBills {
                             data.splitByAmountSubmit(splitCount: numberOfBills)
                         }
+                        submitting = false
                     } label: {
                         Text("Split")
                             .foregroundColor(.white)
@@ -106,7 +110,7 @@ struct BillSplitByAmountWizardView: View {
                             .background(RoundedRectangle(cornerRadius: 15).foregroundColor(disableSubmitButton ? .gray : .blue))
                         
                     }
-                    .disabled(disableSubmitButton)
+                    .disabled(disableSubmitButton || submitting)
                     Spacer()
                 }
             }

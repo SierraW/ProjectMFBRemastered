@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RegisterView: View {
+struct RegisterationView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
@@ -133,6 +133,7 @@ struct RegisterView: View {
         newUser.is_superuser = self.isSuperuser
         newUser.is_root = self.isSettingUpRootUser
         newUser.is_highlighted = self.isHighlighted
+        newUser.timestamp = Date()
         do {
             try viewContext.save()
         } catch {
@@ -155,14 +156,12 @@ struct RegisterView: View {
         
         passwordMismatchError = false
         userExistError = false
-        
-        isSuccess = false
     }
 }
 
-struct RegisterView_Previews: PreviewProvider {
+struct RegisterationView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterView { _ in
+        RegisterationView { _ in
             
         }
     }

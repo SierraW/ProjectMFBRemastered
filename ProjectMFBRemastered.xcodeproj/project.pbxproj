@@ -16,6 +16,7 @@
 		3B1707AF2757517000FC8350 /* RootNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707AE2757517000FC8350 /* RootNavigationView.swift */; };
 		3B1707B2275755CE00FC8350 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1707B1275755CE00FC8350 /* CloudKit.framework */; };
 		3B1707B72757D89000FC8350 /* BillItemShoppingFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707B62757D89000FC8350 /* BillItemShoppingFloatingView.swift */; };
+		3B1707B927582D4400FC8350 /* TagSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707B827582D4400FC8350 /* TagSearchView.swift */; };
 		3B202FFD273ED52D0016B537 /* CurrencyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B202FFC273ED52D0016B537 /* CurrencyController.swift */; };
 		3B203000273ED5DD0016B537 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B202FFF273ED5DD0016B537 /* ModelController.swift */; };
 		3B203002273ED6000016B537 /* DecimalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B203001273ED6000016B537 /* DecimalExtension.swift */; };
@@ -93,7 +94,7 @@
 		3BEEE30B273C53840056AF54 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE30A273C53840056AF54 /* Persistence.swift */; };
 		3BEEE30E273C53840056AF54 /* ProjectMFBRemastered.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE30C273C53840056AF54 /* ProjectMFBRemastered.xcdatamodeld */; };
 		3BEEE316273C560F0056AF54 /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE315273C560F0056AF54 /* LandingView.swift */; };
-		3BEEE319273C57080056AF54 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE318273C57080056AF54 /* RegisterView.swift */; };
+		3BEEE319273C57080056AF54 /* RegisterationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE318273C57080056AF54 /* RegisterationView.swift */; };
 		3BEEE31C273C57D40056AF54 /* SetupWizardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE31B273C57D40056AF54 /* SetupWizardView.swift */; };
 		3BEEE31E273C581B0056AF54 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE31D273C581B0056AF54 /* LoginView.swift */; };
 		3BEEE321273C58440056AF54 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE320273C58440056AF54 /* MainView.swift */; };
@@ -110,6 +111,7 @@
 		3B1707AE2757517000FC8350 /* RootNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationView.swift; sourceTree = "<group>"; };
 		3B1707B1275755CE00FC8350 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		3B1707B62757D89000FC8350 /* BillItemShoppingFloatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemShoppingFloatingView.swift; sourceTree = "<group>"; };
+		3B1707B827582D4400FC8350 /* TagSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSearchView.swift; sourceTree = "<group>"; };
 		3B202FFC273ED52D0016B537 /* CurrencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyController.swift; sourceTree = "<group>"; };
 		3B202FFF273ED5DD0016B537 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		3B203001273ED6000016B537 /* DecimalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalExtension.swift; sourceTree = "<group>"; };
@@ -189,7 +191,7 @@
 		3BEEE30A273C53840056AF54 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		3BEEE30D273C53840056AF54 /* ProjectMFBRemastered.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ProjectMFBRemastered.xcdatamodel; sourceTree = "<group>"; };
 		3BEEE315273C560F0056AF54 /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
-		3BEEE318273C57080056AF54 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		3BEEE318273C57080056AF54 /* RegisterationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterationView.swift; sourceTree = "<group>"; };
 		3BEEE31B273C57D40056AF54 /* SetupWizardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupWizardView.swift; sourceTree = "<group>"; };
 		3BEEE31D273C581B0056AF54 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3BEEE320273C58440056AF54 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				3B20301A273F65DB0016B537 /* TagManagementView.swift */,
 				3B1707A227572B4100FC8350 /* TagEditorView.swift */,
 				3B1707A42757318E00FC8350 /* TagListView.swift */,
+				3B1707B827582D4400FC8350 /* TagSearchView.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -470,7 +473,7 @@
 		3BEEE317273C56F90056AF54 /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				3BEEE318273C57080056AF54 /* RegisterView.swift */,
+				3BEEE318273C57080056AF54 /* RegisterationView.swift */,
 				3BEEE31D273C581B0056AF54 /* LoginView.swift */,
 			);
 			path = Account;
@@ -634,6 +637,7 @@
 				3B8FA0FC2745A18D00D7D4AD /* PayableManagementView.swift in Sources */,
 				3B8FA0F02744C1B900D7D4AD /* RoomManagementView.swift in Sources */,
 				3BD581882746EAB200089113 /* BillSetupView.swift in Sources */,
+				3B1707B927582D4400FC8350 /* TagSearchView.swift in Sources */,
 				3B20ED4427442D7B00B96DB6 /* PaymentMethodController.swift in Sources */,
 				3BEEE321273C58440056AF54 /* MainView.swift in Sources */,
 				3BEEE316273C560F0056AF54 /* LandingView.swift in Sources */,
@@ -650,7 +654,7 @@
 				3BD581AE274D769D00089113 /* BillListVIew.swift in Sources */,
 				3B4FBB2227508C4A00EA538A /* TransactionController.swift in Sources */,
 				3BEEE304273C53810056AF54 /* ContentView.swift in Sources */,
-				3BEEE319273C57080056AF54 /* RegisterView.swift in Sources */,
+				3BEEE319273C57080056AF54 /* RegisterationView.swift in Sources */,
 				3B4FBB2A2750ACD900EA538A /* RatedPayableViewCell.swift in Sources */,
 				3BD5818E2749E28700089113 /* RoomNavigationView.swift in Sources */,
 				3B1707A52757318E00FC8350 /* TagListView.swift in Sources */,

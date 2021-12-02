@@ -35,16 +35,12 @@ extension BillData {
                 addItem(key, count: count, calculateRatedSubtotals: false, isAddOn: false)
             }
         }
-        
         DispatchQueue.main.async {
             self.reloadItems()
             self.calculateRatedSubtotals()
-            let total = self.total
-            self.controller.bill.originalBalance = NSDecimalNumber(decimal: total)
-            self.originalBalance = total
+            self.controller.bill.isSubmitted = true
+            self.isSubmitted = true
             self.controller.managedSave()
         }
-        
-        
     }
 }

@@ -15,10 +15,16 @@ struct BillSplitByAmountView: View {
     
     @State var activeTransaction: BillData? = nil
     
+    @State var isLoading = false
+    
     var children: [Bill] {
         data.children.sorted { lhs, rhs in
             (lhs.completed && lhs.combined) || lhs.completed || lhs.combined
         }
+    }
+    
+    var ableToSubmit: Bool {
+        data.children.first(where: {!$0.completed}) == nil
     }
     
     var onExit: () -> Void
@@ -55,8 +61,8 @@ struct BillSplitByAmountView: View {
                 } onExit: {
                     onExit()
                 }
-                    .environmentObject(appData)
-                    .environmentObject(data)
+                .environmentObject(appData)
+                .environmentObject(data)
             }
             .padding(.horizontal)
             .padding(.bottom)
@@ -74,55 +80,68 @@ struct BillSplitByAmountView: View {
                 }
             }
         }
-
+        
     }
     
     var splitByAmountFormView: some View {
         Form {
             Section {
-                BillListViewCell(bill: data.controller.bill)
+                BillListViewCell(bill: data.controller.bill, total: data.total)
                     .environmentObject(appData)
+            } footer: {
+                actionSection
             }
             
-            Section {
-                ForEach(children) { bill in
-                    BillListViewCell(bill: bill)
-                        .environmentObject(appData)
-                    .contextMenu(menuItems: {
-                        if bill.completed {
-                            Button {
-                                data.splitByAmountUndoPayments(bill: bill)
-                            } label: {
-                                Text("Undo Payments")
-                            }
-                        } else if bill.combined {
-                            Button {
-                                data.splitByAmountUngroup(bill: bill)
-                            } label: {
-                                Text("Undo Group of \(bill.children?.count ?? 0)")
-                            }
+            if isLoading {
+                Color(UIColor.secondarySystemGroupedBackground)
+                    .overlay(ProgressView())
+                    .frame(height: 100)
+                    .onAppear(perform: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            isLoading = false
                         }
                     })
-                    .listRowBackground(getSubBillViewCellColor(subBill: bill))
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        if bill.completed {
-                            return
-                        }
-                        withAnimation {
-                            if selection.contains(bill) {
-                                selection.remove(bill)
-                            } else {
-                                selection.insert(bill)
+            } else {
+                Section {
+                    ForEach(children) { bill in
+                        BillListViewCell(bill: bill)
+                            .environmentObject(appData)
+                            .contextMenu(menuItems: {
+                                if bill.completed {
+                                    Button {
+                                        data.splitByAmountUndoPayments(bill: bill)
+                                    } label: {
+                                        Text("Undo Payments")
+                                    }
+                                } else if bill.combined {
+                                    Button {
+                                        data.splitByAmountUngroup(bill: bill)
+                                    } label: {
+                                        Text("Undo Group of \(bill.children?.count ?? 0)")
+                                    }
+                                }
+                            })
+                            .listRowBackground(getSubBillViewCellColor(subBill: bill))
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                if bill.completed {
+                                    return
+                                }
+                                withAnimation {
+                                    if selection.contains(bill) {
+                                        selection.remove(bill)
+                                    } else {
+                                        selection.insert(bill)
+                                    }
+                                }
+                                
                             }
-                        }
-                        
                     }
                 }
             }
             
             proceedPaymentSection
-
+            
         }
     }
     
@@ -131,6 +150,33 @@ struct BillSplitByAmountView: View {
             DisclosureGroup("Proceed Payments (\(data.allPayments.count))") {
                 ForEach(data.allPayments) { billPayment in
                     PaymentViewCell(billPayment: billPayment)
+                }
+            }
+        }
+    }
+    
+    var actionSection: some View {
+        HStack {
+            Spacer()
+            if !data.controller.bill.isOnHold {
+                Button {
+                    data.setInactive()
+                    onExit()
+                } label: {
+                    Text("Hold")
+                        .foregroundColor(.red)
+                }
+                .padding(.horizontal)
+            }
+            if ableToSubmit {
+                Button {
+                    if ableToSubmit {
+                        data.submitBill(appData)
+                        onExit()
+                    }
+                } label: {
+                    Text("Submit")
+                        .bold()
                 }
             }
         }
@@ -147,6 +193,7 @@ struct BillSplitByAmountView: View {
     }
     
     func makePayment() {
+        isLoading = true
         if selection.count == 0 {
             return
         } else if selection.count == 1{
@@ -175,7 +222,7 @@ struct BillSplitByAmountView: View {
         }
         selection.removeAll()
         
-        newBill.originalBalance = NSDecimalNumber(decimal: newTotal)
+        newBill.isSubmitted = true
         newBillTotal.total = NSDecimalNumber(decimal: newTotal)
         newBillTotal.discountableTotal = NSDecimalNumber(decimal: newDiscountableTotal)
         

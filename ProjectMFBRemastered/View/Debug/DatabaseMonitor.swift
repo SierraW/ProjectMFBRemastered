@@ -210,6 +210,17 @@ struct DatabaseMonitor: View {
                         print("Fetch error")
                     }
                 }
+                .contextMenu {
+                    Button(role: .destructive) {
+                        for object in transaction {
+                            viewContext.delete(object)
+                        }
+                        save()
+                    } label: {
+                        Text("Clear")
+                    }
+
+                }
                 
                 HStack {
                     Text("Transaction Report")
@@ -224,6 +235,17 @@ struct DatabaseMonitor: View {
                     } catch {
                         print("Fetch error")
                     }
+                }
+                .contextMenu {
+                    Button(role: .destructive) {
+                        for object in transactionReport {
+                            viewContext.delete(object)
+                        }
+                        save()
+                    } label: {
+                        Text("Clear")
+                    }
+
                 }
             } header: {
                 Text("Core Layer")

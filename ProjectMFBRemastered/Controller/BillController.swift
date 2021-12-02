@@ -55,7 +55,7 @@ class BillController: ModelController {
         bi.is_deposit = billItem.is_deposit
         bi.value = billItem.value
         bi.order = billItem.order
-        bi.is_add_on = false
+        bi.is_add_on = true
         bi.count = billItem.count
         bill.addToItems(bi)
         return bi
@@ -91,8 +91,8 @@ class BillController: ModelController {
         return bi
     }
     
-    func submitOriginalBalance(_ balance: Decimal) {
-        bill.originalBalance = NSDecimalNumber(decimal: balance)
+    func submitOriginalBalance() {
+        bill.isSubmitted = true
         managedSave()
     }
     
@@ -103,7 +103,7 @@ class BillController: ModelController {
         for addOn in addOns {
             delete(addOn)
         }
-        bill.originalBalance = nil
+        bill.isSubmitted = false
         managedSave()
     }
     

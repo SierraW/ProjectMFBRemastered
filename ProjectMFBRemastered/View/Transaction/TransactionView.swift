@@ -177,11 +177,16 @@ struct TransactionView: View {
     }
     
     func setCurrency(_ currency: Currency?) {
-        if let currency = currency, let amount = Decimal(string: amount), let oldCurrency = self.currency {
-            if currency.is_major {
-                self.amount = CurrencyController.exchangeToMajorCurrency(currency: oldCurrency, amount: amount).toStringRepresentation
-            } else if oldCurrency.is_major {
-                self.amount = CurrencyController.exchangeFromMajorCurrency(currency: currency, amount: amount).toStringRepresentation
+        if currency == self.currency {
+            return
+        }
+        if let currency = currency, let amount = Decimal(string: amount), let oldCurrency = self.currency, currency.is_major || oldCurrency.is_major {
+            DispatchQueue.main.async {
+                if currency.is_major {
+                    self.amount = CurrencyController.exchangeToMajorCurrency(currency: oldCurrency, amount: amount).toStringRepresentation
+                } else if oldCurrency.is_major {
+                    self.amount = CurrencyController.exchangeFromMajorCurrency(currency: currency, amount: amount).toStringRepresentation
+                }
             }
         }
         self.currency = currency

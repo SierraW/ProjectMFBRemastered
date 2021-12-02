@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct UserEditorView: View {
+    @EnvironmentObject var appData: AppData
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -50,6 +51,10 @@ struct UserEditorView: View {
     var users: [User]
     
     var onDelete: (User) -> Void
+    
+    var disableAll: Bool {
+        appData.user == user
+    }
     
     var body: some View {
         Form {
@@ -108,6 +113,7 @@ struct UserEditorView: View {
                 .contextMenu {
                     Text("This user is a manager")
                 }
+                .disabled(disableAll)
                 
                 Toggle(isOn: $is_disabled) {
                     Text("Disabled")
@@ -115,6 +121,7 @@ struct UserEditorView: View {
                 .onChange(of: is_disabled, perform: { newValue in
                     controller.setDisabled(user, value: newValue)
                 })
+                .disabled(user.is_root || disableAll)
                 .contextMenu {
                     Text("Disable account.")
                 }
@@ -128,8 +135,29 @@ struct UserEditorView: View {
                 .contextMenu {
                     Text("Highlighted Item")
                 }
+                .disabled(disableAll)
             } header: {
                 Text("Settings")
+            } footer: {
+                if disableAll {
+                    Text("You are not allow to change your own data.")
+                        .foregroundColor(.red)
+                }
+            }
+            
+            Section {
+                HStack {
+                    Text("Create")
+                    Spacer()
+                    Text(user.timestamp?.toStringRepresentation ?? "No Data")
+                }
+                HStack {
+                    Text("Last Login Time")
+                    Spacer()
+                    Text(user.lastLoginTimestamp?.toStringRepresentation ?? "No Data")
+                }
+            } header: {
+                Text("Timestamp")
             }
             
             Section {
@@ -142,7 +170,7 @@ struct UserEditorView: View {
                         Text("Delete")
                     }
                 }
-                .disabled(!(user.transactions?.count == 0))
+                .disabled(user.is_root || !(user.transactions?.count == 0) || disableAll)
             }
             
             Section {

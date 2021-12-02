@@ -45,7 +45,7 @@ struct MainView: View {
             case .register:
                 return ContentWrapperView(title: self.rawValue) {
                     AnyView(
-                        RegisterView { _ in
+                        RegisterationView { _ in
                             
                         }
                     )

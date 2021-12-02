@@ -229,6 +229,7 @@ struct BillSplitByProductView: View {
                     onExit()
                 } label: {
                     Text("Hold")
+                        .foregroundColor(.red)
                 }
                 .padding(.horizontal)
             }
@@ -237,6 +238,7 @@ struct BillSplitByProductView: View {
                     submit()
                 } label: {
                     Text("Submit")
+                        .bold()
                 }
             }
         }

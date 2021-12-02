@@ -20,7 +20,7 @@ class BillData: ObservableObject, Identifiable {
     }
     
     var viewState: ViewState {
-        if originalBalance == nil {
+        if !isSubmitted {
             return .bill
         } else if proceedBalance != nil {
             return .completed
@@ -49,7 +49,7 @@ class BillData: ObservableObject, Identifiable {
     
     @Published var associatedTag: Tag?
     
-    @Published var originalBalance: Decimal? = nil
+    @Published var isSubmitted = false
     
     @Published var items: [BillItem] = []
     @Published var payments: [BillPayment] = []
@@ -63,6 +63,8 @@ class BillData: ObservableObject, Identifiable {
     @Published var billTotal: BillTotal? = nil
     
     var proceedBalance: Decimal? = nil
+
+    var identifierFactory: Int32 = 0
     
     init(context: NSManagedObjectContext, tag: Tag, associatedTag: Tag? = nil, payable: Payable? = nil, size: Int = 0) {
         self.controller = BillController(new: tag, associatedTag: associatedTag, size: size, context: context)
@@ -81,7 +83,7 @@ class BillData: ObservableObject, Identifiable {
         
         self.size = Int(bill.size)
         self.associatedTag = bill.associatedTag
-        self.originalBalance = bill.originalBalance as Decimal?
+        self.isSubmitted = bill.isSubmitted
         if let items = bill.items?.allObjects as? [BillItem] {
             self.items = items.sorted()
         }
@@ -95,6 +97,8 @@ class BillData: ObservableObject, Identifiable {
         reloadChildren()
         
         reloadItems()
+        
+        identifierFactory = self.items.last?.order ?? 0
         
         self.proceedBalance = bill.proceedBalance as Decimal?
     }
@@ -118,7 +122,6 @@ class BillData: ObservableObject, Identifiable {
     func reloadItems() {
         if let items = controller.bill.items?.allObjects as? [BillItem] {
             self.items = items.sorted()
-            self.items.shuffle()
         } else {
             items = []
         }
@@ -137,7 +140,7 @@ class BillData: ObservableObject, Identifiable {
         if let firstItem = items.first(where: { $0.payable == payable && $0.is_add_on == isAddOn }) {
             item = firstItem
         } else {
-            item = controller.createBillItem(payable, order: billItemsIdentifierFactory, isAddOn: isAddOn)
+            item = controller.createBillItem(payable, order: getBillItemsIdentifier(), isAddOn: isAddOn)
         }
         item.count += Int32(count)
         if let value = item.value as Decimal? {
@@ -150,7 +153,7 @@ class BillData: ObservableObject, Identifiable {
     
     func addItem(_ ratedPayable: RatedPayable, calculateRatedSubtotals: Bool = true, isAddOn: Bool = false) {
         var item: BillItem
-        item = controller.createBillItem(ratedPayable, order: billItemsIdentifierFactory, isAddOn: isAddOn)
+        item = controller.createBillItem(ratedPayable, order: getBillItemsIdentifier(), isAddOn: isAddOn)
         items.append(item)
         if calculateRatedSubtotals {
             reloadItemsAndCalculateRatedSubtotals()
@@ -180,7 +183,8 @@ class BillData: ObservableObject, Identifiable {
                 item.subtotal = NSDecimalNumber(decimal: value * Decimal(item.count))
             }
         } else {
-            controller.delete(item, save: false)
+            controller.bill.removeFromItems(item)
+            controller.delete(item)
         }
         reloadItemsAndCalculateRatedSubtotals()
     }
@@ -237,6 +241,11 @@ class BillData: ObservableObject, Identifiable {
         self.proceedBalance = proceedBalance
         setInactive()
     }
+    
+    func getBillItemsIdentifier() -> Int32 {
+        identifierFactory += Int32(1)
+        return identifierFactory
+    }
 }
 
 //computed var
@@ -251,10 +260,6 @@ extension BillData {
     
     var billPaymentsIdentifierFactory: Int32 {
         (payments.last?.order ?? -1) + 1
-    }
-    
-    var billItemsIdentifierFactory: Int32 {
-        (items.last?.order ?? -1) + 1
     }
     
     var subtotal: Decimal {
@@ -352,5 +357,9 @@ extension BillData {
     
     var completed: Bool {
         controller.bill.completed
+    }
+    
+    var bill: Bill {
+        controller.bill
     }
 }
