@@ -13,12 +13,9 @@ struct BillSetupView: View {
     
     var room: Tag
     
-    @State var searchString: String = ""
-    
     @State var associatedTag: Tag? = nil
     
     @State var servicePayable: Payable? = nil
-    @State var selectingPayable = false
     
     @State var numberOfPeople = ""
     
@@ -28,46 +25,55 @@ struct BillSetupView: View {
     
     var body: some View {
         ZStack {
-            NavigationLink("Product Selector", isActive: $selectingPayable) {
-                PayableListView(dismissOnExit: true) { payable in
-                    withAnimation {
-                        servicePayable = payable
-                        selectingPayable = false
-                    }
-                }
-                .navigationTitle("Select a product...")
-                .environmentObject(appData)
-            }
-            .hidden()
             Form {
                 Section {
-                    if let associatedTag = associatedTag {
-                        Button {
-                            self.associatedTag = nil
-                        } label: {
-                            Text(associatedTag.toStringRepresentation)
-                        }
-                    } else {
+                    NavigationLink {
                         TagSearchView { tag in
-                            self.associatedTag = tag
+                            associatedTag = tag
+                        }
+                    } label: {
+                        HStack {
+                            Text("Tag")
+                            Spacer()
+                            Text(associatedTag?.toStringRepresentation ?? "Not Set")
+                                .foregroundColor(.blue)
                         }
                     }
-                    
                 } header: {
                     Text("Associated Tag")
+                } footer: {
+                    if associatedTag != nil {
+                        HStack {
+                            Spacer()
+                            Button(role: .destructive) {
+                                associatedTag = nil
+                            } label: {
+                                Text("Remove Tag")
+                        }
+                        }
+                    }
                 }
                 
                 Section {
-                    HStack {
-                        Text("Product")
-                            .frame(width: 200, alignment: .leading)
-                        Spacer()
-                        Button {
-                            selectingPayable.toggle()
-                        } label: {
+                    NavigationLink {
+                        PayableListView(dismissOnExit: true) { payable in
+                            withAnimation {
+                                servicePayable = payable
+                            }
+                        }
+                        .navigationTitle("Select a product...")
+                        .environmentObject(appData)
+                    } label: {
+                        HStack {
+                            Text("Product")
+                                .frame(width: 200, alignment: .leading)
+                            Spacer()
                             Text(servicePayable?.toStringRepresentation ?? "Not Set")
+                                .foregroundColor(.blue)
                         }
                     }
+
+                    
                     if servicePayable != nil {
                         HStack {
                             Text("Number Of People")
@@ -79,8 +85,17 @@ struct BillSetupView: View {
                     
                 } header: {
                     Text("One-time service payment")
-                } footer: {
-                    Text("Optional")
+                }  footer: {
+                    if servicePayable != nil {
+                        HStack {
+                            Spacer()
+                            Button(role: .destructive) {
+                                servicePayable = nil
+                            } label: {
+                                Text("Remove Product")
+                            }
+                        }
+                    }
                 }
                 
                 Section {

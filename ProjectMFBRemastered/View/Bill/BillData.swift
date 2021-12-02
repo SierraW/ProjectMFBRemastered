@@ -127,6 +127,14 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    func setAssociatedTag(_ newTag: Tag) {
+        if newTag != associatedTag {
+            associatedTag = newTag
+            controller.bill.associatedTag = newTag
+            controller.managedSave()
+        }
+    }
+    
     func reloadItemsAndCalculateRatedSubtotals() {
         DispatchQueue.main.async {
             self.reloadItems()

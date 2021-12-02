@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TagSearchView: View {
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
@@ -17,8 +18,12 @@ struct TagSearchView: View {
     private var fetchedTags: FetchedResults<Tag>
     
     var tags: [Tag] {
-        fetchedTags.filter { tag in
-            tag.name?.contains(searchString) ?? false
+        if searchString.isEmpty {
+            return fetchedTags.sorted()
+        } else {
+            return fetchedTags.filter { tag in
+                tag.name?.contains(searchString) ?? false
+            }
         }
     }
     
@@ -27,34 +32,40 @@ struct TagSearchView: View {
     var onSubmit: (Tag) -> Void
     
     var body: some View {
-        VStack {
-            Text("Choose a tag...")
-                .listRowSeparator(.hidden)
+        VStack(spacing: 0) {
             SearchBar(text: $searchString) {
                 submitSearchString()
             }
-            if !searchString.isEmpty {
-                Button {
-                    submitSearchString()
-                } label: {
-                    Text("Add new tag")
-                        .foregroundColor(Color(uiColor: .label))
+            List {
+                Section {
+                    if !searchString.isEmpty {
+                        Button {
+                            submitSearchString()
+                        } label: {
+                            Text("Add \(searchString) as a new tag...")
+                        }
+                    }
+                    ForEach(tags) { tag in
+                        Button {
+                            onSubmit(tag)
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Text(tag.toStringRepresentation)
+                                .foregroundColor(Color(uiColor: .label))
+                        }
+                        
+                    }
                 }
             }
-            ForEach(tags) { tag in
-                Divider()
-                Button {
-                    onSubmit(tag)
-                } label: {
-                    Text(tag.toStringRepresentation)
-                        .foregroundColor(Color(uiColor: .label))
-                }
-                
-            }
-            if !searchString.isEmpty {
-                Divider()
-            }
+//            .searchable(text: $searchString) {
+//                ForEach(tags) { tag in
+//                    Text("Do you mean \(tag.toStringRepresentation)?").searchCompletion(tag.toStringRepresentation)
+//                }
+//            }
         }
+        .navigationTitle("Associated Tags")
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Color(uiColor: .systemGroupedBackground))
     }
     
     func submitSearchString() {
@@ -63,10 +74,12 @@ struct TagSearchView: View {
             tag.name == searchString
         }) {
             onSubmit(tag)
+            presentationMode.wrappedValue.dismiss()
         } else {
             let tagController = TagController(viewContext)
             if let tag = tagController.modifyOrCreateIfNotExist(name: searchString, is_associated: true) {
                 onSubmit(tag)
+                presentationMode.wrappedValue.dismiss()
             }
         }
     }

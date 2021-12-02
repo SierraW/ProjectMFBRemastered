@@ -55,7 +55,7 @@ struct HistoryBillListView: View {
     
     var billsSection: some View {
         Form {
-            ForEach(groups.keys.sorted(), id:\.self) { groupName in
+            ForEach(groups.keys.sorted().reversed(), id:\.self) { groupName in
                 Section {
                     if let groupBills = groups[groupName] {
                         ForEach(groupBills) { bill in

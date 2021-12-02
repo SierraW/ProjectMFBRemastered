@@ -227,6 +227,9 @@ struct BillTransactionView: View {
         GeometryReader { geometry in
             HStack {
                 VStack {
+                    Text("Bill")
+                        .padding(.bottom, 2)
+                    Spacer()
                     HStack {
                         Text("Subtotal")
                         Text(appData.majorCurrency.toStringRepresentation)
@@ -258,12 +261,16 @@ struct BillTransactionView: View {
                             .bold()
                             .frame(width: 60, alignment: .trailing)
                     }
+                    Spacer()
                 }
                 .frame(width: geometry.size.width / 2)
                 Divider()
                 VStack {
+                    Text("Remaining")
+                        .padding(.vertical, 2)
+                    Spacer()
                     HStack {
-                        Text("Remaining")
+                        Text("Due")
                         Text(appData.majorCurrency.toStringRepresentation)
                             .bold()
                         Text(remainingBalance.toStringRepresentation)
@@ -279,9 +286,8 @@ struct BillTransactionView: View {
                         }
                         .foregroundColor(.gray)
                     }
-                    
+                    Spacer()
                 }
-
                 .frame(width: geometry.size.width / 2)
             }
         }

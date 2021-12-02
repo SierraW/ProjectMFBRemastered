@@ -12,6 +12,7 @@ struct BillView: View {
     @EnvironmentObject var data: BillData
     
     @State var isLoading = false
+    @State var isShowSearchTagView = false
     
     var onExit: () -> Void
     
@@ -41,10 +42,9 @@ struct BillView: View {
                 if isLoading {
                     Color(UIColor.systemBackground)
                         .overlay(ProgressView())
+                        .frame(height: 100)
                         .onAppear(perform: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                isLoading = false
-                            }
+                            isLoading = false
                         })
                 } else {
                     ForEach(data.items.indices, id:\.self) { index in
@@ -65,8 +65,8 @@ struct BillView: View {
 //                                }
                                 
                                 Button(role: .destructive) {
-                                    isLoading = true
                                     data.removeItem(index, all: true)
+                                    isLoading = true
                                 } label: {
                                     Text("Remove All")
                                 }
@@ -94,75 +94,85 @@ struct BillView: View {
                 }
             }
             
-            HStack {
-                VStack {
-                    if let timestamp = data.openTimestamp {
+            VStack {
+                HStack {
+                    VStack {
+                        if let timestamp = data.openTimestamp {
+                            HStack {
+                                Text(timestamp.toStringRepresentation)
+                                Spacer()
+                            }
+                        }
                         HStack {
-                            Text(timestamp.toStringRepresentation)
+                            Text("State:")
+                            Text(data.viewState == .completed ? "Completed" : "Active")
                             Spacer()
                         }
                     }
-                    HStack {
-                        Text("State:")
-                        Text(data.viewState == .completed ? "Completed" : "Active")
-                        Spacer()
+                    Spacer()
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Text("Subtotal")
+                            Text(appData.majorCurrency.toStringRepresentation)
+                            Text(data.subtotal.toStringRepresentation)
+                                .frame(width: 70, alignment: .trailing)
+                        }
+                        HStack {
+                            Spacer()
+                            Text("Discount")
+                            Text(appData.majorCurrency.toStringRepresentation)
+                            Text(data.discount.toStringRepresentation)
+                                .frame(width: 70, alignment: .trailing)
+                        }
+                        HStack {
+                            Spacer()
+                            Text("Tax & Service")
+                            Text(appData.majorCurrency.toStringRepresentation)
+                            Text(data.taxAndService.toStringRepresentation)
+                                .frame(width: 70, alignment: .trailing)
+                        }
+                        HStack {
+                            Spacer()
+                            Text("Total")
+                                .bold()
+                            Text(appData.majorCurrency.toStringRepresentation)
+                                .bold()
+                            Text(data.total.toStringRepresentation)
+                                .bold()
+                                .frame(width: 70, alignment: .trailing)
+                        }
+                        
                     }
                 }
-                Spacer()
-                VStack {
-                    HStack {
-                        Spacer()
-                        Text("Subtotal")
-                        Text(appData.majorCurrency.toStringRepresentation)
-                        Text(data.subtotal.toStringRepresentation)
-                            .frame(width: 60, alignment: .trailing)
+                HStack {
+                    NavigationLink("", isActive: $isShowSearchTagView) {
+                        TagSearchView { tag in
+                            data.setAssociatedTag(tag)
+                        }
                     }
-                    HStack {
-                        Spacer()
-                        Text("Discount")
-                        Text(appData.majorCurrency.toStringRepresentation)
-                        Text(data.discount.toStringRepresentation)
-                            .frame(width: 60, alignment: .trailing)
+                    .hidden()
+                    Button {
+                        isShowSearchTagView.toggle()
+                    } label: {
+                        Text(data.associatedTag == nil ? "Add Tag" : data.associatedTag!.toStringRepresentation)
                     }
-                    HStack {
-                        Spacer()
-                        Text("Tax & Service")
-                        Text(appData.majorCurrency.toStringRepresentation)
-                        Text(data.taxAndService.toStringRepresentation)
-                            .frame(width: 60, alignment: .trailing)
-                    }
-                    HStack {
-                        Spacer()
-                        Text("Total")
-                            .bold()
-                        Text(appData.majorCurrency.toStringRepresentation)
-                            .bold()
-                        Text(data.total.toStringRepresentation)
-                            .bold()
-                            .frame(width: 60, alignment: .trailing)
-                    }
-                    
-                }
-            }
-            .padding(.horizontal)
-            HStack {
-                Button {
-                    //
-                } label: {
-                    Text(data.associatedTag == nil ? "Add Tag" : data.associatedTag!.toStringRepresentation)
-                }
-                .disabled(true)
 
-                Spacer()
-                Button {
-                    data.originalBillSubmit()
-                } label: {
-                    Text("Submit")
+                    Spacer()
+                    Button {
+                        data.originalBillSubmit()
+                    } label: {
+                        Text("Submit")
+                    }
                 }
+                .padding(.top, 5)
             }
-            .padding(.top, 5)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
             .padding(.horizontal)
             .padding(.bottom)
+            .frame(maxHeight: 170)
+            
         }
         .navigationTitle(data.name)
         .background(Color(UIColor.systemGroupedBackground))

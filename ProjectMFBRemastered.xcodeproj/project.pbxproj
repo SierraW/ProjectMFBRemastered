@@ -183,7 +183,7 @@
 		3BD581A9274C56C600089113 /* BillController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillController.swift; sourceTree = "<group>"; };
 		3BD581AB274C581100089113 /* BillData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillData.swift; sourceTree = "<group>"; };
 		3BD581AD274D769C00089113 /* BillListVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillListVIew.swift; sourceTree = "<group>"; };
-		3BEEE2FE273C53810056AF54 /* ProjectMFBRemastered.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectMFBRemastered.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BEEE2FE273C53810056AF54 /* MFB Cashier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MFB Cashier.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BEEE301273C53810056AF54 /* ProjectMFBRemasteredApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectMFBRemasteredApp.swift; sourceTree = "<group>"; };
 		3BEEE303273C53810056AF54 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3BEEE305273C53840056AF54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -417,7 +417,7 @@
 		3BEEE2FF273C53810056AF54 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3BEEE2FE273C53810056AF54 /* ProjectMFBRemastered.app */,
+				3BEEE2FE273C53810056AF54 /* MFB Cashier.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -535,7 +535,7 @@
 			);
 			name = ProjectMFBRemastered;
 			productName = ProjectMFBRemastered;
-			productReference = 3BEEE2FE273C53810056AF54 /* ProjectMFBRemastered.app */;
+			productReference = 3BEEE2FE273C53810056AF54 /* MFB Cashier.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -806,7 +806,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Y2V53HBZ8;
 				ENABLE_PREVIEWS = YES;
@@ -822,7 +822,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ca.yiyao.ProjectMFBRemastered;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "MFB Cashier";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -836,7 +836,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Y2V53HBZ8;
 				ENABLE_PREVIEWS = YES;
@@ -852,7 +852,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ca.yiyao.ProjectMFBRemastered;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "MFB Cashier";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
