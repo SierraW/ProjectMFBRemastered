@@ -71,47 +71,71 @@ struct BillSplitByProductView: View {
     @State var showCartView = false
     
     @State var selection: BillData? = nil
-    @State var activeTransaction: Bool = false
+    @State var isLoading = false
     
     var onExit: () -> Void
     
     var body: some View {
         ZStack {
-            NavigationLink("", isActive: $activeTransaction) {
+            let activeTransaction = Binding {
+                selection != nil
+            } set: {
+                if !$0 {
+                    selection = nil
+                }
+            }
+            
+            NavigationLink("", isActive: activeTransaction) {
                 if let billData = selection {
                     BillTransactionView {
                         selection = nil
-                        activeTransaction = false
+                        if ableToSubmit {
+                            submit()
+                        }
                     }
                     .environmentObject(appData)
                     .environmentObject(billData)
+                    .onDisappear {
+                        isLoading = true
+                    }
                 } else {
                     Text("Error Occurred")
                 }
             }
             .hidden()
             
-            Form {
-                remainingBillSection
-                billListSection
-                proceedPaymentSection
-            }
-            .zIndex(0)
-            .navigationTitle("Split By Product")
-            .toolbar(content: {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        data.sbpResign()
-                    } label: {
-                        Text("Discard")
-                            .foregroundColor(.red)
-                    }
-                    
+            if isLoading {
+                Spacer()
+                    .overlay(ProgressView())
+                    .onAppear(perform: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                            isLoading = false
+                        }
+                    })
+                
+            } else {
+                Form {
+                    remainingBillSection
+                    billListSection
+                    proceedPaymentSection
                 }
-            })
+                .zIndex(0)
+                .navigationTitle("Split By Product")
+                .toolbar(content: {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            data.sbpResign()
+                        } label: {
+                            Text("Discard")
+                                .foregroundColor(.red)
+                        }
+                        
+                    }
+                })
+            }
             
             if !cartProducts.isEmpty {
-                SBPCartFloatingView(cartProducts: $cartProducts, cartBillData: $selection)
+                SBPCartFloatingView(cartProducts: $cartProducts, isLoading: $isLoading)
                     .environmentObject(appData)
                     .environmentObject(data)
                     .transition(.moveAndFade)
@@ -150,6 +174,7 @@ struct BillSplitByProductView: View {
     
     var billListSection: some View {
         Section {
+            
             if children.isEmpty {
                 Text("Empty...")
                     .foregroundColor(.gray)
@@ -173,6 +198,7 @@ struct BillSplitByProductView: View {
                         } else if bill.combined {
                             Button {
                                 data.splitByAmountUngroup(bill: bill)
+                                isLoading = true
                             } label: {
                                 Text("Undo Group of \(bill.children?.count ?? 0)")
                             }
@@ -184,27 +210,14 @@ struct BillSplitByProductView: View {
                         if bill.completed {
                             return
                         }
-                        withAnimation {
-                            if selection?.controller.bill == bill {
-                                selection = nil
-                            } else {
-                                selection = BillData(context: data.controller.viewContext, bill: bill)
-                            }
+                        if selection?.controller.bill == bill {
+                            selection = nil
+                        } else {
+                            selection = BillData(context: data.controller.viewContext, bill: bill)
                         }
                     }
             }
-            if let _ = selection {
-                Button {
-                    activeTransaction.toggle()
-                } label: {
-                    HStack {
-                        Spacer()
-                        Text("Make a Payment")
-                        Spacer()
-                    }
-                }
-                
-            }
+            
         } header: {
             Text("Bills")
         }
@@ -245,10 +258,8 @@ struct BillSplitByProductView: View {
     }
     
     func addToCart(_ product: Payable) {
-        withAnimation {
-            cartProducts[product] = (cartProducts[product] ?? 0) + 1
-            data.reloadChildren()
-        }
+        cartProducts[product] = (cartProducts[product] ?? 0) + 1
+        data.reloadChildren()
     }
     
     func extractProductFromBillItems(_ billItems: [BillItem]) -> [Payable : Int] {
@@ -266,8 +277,6 @@ struct BillSplitByProductView: View {
     func getSubBillViewCellColor(subBill: Bill) -> Color? {
         if subBill.completed {
             return Color.green
-        } else if selection?.controller.bill == subBill {
-            return Color(UIColor.systemGray3)
         } else {
             return nil
         }

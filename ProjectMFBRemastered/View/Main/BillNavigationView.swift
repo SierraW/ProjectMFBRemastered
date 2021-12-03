@@ -25,7 +25,7 @@ struct BillNavigationView: View {
                 }
             }
             .listRowSeparator(.hidden)
-            .padding(.leading)
+            .padding()
         }
     }
 }

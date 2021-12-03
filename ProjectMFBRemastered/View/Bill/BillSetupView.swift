@@ -43,13 +43,10 @@ struct BillSetupView: View {
                     Text("Associated Tag")
                 } footer: {
                     if associatedTag != nil {
-                        HStack {
-                            Spacer()
-                            Button(role: .destructive) {
-                                associatedTag = nil
-                            } label: {
-                                Text("Remove Tag")
-                        }
+                        Button {
+                            associatedTag = nil
+                        } label: {
+                            Text("Remove Tag")
                         }
                     }
                 }
@@ -87,13 +84,10 @@ struct BillSetupView: View {
                     Text("One-time service payment")
                 }  footer: {
                     if servicePayable != nil {
-                        HStack {
-                            Spacer()
-                            Button(role: .destructive) {
-                                servicePayable = nil
-                            } label: {
-                                Text("Remove Product")
-                            }
+                        Button {
+                            servicePayable = nil
+                        } label: {
+                            Text("Remove Product")
                         }
                     }
                 }

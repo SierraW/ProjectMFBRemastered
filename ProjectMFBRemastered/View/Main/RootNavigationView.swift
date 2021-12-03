@@ -25,7 +25,7 @@ struct RootNavigationView: View {
                 }
             }
             .listRowSeparator(.hidden)
-            .padding(.leading)
+            .padding()
         }
     }
 }

@@ -28,7 +28,7 @@ struct BillLandingView: View {
             }
         }
         .onAppear {
-            if let bill = room.activeBill {
+            if let bill = room.activeBill, !bill.completed {
                 data = BillData(context: viewContext, bill: bill)
             }
         }

@@ -71,6 +71,7 @@ struct UserEditorView: View {
                             controller.setUsername(user, value: name)
                         }
                     })
+                        .disabled(user.is_root)
                 }
                 
             } header: {

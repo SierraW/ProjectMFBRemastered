@@ -43,16 +43,32 @@ struct BillSplitByAmountView: View {
                 if let billData = activeTransaction {
                     BillTransactionView {
                         activeTransaction = nil
+                        if ableToSubmit {
+                            submit()
+                        }
                     }
                     .environmentObject(appData)
                     .environmentObject(billData)
+                    .onDisappear {
+                        isLoading = true
+                    }
                 } else {
                     Text("Error Occurred")
                 }
             }
             .hidden()
             
-            splitByAmountFormView
+            if isLoading {
+                Spacer()
+                    .overlay(ProgressView())
+                    .onAppear(perform: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                            isLoading = false
+                        }
+                    })
+            } else {
+                splitByAmountFormView
+            }
             
             VStack {
                 Spacer()
@@ -92,53 +108,46 @@ struct BillSplitByAmountView: View {
                 actionSection
             }
             
-            if isLoading {
-                Color(UIColor.secondarySystemGroupedBackground)
-                    .overlay(ProgressView())
-                    .frame(height: 100)
-                    .onAppear(perform: {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            isLoading = false
-                        }
-                    })
-            } else {
-                Section {
-                    ForEach(children) { bill in
-                        BillListViewCell(bill: bill)
-                            .environmentObject(appData)
-                            .contextMenu(menuItems: {
-                                if bill.completed {
-                                    Button {
-                                        data.splitByAmountUndoPayments(bill: bill)
-                                    } label: {
-                                        Text("Undo Payments")
-                                    }
-                                } else if bill.combined {
-                                    Button {
-                                        data.splitByAmountUngroup(bill: bill)
-                                    } label: {
-                                        Text("Undo Group of \(bill.children?.count ?? 0)")
-                                    }
+            
+            Section {
+                ForEach(children) { bill in
+                    BillListViewCell(bill: bill)
+                        .environmentObject(appData)
+                        .contextMenu(menuItems: {
+                            if bill.completed {
+                                Button {
+                                    data.splitByAmountUndoPayments(bill: bill)
+                                    isLoading = true
+                                } label: {
+                                    Text("Undo Payments")
                                 }
-                            })
-                            .listRowBackground(getSubBillViewCellColor(subBill: bill))
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                if bill.completed {
-                                    return
+                            } else if bill.combined {
+                                Button {
+                                    data.splitByAmountUngroup(bill: bill)
+                                    isLoading = true
+                                } label: {
+                                    Text("Undo Group of \(bill.children?.count ?? 0)")
                                 }
-                                withAnimation {
-                                    if selection.contains(bill) {
-                                        selection.remove(bill)
-                                    } else {
-                                        selection.insert(bill)
-                                    }
-                                }
-                                
                             }
-                    }
+                        })
+                        .listRowBackground(getSubBillViewCellColor(subBill: bill))
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            if bill.completed {
+                                return
+                            }
+                            withAnimation {
+                                if selection.contains(bill) {
+                                    selection.remove(bill)
+                                } else {
+                                    selection.insert(bill)
+                                }
+                            }
+                            
+                        }
                 }
             }
+            
             
             proceedPaymentSection
             
@@ -171,8 +180,7 @@ struct BillSplitByAmountView: View {
             if ableToSubmit {
                 Button {
                     if ableToSubmit {
-                        data.submitBill(appData)
-                        onExit()
+                        submit()
                     }
                 } label: {
                     Text("Submit")
@@ -193,7 +201,6 @@ struct BillSplitByAmountView: View {
     }
     
     func makePayment() {
-        isLoading = true
         if selection.count == 0 {
             return
         } else if selection.count == 1{
@@ -208,6 +215,8 @@ struct BillSplitByAmountView: View {
         var newTotal: Decimal = 0
         var newDiscountableTotal: Decimal = 0
         
+        var rps = Set<RatedPayable>()
+        
         for bill in selection {
             bill.parent = newBill
             if let billTotal = bill.total {
@@ -216,6 +225,16 @@ struct BillSplitByAmountView: View {
                 }
                 if let total = billTotal.total as Decimal? {
                     newTotal += total
+                }
+            }
+            if let ratedBillItems = bill.items?.allObjects as? [BillItem]{
+                for ratedBillItem in ratedBillItems.filter({$0.is_rated}) {
+                    if let ratedPayable = ratedBillItem.ratedPayable {
+                        if !rps.contains(ratedPayable) {
+                            rps.insert(ratedPayable)
+                            let _ = data.controller.createBillItem(from: ratedBillItem, to: newBill)
+                        }
+                    }
                 }
             }
             
@@ -230,6 +249,15 @@ struct BillSplitByAmountView: View {
         
         data.reloadChildren()
         
-        activeTransaction = BillData(context: data.controller.viewContext, bill: newBill)
+        let billData = BillData(context: data.controller.viewContext, bill: newBill)
+        
+        billData.calculateRatedSubtotals()
+        
+        activeTransaction = billData
+    }
+    
+    func submit() {
+        data.submitBill(appData)
+        onExit()
     }
 }

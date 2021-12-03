@@ -43,6 +43,16 @@ struct BillTransactionView: View {
     
     var body: some View {
         ZStack {
+            if isLoading {
+                Color(UIColor.secondarySystemGroupedBackground)
+                    .overlay(ProgressView())
+                    .frame(height: 100)
+                    .onAppear(perform: {
+                        DispatchQueue.main.async {
+                            isLoading = false
+                        }
+                    })
+            } else {
             Form {
                 reviewSectionView
                 addOnSectionView
@@ -58,15 +68,16 @@ struct BillTransactionView: View {
                     }
                 }
             }
+            }
             
             VStack {
                 Spacer()
                 totalsSectionView
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
+                    .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.secondarySystemGroupedBackground)))
                     .padding(.horizontal)
                     .padding(.bottom)
-                    .frame(maxHeight: 170)
+                    .frame(height: 150)
             }
         }
         .sheet(isPresented: $showSBAMenu, content: {
@@ -132,16 +143,6 @@ struct BillTransactionView: View {
     
     var addOnSectionView: some View {
         Section {
-            if isLoading {
-                Color(UIColor.secondarySystemGroupedBackground)
-                    .overlay(ProgressView())
-                    .frame(height: 100)
-                    .onAppear(perform: {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            isLoading = false
-                        }
-                    })
-            } else {
                 ForEach(addOnsIndices, id: \.self) { index in
                     BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
                     .contentShape(Rectangle())
@@ -154,17 +155,14 @@ struct BillTransactionView: View {
 
                     }
                 }
-            }
             NavigationLink {
                 BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
                     data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict, isAddOn: true)
+                    isLoading = true
                 })
                     .environmentObject(appData)
                     .environmentObject(data)
                     .navigationTitle("Select items...")
-                    .onDisappear {
-                        isLoading = true
-                    }
             } label: {
                 HStack {
                     Spacer()
@@ -187,6 +185,7 @@ struct BillTransactionView: View {
                         .contextMenu {
                             Button {
                                 data.undoPayment(payment)
+                                isLoading = true
                             } label: {
                                 Text("Undo Payment")
                             }
@@ -227,9 +226,6 @@ struct BillTransactionView: View {
         GeometryReader { geometry in
             HStack {
                 VStack {
-                    Text("Bill")
-                        .padding(.bottom, 2)
-                    Spacer()
                     HStack {
                         Text("Subtotal")
                         Text(appData.majorCurrency.toStringRepresentation)
@@ -261,13 +257,10 @@ struct BillTransactionView: View {
                             .bold()
                             .frame(width: 60, alignment: .trailing)
                     }
-                    Spacer()
                 }
                 .frame(width: geometry.size.width / 2)
                 Divider()
                 VStack {
-                    Text("Remaining")
-                        .padding(.vertical, 2)
                     Spacer()
                     HStack {
                         Text("Due")

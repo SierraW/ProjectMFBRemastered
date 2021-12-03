@@ -33,36 +33,40 @@ struct BillView: View {
     
     var billView: some View {
         VStack {
-            if data.items.count == 0 {
-                Text("Empty Bill")
-                    .foregroundColor(.gray)
-                    .bold()
-            }
-            List {
-                if isLoading {
-                    Color(UIColor.systemBackground)
-                        .overlay(ProgressView())
-                        .frame(height: 100)
-                        .onAppear(perform: {
+            if isLoading {
+                Color(UIColor.systemBackground)
+                    .overlay(ProgressView())
+                    .frame(height: 100)
+                    .onAppear(perform: {
+                        DispatchQueue.main.async {
                             isLoading = false
-                        })
-                } else {
+                        }
+                    })
+                Spacer()
+            } else {
+                if data.items.count == 0 {
+                    Text("Empty Bill")
+                        .foregroundColor(.gray)
+                        .bold()
+                }
+                List {
+                    
                     ForEach(data.items.indices, id:\.self) { index in
                         BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
                             .listRowBackground(index + 1 == data.items.count ? Color.gray : nil)
                             .contentShape(Rectangle())
                             .contextMenu(menuItems: {
-//                                Button {
-//                                    data.addItem(index)
-//                                } label: {
-//                                    Text("Add One")
-//                                }
-//
-//                                Button {
-//                                    data.removeItem(index)
-//                                } label: {
-//                                    Text("Remove One")
-//                                }
+                                //                                Button {
+                                //                                    data.addItem(index)
+                                //                                } label: {
+                                //                                    Text("Add One")
+                                //                                }
+                                //
+                                //                                Button {
+                                //                                    data.removeItem(index)
+                                //                                } label: {
+                                //                                    Text("Remove One")
+                                //                                }
                                 
                                 Button(role: .destructive) {
                                     data.removeItem(index, all: true)
@@ -73,24 +77,27 @@ struct BillView: View {
                                 
                             })
                     }
-                }
-                
-                NavigationLink {
-                    BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
-                        isLoading = true
-                        data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict)
-                    })
-                        .environmentObject(appData)
-                        .environmentObject(data)
-                        .navigationTitle("Select items...")
-                } label: {
-                    HStack {
-                        Spacer()
-                        Image(systemName: "plus.circle")
-                        Text("Item")
-                        Spacer()
+                    
+                    
+                    NavigationLink {
+                        BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
+                            data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict)
+                        })
+                            .environmentObject(appData)
+                            .environmentObject(data)
+                            .navigationTitle("Select items...")
+                            .onDisappear {
+                                isLoading = true
+                            }
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "plus.circle")
+                            Text("Item")
+                            Spacer()
+                        }
+                        .foregroundColor(.blue)
                     }
-                    .foregroundColor(.blue)
                 }
             }
             
@@ -157,7 +164,7 @@ struct BillView: View {
                     } label: {
                         Text(data.associatedTag == nil ? "Add Tag" : data.associatedTag!.toStringRepresentation)
                     }
-
+                    
                     Spacer()
                     Button {
                         data.originalBillSubmit()
@@ -168,10 +175,10 @@ struct BillView: View {
                 .padding(.top, 5)
             }
             .padding()
-            .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.systemBackground)))
+            .background(RoundedRectangle(cornerRadius: 15).fill(Color(UIColor.secondarySystemGroupedBackground)))
             .padding(.horizontal)
             .padding(.bottom)
-            .frame(maxHeight: 170)
+            .frame(height: 150)
             
         }
         .navigationTitle(data.name)
@@ -203,8 +210,11 @@ struct BillView: View {
     }
     
     var completedView: some View {
-        HistoryBillPreview()
-            .environmentObject(appData)
-            .environmentObject(data)
+        VStack {
+            Text("This bill is completed")
+            Button("Start new bill") {
+                data.setInactive()
+            }
+        }
     }
 }

@@ -93,22 +93,8 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             List {
-                Section {
-                    HStack {
-                        Text("Hi, \(appData.user.toStringRepresentation).")
-                        Spacer()
-                        Button(role: .destructive) {
-                            appData.onLogout()
-                        } label: {
-                            Text("Log Out")
-                        }
-                    }
-                }
-                
                 RoomNavigationView()
-                    .padding()
                 BillNavigationView()
-                    .padding()
                 
                 if appData.user.is_root {
                     RootNavigationView()
@@ -134,7 +120,19 @@ struct MainView: View {
                     }
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        appData.onLogout()
+                    } label: {
+                        Text("Logout")
+                            .foregroundColor(.red)
+                    }
+
+                }
+            })
+            .navigationTitle("Hi, \(appData.user.toStringRepresentation).")
+            //.navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(.columns)
     }

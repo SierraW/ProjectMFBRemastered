@@ -51,7 +51,7 @@ struct RoomNavigationView: View {
                     }
                 }
                 .listRowSeparator(.hidden)
-                .padding(.leading)
+                .padding()
             }
         }
     }

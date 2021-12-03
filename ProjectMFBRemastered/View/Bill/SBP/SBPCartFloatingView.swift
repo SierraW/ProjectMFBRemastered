@@ -22,7 +22,8 @@ struct SBPCartFloatingView: View {
     @State var scaleValue: CGFloat = 0
     
     @Binding var cartProducts: [Payable: Int]
-    @Binding var cartBillData: BillData?
+//    @Binding var cartBillData: BillData?
+    @Binding var isLoading: Bool
     
     var body: some View {
         ZStack {
@@ -78,21 +79,21 @@ struct SBPCartFloatingView: View {
                     }
                     .padding(.horizontal)
                     
-                    if cartBillData != nil {
-                        Button {
-                            addToExistingBill()
-                        } label: {
-                            HStack {
-                                Spacer()
-                                Image(systemName: "cart.badge.plus")
-                                Text("Add To Existing Bill")
-                                Spacer()
-                            }
-                            .padding(.vertical, 10)
-                            .background(RoundedRectangle(cornerRadius: 5).fill(Color(UIColor.systemGray5)))
-                        }
-                        .padding(.horizontal)
-                    }
+//                    if cartBillData != nil {
+//                        Button {
+//                            addToExistingBill()
+//                        } label: {
+//                            HStack {
+//                                Spacer()
+//                                Image(systemName: "cart.badge.plus")
+//                                Text("Add To Existing Bill")
+//                                Spacer()
+//                            }
+//                            .padding(.vertical, 10)
+//                            .background(RoundedRectangle(cornerRadius: 5).fill(Color(UIColor.systemGray5)))
+//                        }
+//                        .padding(.horizontal)
+//                    }
                     
                 }
                 
@@ -129,17 +130,17 @@ struct SBPCartFloatingView: View {
                                 scaleValue = 1
                             }
                         }
-                        if cartBillData != nil {
-                            Button {
-                                addToExistingBill()
-                            } label: {
-                                Image(systemName: "cart.badge.plus")
-                                    .padding(10)
-                                    .background(Circle().fill(Color(UIColor.systemGray5)))
-                            }
-                            .scaleEffect(scaleValue)
-                            .transition(.moveAndFade)
-                        }
+//                        if cartBillData != nil {
+//                            Button {
+//                                addToExistingBill()
+//                            } label: {
+//                                Image(systemName: "cart.badge.plus")
+//                                    .padding(10)
+//                                    .background(Circle().fill(Color(UIColor.systemGray5)))
+//                            }
+//                            .scaleEffect(scaleValue)
+//                            .transition(.moveAndFade)
+//                        }
                         Button(role: .destructive) {
                             clearCart()
                         } label: {
@@ -187,12 +188,13 @@ struct SBPCartFloatingView: View {
         }
     }
     
-    func addToExistingBill() {
-        if let cartBillData = cartBillData {
-            cartBillData.sbpAddToCart(miniProductDict: cartProducts)
-            clearCart()
-        }
-    }
+//    func addToExistingBill() {
+//        if let cartBillData = cartBillData {
+//            cartBillData.sbpAddToCart(miniProductDict: cartProducts)
+//            clearCart()
+//            isLoading = true
+//        }
+//    }
     
     func addToNewBill() {
         if cartProducts.isEmpty {

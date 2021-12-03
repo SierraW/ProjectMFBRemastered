@@ -65,8 +65,7 @@ struct BillListViewCell: View {
                         }
                     }
                 }
-                Image(systemName: resultMode ?  isExpanded ? "archivebox.fill" : "archivebox" : "chevron.right")
-                    .rotationEffect(Angle(degrees: !resultMode && isExpanded ? 90 : 0))
+                Image(systemName: isExpanded ? "archivebox.fill" : "archivebox")
                     .scaleEffect(isExpanded ? 1.2 : 1)
                     .padding(.leading)
                     .contentShape(Rectangle())
