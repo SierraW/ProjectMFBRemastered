@@ -10,6 +10,7 @@ import SwiftUI
 struct BillItemShoppingView: View {
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
+    @Environment(\.managedObjectContext) var viewContext
     @Environment(\.presentationMode) var presentationMode
     
     @State var selectRatedItems = false
@@ -79,6 +80,7 @@ struct BillItemShoppingView: View {
                 BillItemShoppingFloatingView(payables: $payables, ratedPayables: $ratedPayables, showCart: $showCart) {
                     submit()
                 }
+                .environment(\.managedObjectContext, viewContext)
                 .padding(.horizontal)
                 .padding(.bottom)
             }

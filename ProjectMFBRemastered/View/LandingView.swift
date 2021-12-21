@@ -102,7 +102,7 @@ struct LandingView: View {
     }
     
     func getMainView(with data: AppData) -> some View {
-        return MainView()
+        MainView()
             .environmentObject(data)
     }
 }

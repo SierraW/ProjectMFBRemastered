@@ -21,6 +21,7 @@ struct BillLandingView: View {
                 BillView {
                     self.data = nil
                 }
+                    .environment(\.managedObjectContext, viewContext)
                     .environmentObject(appData)
                     .environmentObject(data)
             } else {

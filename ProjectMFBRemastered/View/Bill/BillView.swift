@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BillView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     
@@ -83,6 +84,7 @@ struct BillView: View {
                         BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
                             data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict)
                         })
+                            .environment(\.managedObjectContext, viewContext)
                             .environmentObject(appData)
                             .environmentObject(data)
                             .navigationTitle("Select items...")
@@ -189,6 +191,7 @@ struct BillView: View {
         BillTransactionView(enableSplitBill: true) {
             onExit()
         }
+        .environment(\.managedObjectContext, viewContext)
         .environmentObject(appData)
         .environmentObject(data)
     }

@@ -66,17 +66,29 @@ struct HistoryBillListView: View {
                                     .onTapGesture {
                                         selection = BillData(context: viewContext, bill: bill)
                                     }
+                                    .contextMenu {
+                                        Text("You cannot delete a sumitted bill.")
+                                    }
                             } else {
                                 NavigationLink {
                                     BillView{
                                         
                                     }
+                                    .environment(\.managedObjectContext, viewContext)
                                     .environmentObject(appData)
                                     .environmentObject(BillData(context: viewContext, bill: bill))
                                 } label: {
                                     BillListViewCell(bill: bill, resultMode: true)
                                         .environmentObject(appData)
                                 }
+                                .contextMenu(menuItems: {
+                                    Button(role: .destructive) {
+                                        let controller = ModelController(viewContext)
+                                        controller.delete(bill)
+                                    } label: {
+                                        Text("Delete")
+                                    }
+                                })
                             }
                         }
                     }
