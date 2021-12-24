@@ -11,7 +11,6 @@ struct BillSplitByAmountWizardView: View {
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     
-    
     @State var numberOfBillsString = "0"
     
     @State var submitting = false

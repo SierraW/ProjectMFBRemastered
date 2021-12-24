@@ -47,6 +47,12 @@
 		3B4FBB28275098D900EA538A /* BillItemViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB27275098D900EA538A /* BillItemViewCell.swift */; };
 		3B4FBB2A2750ACD900EA538A /* RatedPayableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB292750ACD900EA538A /* RatedPayableViewCell.swift */; };
 		3B4FBB2C2750BB5F00EA538A /* SubmitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4FBB2B2750BB5F00EA538A /* SubmitButtonView.swift */; };
+		3B596BA627726BF400A6694E /* BillViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B596BA527726BF400A6694E /* BillViewV2.swift */; };
+		3B596BA82772750200A6694E /* BillWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B596BA72772750200A6694E /* BillWidget.swift */; };
+		3B596BAA27759AFE00A6694E /* BillItemViewCellV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B596BA927759AFE00A6694E /* BillItemViewCellV2.swift */; };
+		3B596BAC2775A23800A6694E /* RoomLegacyNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B596BAB2775A23800A6694E /* RoomLegacyNavigationView.swift */; };
+		3B596BAE2775A4AC00A6694E /* BillLandingViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B596BAD2775A4AC00A6694E /* BillLandingViewV2.swift */; };
+		3B596BB02775B12800A6694E /* BillDataV2Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B596BAF2775B12800A6694E /* BillDataV2Extension.swift */; };
 		3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0E72744A46B00D7D4AD /* PaymentMethodEditorView.swift */; };
 		3B8FA0EA2744AEFF00D7D4AD /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */; };
 		3B8FA0EC2744BABD00D7D4AD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */; };
@@ -143,6 +149,12 @@
 		3B4FBB27275098D900EA538A /* BillItemViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemViewCell.swift; sourceTree = "<group>"; };
 		3B4FBB292750ACD900EA538A /* RatedPayableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatedPayableViewCell.swift; sourceTree = "<group>"; };
 		3B4FBB2B2750BB5F00EA538A /* SubmitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButtonView.swift; sourceTree = "<group>"; };
+		3B596BA527726BF400A6694E /* BillViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillViewV2.swift; sourceTree = "<group>"; };
+		3B596BA72772750200A6694E /* BillWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillWidget.swift; sourceTree = "<group>"; };
+		3B596BA927759AFE00A6694E /* BillItemViewCellV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemViewCellV2.swift; sourceTree = "<group>"; };
+		3B596BAB2775A23800A6694E /* RoomLegacyNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomLegacyNavigationView.swift; sourceTree = "<group>"; };
+		3B596BAD2775A4AC00A6694E /* BillLandingViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillLandingViewV2.swift; sourceTree = "<group>"; };
+		3B596BAF2775B12800A6694E /* BillDataV2Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillDataV2Extension.swift; sourceTree = "<group>"; };
 		3B8FA0E72744A46B00D7D4AD /* PaymentMethodEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodEditorView.swift; sourceTree = "<group>"; };
 		3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -307,6 +319,18 @@
 			path = Transaction;
 			sourceTree = "<group>";
 		};
+		3B596BA4277254F700A6694E /* BillV2 */ = {
+			isa = PBXGroup;
+			children = (
+				3B596BAD2775A4AC00A6694E /* BillLandingViewV2.swift */,
+				3B596BA527726BF400A6694E /* BillViewV2.swift */,
+				3B596BA927759AFE00A6694E /* BillItemViewCellV2.swift */,
+				3B596BA72772750200A6694E /* BillWidget.swift */,
+				3B596BAF2775B12800A6694E /* BillDataV2Extension.swift */,
+			);
+			path = BillV2;
+			sourceTree = "<group>";
+		};
 		3B8FA0ED2744C04900D7D4AD /* Payable */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,6 +474,7 @@
 		3BEEE314273C53960056AF54 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3B596BA4277254F700A6694E /* BillV2 */,
 				3B1707A727573F7000FC8350 /* User */,
 				3BC78FE02757063100F5844F /* Debug */,
 				3BC78FB32755D59100F5844F /* History */,
@@ -491,6 +516,7 @@
 		3BEEE31F273C583B0056AF54 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				3B596BAB2775A23800A6694E /* RoomLegacyNavigationView.swift */,
 				3BD5818D2749E28700089113 /* RoomNavigationView.swift */,
 				3BEEE320273C58440056AF54 /* MainView.swift */,
 				3B203010273F0FD60016B537 /* ContentWrapperView.swift */,
@@ -640,6 +666,8 @@
 				3B1707B927582D4400FC8350 /* TagSearchView.swift in Sources */,
 				3B20ED4427442D7B00B96DB6 /* PaymentMethodController.swift in Sources */,
 				3BEEE321273C58440056AF54 /* MainView.swift in Sources */,
+				3B596BA82772750200A6694E /* BillWidget.swift in Sources */,
+				3B596BAC2775A23800A6694E /* RoomLegacyNavigationView.swift in Sources */,
 				3BEEE316273C560F0056AF54 /* LandingView.swift in Sources */,
 				3B4FBB2427508FD800EA538A /* RatedPayableListView.swift in Sources */,
 				3BD581842746BC2E00089113 /* PayableListView.swift in Sources */,
@@ -651,8 +679,10 @@
 				3BEEE31C273C57D40056AF54 /* SetupWizardView.swift in Sources */,
 				3B8FA0EC2744BABD00D7D4AD /* WelcomeView.swift in Sources */,
 				3B8FA0F827458C6900D7D4AD /* PayableEditorView.swift in Sources */,
+				3B596BAE2775A4AC00A6694E /* BillLandingViewV2.swift in Sources */,
 				3BD581AE274D769D00089113 /* BillListVIew.swift in Sources */,
 				3B4FBB2227508C4A00EA538A /* TransactionController.swift in Sources */,
+				3B596BA627726BF400A6694E /* BillViewV2.swift in Sources */,
 				3BEEE304273C53810056AF54 /* ContentView.swift in Sources */,
 				3BEEE319273C57080056AF54 /* RegisterationView.swift in Sources */,
 				3B4FBB2A2750ACD900EA538A /* RatedPayableViewCell.swift in Sources */,
@@ -661,7 +691,9 @@
 				3B4FBB1327500AB500EA538A /* BillTransactionView.swift in Sources */,
 				3B1707B72757D89000FC8350 /* BillItemShoppingFloatingView.swift in Sources */,
 				3B8FA0F62745800700D7D4AD /* PayableController.swift in Sources */,
+				3B596BB02775B12800A6694E /* BillDataV2Extension.swift in Sources */,
 				3B203006273EDB200016B537 /* CurrencyManagementView.swift in Sources */,
+				3B596BAA27759AFE00A6694E /* BillItemViewCellV2.swift in Sources */,
 				3B1707A327572B4100FC8350 /* TagEditorView.swift in Sources */,
 				3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */,
 				3BD581AA274C56C600089113 /* BillController.swift in Sources */,
@@ -806,7 +838,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Y2V53HBZ8;
 				ENABLE_PREVIEWS = YES;
@@ -836,7 +868,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Y2V53HBZ8;
 				ENABLE_PREVIEWS = YES;

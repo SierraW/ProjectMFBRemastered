@@ -61,3 +61,9 @@ extension Currency: Comparable {
         (lhs.is_major || rhs.is_major) || (lhs.name ?? "err name") < (rhs.name ?? "err name")
     }
 }
+
+extension Bill: Comparable {
+    public static func < (lhs: Bill, rhs: Bill) -> Bool {
+        (lhs.proceedBalance == nil && rhs.proceedBalance != nil) ? true : lhs.openTimestamp ?? Date() > rhs.openTimestamp ?? Date()
+    }
+}

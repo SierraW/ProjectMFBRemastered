@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct BillTransactionView: View {
+    enum SplitMode {
+        case full
+        case amountOnly
+        case none
+    }
+    
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     @Environment(\.managedObjectContext) private var viewContext
@@ -22,7 +28,7 @@ struct BillTransactionView: View {
         CurrencyController(viewContext, staticContent: true)
     }
     
-    var enableSplitBill = false
+    var splitMode: SplitMode = .none
     
     var onExit: () -> Void
     
@@ -92,22 +98,26 @@ struct BillTransactionView: View {
     var reviewSectionView: some View {
         Section {
             BillListViewCell(bill: data.controller.bill, hideTotal: true, hideAddOnItems: true)
+                .expanded(true)
                 .environmentObject(appData)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Menu {
-                            if enableSplitBill {
+                            if splitMode == .amountOnly {
                                 Button {
                                     showSBAMenu.toggle()
                                 } label: {
                                     Text("Split by totals")
                                 }
+                            }
+                            if splitMode == .full {
                                 Button {
                                     data.showSplitByProductView()
                                 } label: {
                                     Text("Split by products")
                                 }
-                            } else {
+                            }
+                            if splitMode == .none {
                                 Text("Split Bill Unavailable")
                             }
                         } label: {
@@ -120,7 +130,7 @@ struct BillTransactionView: View {
                 Text("Bill State:")
                 Text(data.completed ? "Completed" : "Active")
                     .bold()
-                if enableSplitBill {
+                if splitMode != .none {
                     Spacer()
                     Button {
                         data.setInactive()
@@ -200,7 +210,7 @@ struct BillTransactionView: View {
                 TransactionView(amountDue: remainingBalance) { paymentMethod, currency, amount, majorCurrencyEquivalent, additionalDescription in
                     data.submitBillPayment(paymentMethod: paymentMethod, currency: currency, amount: amount, majorCurrencyEquivalent: majorCurrencyEquivalent, additionalDescription: additionalDescription)
                     if data.currentBillPaymentBalance >= data.total {
-                        if enableSplitBill {
+                        if splitMode != .none {
                             data.submitBill(appData)
                         } else {
                             data.setComplete()

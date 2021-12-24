@@ -93,9 +93,10 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             List {
-                RoomNavigationView()
-                BillNavigationView()
                 
+                RoomNavigationView()
+                    .environmentObject(appData)
+                BillNavigationView()
                 if appData.user.is_root {
                     RootNavigationView()
                 }
@@ -109,6 +110,7 @@ struct MainView: View {
                                         .environmentObject(appData)
                                 }
                             }
+                            RoomLagacyNavigationView()
                         } label: {
                             HStack {
                                 Text("Settings")

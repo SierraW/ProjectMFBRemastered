@@ -99,6 +99,7 @@ struct LandingView: View {
                 }
             }
         }
+        .environment(\.managedObjectContext, viewContext)
     }
     
     func getMainView(with data: AppData) -> some View {

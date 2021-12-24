@@ -105,11 +105,8 @@ struct LoginView: View {
             let selectedUser = users[selectedUserIndex]
             if selectedUser.password == password.sha256() {
                 selectedUser.lastLoginTimestamp = Date()
-                do {
-                    try viewContext.save()
-                } catch {
-                    print("Login date cannot saved.")
-                }
+                let controller = ModelController(viewContext)
+                controller.managedSave()
                 onExit(selectedUser)
             } else {
                 withAnimation {

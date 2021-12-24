@@ -2,15 +2,14 @@
 //  RoomNavigationView.swift
 //  ProjectMFBRemastered
 //
-//  Created by Yiyao Zhang on 2021-12-24.
+//  Created by Yiyao Zhang on 2021-11-20.
 //
 
 import SwiftUI
 
-struct RoomNavigationView: View {
+struct RoomLagacyNavigationView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var appData: AppData
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Tag.name, ascending: true)],
@@ -27,7 +26,7 @@ struct RoomNavigationView: View {
     var body: some View {
         Section {
             HStack {
-                Text("Rooms")
+                Text("Rooms (Legacy)")
                     .bold()
                 .foregroundColor(.gray)
                 Spacer()
@@ -39,9 +38,7 @@ struct RoomNavigationView: View {
             }
             ForEach(rooms.indices, id: \.self) { index in
                 NavigationLink {
-                    BillLandingViewV2(room: rooms[index])
-                        .environment(\.managedObjectContext, viewContext)
-                        .environmentObject(appData)
+                    BillLandingView(room: rooms[index])
                 } label: {
                     HStack {
                         if index < 50 {
@@ -60,7 +57,7 @@ struct RoomNavigationView: View {
     }
 }
 
-struct RoomNavigationView_Previews: PreviewProvider {
+struct RoomLagacyNavigationView_Previews: PreviewProvider {
     static var previews: some View {
         List {
             RoomNavigationView()

@@ -12,3 +12,9 @@ extension Int: Identifiable {
         "\(self)"
     }
 }
+
+extension BillItem {
+    public var smartId: String {
+        "\(self.name ?? "err")\(self.count)"
+    }
+}

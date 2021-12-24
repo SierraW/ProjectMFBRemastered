@@ -103,4 +103,9 @@ struct BillListViewCell: View {
             }
         }
     }
+    
+    func expanded(_ bool: Bool = true) -> BillListViewCell {
+        isExpanded = bool
+        return self
+    }
 }

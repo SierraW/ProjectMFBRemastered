@@ -84,7 +84,7 @@ struct BillSplitByAmountView: View {
             .padding(.bottom)
         }
         .background(Color(UIColor.systemGroupedBackground))
-        .navigationTitle("Split Bill")
+        .navigationTitle("Split By Total")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {

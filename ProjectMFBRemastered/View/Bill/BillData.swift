@@ -169,10 +169,14 @@ class BillData: ObservableObject, Identifiable {
     }
     
     func addItem(_ index: Int, count: Int = 1, calculateRatedSubtotals: Bool = true) { // todo make it one
-        if items[index].is_rated {
+        let item = items[index]
+        addItem(item, count: count, calculateRatedSubtotals: calculateRatedSubtotals)
+    }
+    
+    func addItem(_ item: BillItem, count: Int = 1, calculateRatedSubtotals: Bool = true) {
+        if item.is_rated {
             return
         }
-        let item = items[index]
         item.count += Int32(count)
         if let value = item.value as Decimal? {
             item.subtotal = NSDecimalNumber(decimal: value * Decimal(item.count))
@@ -182,11 +186,14 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
-    func removeItem(_ index: Int, all: Bool = false) {
+    func removeItem(_ index: Int, count: Int = 1, all: Bool = false) {
         let item = items[index]
-        
-        if !all && item.count > 1 {
-            item.count -= 1
+        removeItem(item, count: count, all: all)
+    }
+    
+    func removeItem(_ item: BillItem, count: Int = 1, all: Bool = false) {
+        if !all && Int(item.count) > count {
+            item.count -= Int32(count)
             if let value = item.value as Decimal? {
                 item.subtotal = NSDecimalNumber(decimal: value * Decimal(item.count))
             }

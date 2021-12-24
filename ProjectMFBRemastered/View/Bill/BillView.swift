@@ -52,9 +52,9 @@ struct BillView: View {
                 }
                 List {
                     
-                    ForEach(data.items.indices, id:\.self) { index in
-                        BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
-                            .listRowBackground(index + 1 == data.items.count ? Color.gray : nil)
+                    ForEach(data.items, id:\.smartId) { item in
+                        BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: item)
+                            //.listRowBackground(index + 1 == data.items.count ? Color.gray : nil)
                             .contentShape(Rectangle())
                             .contextMenu(menuItems: {
                                 //                                Button {
@@ -70,7 +70,7 @@ struct BillView: View {
                                 //                                }
                                 
                                 Button(role: .destructive) {
-                                    data.removeItem(index, all: true)
+                                    //data.removeItem(index, all: true)
                                     isLoading = true
                                 } label: {
                                     Text("Remove All")
@@ -88,9 +88,7 @@ struct BillView: View {
                             .environmentObject(appData)
                             .environmentObject(data)
                             .navigationTitle("Select items...")
-                            .onDisappear {
-                                isLoading = true
-                            }
+
                     } label: {
                         HStack {
                             Spacer()
@@ -188,7 +186,7 @@ struct BillView: View {
     }
     
     var originalBillReviewView: some View {
-        BillTransactionView(enableSplitBill: true) {
+        BillTransactionView(splitMode: .full) {
             onExit()
         }
         .environment(\.managedObjectContext, viewContext)
