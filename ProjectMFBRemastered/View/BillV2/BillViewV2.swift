@@ -21,7 +21,7 @@ struct BillViewV2: View {
     @State var timeElapsed: TimeInterval? = nil
     
     var ableToSubmit: Bool {
-        data.items.isEmpty && data.children.first(where: {$0.proceedBalance == nil}) == nil
+        data.total == 0 && data.children.first(where: {$0.proceedBalance == nil}) == nil
     }
     
     var onExit: () -> Void
@@ -72,7 +72,7 @@ struct BillViewV2: View {
                         } label: {
                             HStack {
                                 Spacer()
-                                Image(systemName: "plus.circle")
+                                Image(systemName: "plus")
                                 Text("Item")
                                 Spacer()
                             }
@@ -108,10 +108,10 @@ struct BillViewV2: View {
                     }
                 }
                 Divider()
-                VStack {
+                VStack(spacing: 0) {
                     HStack(spacing: 0) {
                         ScrollView(.horizontal) {
-                            LazyHStack {
+                            HStack {
                                 Button {
                                     createNewBill()
                                 } label: {
@@ -161,13 +161,13 @@ struct BillViewV2: View {
                         }
                         Divider()
                         VStack {
-                            Text("TOTAL \(appData.majorCurrency.toStringRepresentation) \(data.total.toStringRepresentation)")
+                            Text("\(appData.majorCurrency.toStringRepresentation) \(data.total.toStringRepresentation)")
                             Group {
                                 if !selectedBillItems.isEmpty {
                                     Button {
                                         clearCart()
                                     } label: {
-                                        Text("Clear selection")
+                                        Text("Clear Selection")
                                             .foregroundColor(.red)
                                     }
                                 } else if ableToSubmit {
@@ -188,14 +188,20 @@ struct BillViewV2: View {
                                             .foregroundColor(.green)
                                     }
                                 } else {
-                                    Button {
-                                        for bill in data.children {
-                                            removeSubBill(bill)
+                                    HStack {
+                                        Image(systemName: "trash")
+                                        Text("Bills (HOLD)")
+                                    }
+                                    .foregroundColor(.red)
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            for bill in data.children {
+                                                removeSubBill(bill)
+                                            }
+                                            reload()
+                                        } label: {
+                                            Text("Confirm Clear All Bills")
                                         }
-                                        reload()
-                                    } label: {
-                                        Text("Clear bills")
-                                            .foregroundColor(.red)
                                     }
                                 }
                             }
@@ -204,7 +210,7 @@ struct BillViewV2: View {
                         }
                         .padding(.horizontal)
                     }
-                    .frame(height: 110)
+                    .frame(height: 130)
                     .padding(.vertical, 7)
                 }
                 
@@ -271,8 +277,8 @@ struct BillViewV2: View {
         if selectedBillItems.isEmpty {
             return
         }
+        billData.resignProceedBalance()
         billData.addItems(with: selectedBillItems)
-        billData.originalBillSubmit()
         data.removeItems(items: selectedBillItems)
         clearCart()
         data.reloadChildren()

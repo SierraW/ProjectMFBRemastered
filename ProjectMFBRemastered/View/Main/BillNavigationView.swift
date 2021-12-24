@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct BillNavigationView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
     var body: some View {
         Section {
             HStack {
@@ -18,6 +20,7 @@ struct BillNavigationView: View {
             }
             NavigationLink {
                 HistoryBillListView()
+                    .environment(\.managedObjectContext, viewContext)
             } label: {
                 HStack {
                     Text("Histories")

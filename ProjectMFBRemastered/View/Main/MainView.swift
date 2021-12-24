@@ -20,6 +20,7 @@ class UserData: ObservableObject {
 }
 
 struct MainView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var appData: AppData
     
     @State var viewState: ViewState? = nil
@@ -95,8 +96,10 @@ struct MainView: View {
             List {
                 
                 RoomNavigationView()
+                    .environment(\.managedObjectContext, viewContext)
                     .environmentObject(appData)
                 BillNavigationView()
+                    .environment(\.managedObjectContext, viewContext)
                 if appData.user.is_root {
                     RootNavigationView()
                 }

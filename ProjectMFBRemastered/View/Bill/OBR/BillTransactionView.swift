@@ -22,8 +22,6 @@ struct BillTransactionView: View {
     
     @State var showSBAMenu = false
     
-    @State var isLoading = false
-    
     var controller: CurrencyController {
         CurrencyController(viewContext, staticContent: true)
     }
@@ -31,12 +29,6 @@ struct BillTransactionView: View {
     var splitMode: SplitMode = .none
     
     var onExit: () -> Void
-    
-    var addOnsIndices: [Int] {
-        data.items.indices.filter { index in
-            data.items[index].is_add_on
-        }
-    }
     
     var remainingBalance: Decimal {
         let result = data.total - data.currentBillPaymentBalance
@@ -49,16 +41,6 @@ struct BillTransactionView: View {
     
     var body: some View {
         ZStack {
-            if isLoading {
-                Color(UIColor.secondarySystemGroupedBackground)
-                    .overlay(ProgressView())
-                    .frame(height: 100)
-                    .onAppear(perform: {
-                        DispatchQueue.main.async {
-                            isLoading = false
-                        }
-                    })
-            } else {
             Form {
                 reviewSectionView
                 addOnSectionView
@@ -73,7 +55,9 @@ struct BillTransactionView: View {
                         }
                     }
                 }
-            }
+                Spacer()
+                    .frame(height: 150)
+                    .listRowBackground(Color(uiColor: .systemGroupedBackground))
             }
             
             VStack {
@@ -97,8 +81,7 @@ struct BillTransactionView: View {
     
     var reviewSectionView: some View {
         Section {
-            BillListViewCell(bill: data.controller.bill, hideTotal: true, hideAddOnItems: true)
-                .expanded(true)
+            BillListViewCell(bill: data.controller.bill, hideTotal: true, isExpanded: true, hideAddOnItems: true)
                 .environmentObject(appData)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -153,12 +136,12 @@ struct BillTransactionView: View {
     
     var addOnSectionView: some View {
         Section {
-                ForEach(addOnsIndices, id: \.self) { index in
-                    BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: data.items[index])
+            ForEach(data.items.filter{$0.is_add_on}, id: \.smartId) { item in
+                    BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: item)
                     .contentShape(Rectangle())
                     .contextMenu {
                         Button(role: .destructive) {
-                            data.removeItem(index, all: true)
+                            data.removeItem(item, all: true)
                         } label: {
                             Text("Delete")
                         }
@@ -168,7 +151,6 @@ struct BillTransactionView: View {
             NavigationLink {
                 BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
                     data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict, isAddOn: true)
-                    isLoading = true
                 })
                     .environmentObject(appData)
                     .environmentObject(data)
@@ -195,7 +177,6 @@ struct BillTransactionView: View {
                         .contextMenu {
                             Button {
                                 data.undoPayment(payment)
-                                isLoading = true
                             } label: {
                                 Text("Undo Payment")
                             }

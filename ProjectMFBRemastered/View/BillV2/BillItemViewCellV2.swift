@@ -69,16 +69,19 @@ struct BillItemViewCellV2: View {
                     }
                     
                 }
-                Image(systemName: "minus")
+                Image(systemName: "minus.circle")
                     .foregroundColor(.blue)
+                    .padding(billItem.is_rated ? .trailing : .leading)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         data.removeItem(billItem)
                     }
                 if !billItem.is_rated {
                     Text("\(count)")
-                    Image(systemName: "plus")
+                        .frame(width: 20)
+                    Image(systemName: "plus.circle")
                         .foregroundColor(.blue)
+                        .padding(.trailing)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             data.addItem(billItem)
@@ -93,7 +96,6 @@ struct BillItemViewCellV2: View {
                         .frame(width: 60, alignment: .trailing)
                 }
             }
-            .padding(.leading)
         }
     }
 }

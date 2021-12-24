@@ -33,4 +33,9 @@ extension BillData {
             }
         }
     }
+    
+    func resignProceedBalance() {
+        self.proceedBalance = nil
+        self.controller.bill.proceedBalance = nil
+    }
 }
