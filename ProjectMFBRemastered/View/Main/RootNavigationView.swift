@@ -20,6 +20,11 @@ struct RootNavigationView: View {
                 DatabaseMonitor()
             } label: {
                 HStack {
+                    Image(systemName: "command.square.fill")
+                        .font(.system(size: 25))
+                        .foregroundColor(.red)
+                        .background(RoundedRectangle(cornerRadius: 4).fill(.white)
+                                        .frame(width: 22, height: 22, alignment: .center))
                     Text("Resource Monitor")
                     Spacer()
                 }

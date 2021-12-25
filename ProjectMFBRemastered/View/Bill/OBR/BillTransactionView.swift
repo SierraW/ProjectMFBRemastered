@@ -158,7 +158,7 @@ struct BillTransactionView: View {
             } label: {
                 HStack {
                     Spacer()
-                    Image(systemName: "plus.circle")
+                    Image(systemName: "plus")
                     Text("Add-On")
                     Spacer()
                 }
@@ -202,11 +202,11 @@ struct BillTransactionView: View {
             } label: {
                 HStack {
                     Spacer()
-                    Image(systemName: "plus.circle")
+                    Image(systemName: "dollarsign.circle")
                     Text("Payment")
                     Spacer()
                 }
-                .foregroundColor(.blue)
+                .foregroundColor(.green)
             }
         } header: {
             Text("Payments")

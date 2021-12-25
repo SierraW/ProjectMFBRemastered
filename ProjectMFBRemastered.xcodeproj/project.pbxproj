@@ -532,13 +532,13 @@
 		3BEEE31F273C583B0056AF54 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				3B596BAB2775A23800A6694E /* RoomLegacyNavigationView.swift */,
 				3BD5818D2749E28700089113 /* RoomNavigationView.swift */,
+				3BC78FDC2756C0DE00F5844F /* BillNavigationView.swift */,
+				3B1707AE2757517000FC8350 /* RootNavigationView.swift */,
+				3B596BAB2775A23800A6694E /* RoomLegacyNavigationView.swift */,
 				3BEEE320273C58440056AF54 /* MainView.swift */,
 				3B203010273F0FD60016B537 /* ContentWrapperView.swift */,
 				3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */,
-				3BC78FDC2756C0DE00F5844F /* BillNavigationView.swift */,
-				3B1707AE2757517000FC8350 /* RootNavigationView.swift */,
 				3B596BBE2776EFF300A6694E /* MFBBackground.swift */,
 			);
 			path = Main;
@@ -858,7 +858,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Y2V53HBZ8;
 				ENABLE_PREVIEWS = YES;
@@ -872,7 +872,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ca.yiyao.ProjectMFBRemastered;
 				PRODUCT_NAME = "MFB Cashier";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -888,7 +888,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Y2V53HBZ8;
 				ENABLE_PREVIEWS = YES;
@@ -902,7 +902,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ca.yiyao.ProjectMFBRemastered;
 				PRODUCT_NAME = "MFB Cashier";
 				SWIFT_EMIT_LOC_STRINGS = YES;

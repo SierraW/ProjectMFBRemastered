@@ -24,6 +24,11 @@ struct BillNavigationView: View {
                     .environment(\.managedObjectContext, viewContext)
             } label: {
                 HStack {
+                    Image(systemName: "bookmark.square.fill")
+                        .font(.system(size: 25))
+                        .foregroundColor(.orange)
+                        .background(RoundedRectangle(cornerRadius: 4).fill(.white)
+                                        .frame(width: 22, height: 22, alignment: .center))
                     Text("Histories")
                     Spacer()
                 }
@@ -36,6 +41,11 @@ struct BillNavigationView: View {
                     .environmentObject(appData)
             } label: {
                 HStack {
+                    Image(systemName: "square.text.square.fill")
+                        .font(.system(size: 25))
+                        .foregroundColor(.purple)
+                        .background(RoundedRectangle(cornerRadius: 4).fill(.white)
+                                        .frame(width: 22, height: 22, alignment: .center))
                     Text("[TEST]Report")
                     Spacer()
                 }

@@ -44,11 +44,18 @@ struct RoomNavigationView: View {
                         .environmentObject(appData)
                 } label: {
                     HStack {
-                        if index < 50 {
-                            Image(systemName: "\(index + 1).square")
-                        } else {
-                            Image(systemName: "ellipsis")
+                        Group {
+                            if index < 50 {
+                                Image(systemName: "\(index + 1).square.fill")
+                            } else {
+                                Image(systemName: "number.square.fill")
+                            }
                         }
+                        .font(.system(size: 25))
+                        .foregroundColor(.blue)
+                        .background(RoundedRectangle(cornerRadius: 4).fill(.white)
+                                        .frame(width: 22, height: 22, alignment: .center))
+                        
                         Text(rooms[index].toStringRepresentation)
                         Spacer()
                     }

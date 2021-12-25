@@ -104,6 +104,8 @@ struct BillSplitByAmountView: View {
             Section {
                 BillListViewCell(bill: data.controller.bill, total: data.total)
                     .environmentObject(appData)
+            } header: {
+                Text("Original Bill")
             } footer: {
                 actionSection
             }
@@ -146,6 +148,8 @@ struct BillSplitByAmountView: View {
                             
                         }
                 }
+            } header: {
+                Text("Sub-bills")
             }
             
             

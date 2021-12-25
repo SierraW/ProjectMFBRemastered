@@ -41,6 +41,8 @@ struct BillViewV2: View {
             .environment(\.managedObjectContext, viewContext)
             .environmentObject(appData)
             .environmentObject(data)
+        } else if data.viewState == .completed {
+            completedView
         } else {
             billSectionView
         }
@@ -224,6 +226,16 @@ struct BillViewV2: View {
         }
     }
     
+    var completedView: some View {
+        VStack {
+            Text("This bill is completed")
+            Button("Start new bill") {
+                data.setInactive()
+                onExit()
+            }
+        }
+    }
+    
     func toggleTimer() {
         if let timer = timer {
             timer.invalidate()
@@ -273,7 +285,7 @@ struct BillViewV2: View {
         let billData = BillData(asChildOf: data)
         addToBill(billData)
         if let taxItem = RatedPayableController.firstTaxRatedPayable(viewContext) {
-            billData.addItem(taxItem)
+            billData.addItem(taxItem, isAddOn: true)
         }
     }
     
