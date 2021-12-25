@@ -158,6 +158,7 @@ struct BillViewV2: View {
                                     
                                 }
                             }
+                            .frame(height: 110)
                         }
                         Divider()
                         VStack {
@@ -210,7 +211,7 @@ struct BillViewV2: View {
                         }
                         .padding(.horizontal)
                     }
-                    .frame(height: 130)
+                    .frame(height: 120)
                     .padding(.vertical, 7)
                 }
                 

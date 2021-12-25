@@ -149,6 +149,7 @@ class BillData: ObservableObject, Identifiable {
             item = firstItem
         } else {
             item = controller.createBillItem(payable, order: getBillItemsIdentifier(), isAddOn: isAddOn)
+            items.append(item)
         }
         item.count += Int32(count)
         if let value = item.value as Decimal? {
