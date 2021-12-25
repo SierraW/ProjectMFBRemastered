@@ -71,7 +71,7 @@ struct HistoryBillListView: View {
                                     }
                             } else {
                                 NavigationLink {
-                                    BillView{
+                                    BillViewV2{
                                         
                                     }
                                     .environment(\.managedObjectContext, viewContext)

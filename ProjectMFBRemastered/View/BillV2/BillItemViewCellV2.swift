@@ -40,9 +40,9 @@ struct BillItemViewCellV2: View {
             }
             if let count = selection[billItem]{
                 HStack {
-                    Text("Selected: ")
+                    Image(systemName: "doc.fill.badge.plus")
                     Text("\(count) / \(self.count)")
-                    Image(systemName: "minus")
+                    Image(systemName: "minus.circle")
                         .foregroundColor(.blue)
                 }
                 .padding(.horizontal)

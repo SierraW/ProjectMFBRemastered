@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BillNavigationView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject private var appData: AppData
     
     var body: some View {
         Section {
@@ -24,6 +25,18 @@ struct BillNavigationView: View {
             } label: {
                 HStack {
                     Text("Histories")
+                    Spacer()
+                }
+            }
+            .listRowSeparator(.hidden)
+            .padding()
+            NavigationLink {
+                ReportPreparationView()
+                    .environment(\.managedObjectContext, viewContext)
+                    .environmentObject(appData)
+            } label: {
+                HStack {
+                    Text("[TEST]Report")
                     Spacer()
                 }
             }

@@ -22,7 +22,6 @@ class UserData: ObservableObject {
 struct MainView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var appData: AppData
-    
     @State var viewState: ViewState? = nil
     
     enum ViewState: String, CaseIterable {
@@ -93,13 +92,13 @@ struct MainView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                
+            Form {
                 RoomNavigationView()
                     .environment(\.managedObjectContext, viewContext)
                     .environmentObject(appData)
                 BillNavigationView()
                     .environment(\.managedObjectContext, viewContext)
+                    .environmentObject(appData)
                 if appData.user.is_root {
                     RootNavigationView()
                 }
@@ -137,7 +136,8 @@ struct MainView: View {
                 }
             })
             .navigationTitle("Hi, \(appData.user.toStringRepresentation).")
-            //.navigationBarTitleDisplayMode(.inline)
+            
+            WelcomeView()
         }
         .navigationViewStyle(.columns)
     }

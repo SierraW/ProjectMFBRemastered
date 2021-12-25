@@ -36,12 +36,11 @@ struct LoginView: View {
                     .frame(height: geometry.size.height / 10)
                 HStack {
                     Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
-                    Text("MFB Cashier App")
+                    Text("MFB Cashier")
                         .font(.title)
                 }
                 Spacer()
                     .frame(height: geometry.size.height / 10)
-                
                 Form {
                     Section {
                         HStack {
@@ -77,8 +76,6 @@ struct LoginView: View {
                             }
                             .padding(.leading)
                         }
-                    } header: {
-                        Text("Sign in")
                     } footer: {
                         if informationMismatched {
                             Text("Incorrect Password")

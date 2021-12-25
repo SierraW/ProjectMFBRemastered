@@ -56,17 +56,13 @@ struct LandingView: View {
     }
     
     var welcomeView: some View {
-        VStack {
-            Spacer()
-            Text("Welcome to MFB Cashier @ iOS")
-            Spacer()
-        }
+        WelcomeView()
         .contentShape(Rectangle())
         .onTapGesture {
             showWelcomeView = false
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 showWelcomeView = false
             }
         }

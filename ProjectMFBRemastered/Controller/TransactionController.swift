@@ -43,8 +43,8 @@ class TransactionController: ModelController {
     }
     
     func transact(bill: Bill, amount: Decimal, description additionalDescription: String?, paymentMethod: PaymentMethod, currency: Currency,  tags: [Tag]?) {
-        let transaction = makeTransaction(bill: bill, amount: amount, description: additionalDescription, paymentMethod: paymentMethod, currency: currency, tags: tags)
-        managedSave(for: transaction)
+        let _ = makeTransaction(bill: bill, amount: amount, description: additionalDescription, paymentMethod: paymentMethod, currency: currency, tags: tags)
+        managedSave()
     }
     
     func managedSave(for transaction: Transaction) {

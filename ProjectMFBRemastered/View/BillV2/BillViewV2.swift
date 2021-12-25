@@ -272,6 +272,9 @@ struct BillViewV2: View {
         }
         let billData = BillData(asChildOf: data)
         addToBill(billData)
+        if let taxItem = RatedPayableController.firstTaxRatedPayable(viewContext) {
+            billData.addItem(taxItem)
+        }
     }
     
     func addToBill(_ billData: BillData) {

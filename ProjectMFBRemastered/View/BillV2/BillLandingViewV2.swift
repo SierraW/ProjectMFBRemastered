@@ -25,12 +25,7 @@ struct BillLandingViewV2: View {
                     .environmentObject(appData)
                     .environmentObject(data)
             } else {
-                BillSetupView(room: room) {
-                    if let taxItem = RatedPayableController.firstTaxRatedPayable(viewContext) {
-                        $0.addItem(taxItem)
-                    }
-                    data = $0
-                }
+                BillSetupView(room: room) { data = $0 }
             }
         }
         .onAppear {
