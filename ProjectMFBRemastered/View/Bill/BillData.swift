@@ -121,7 +121,7 @@ class BillData: ObservableObject, Identifiable {
     
     func reloadItems() {
         if let items = controller.bill.items?.allObjects as? [BillItem] {
-            self.items = items.sorted()
+            self.items = items.sorted().filter({!$0.isDeleted})
         } else {
             items = []
         }
