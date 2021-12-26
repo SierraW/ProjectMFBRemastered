@@ -219,21 +219,18 @@ struct BillTransactionView: View {
                 VStack {
                     HStack {
                         Text("Subtotal")
-                        Text(appData.majorCurrency.toStringRepresentation)
                         Spacer()
                         Text(data.subtotal.toStringRepresentation)
                             .frame(width: 60, alignment: .trailing)
                     }
                     HStack {
                         Text("Discount")
-                        Text(appData.majorCurrency.toStringRepresentation)
                         Spacer()
                         Text(data.discount.toStringRepresentation)
                             .frame(width: 60, alignment: .trailing)
                     }
                     HStack {
                         Text("Tax & Service")
-                        Text(appData.majorCurrency.toStringRepresentation)
                         Spacer()
                         Text(data.taxAndService.toStringRepresentation)
                             .frame(width: 60, alignment: .trailing)
@@ -253,22 +250,27 @@ struct BillTransactionView: View {
                 Divider()
                 VStack {
                     Spacer()
+                    ForEach(remainingExchangedBalance.keys.sorted()) { key in
+                        HStack {
+                            Spacer()
+                            Text(key.toStringRepresentation)
+                            if let amount = remainingExchangedBalance[key] {
+                                HStack {
+                                    Spacer()
+                                    Text(amount.toStringRepresentation)
+                                }
+                                .frame(width: 70)
+                            }
+                        }
+                        .foregroundColor(.gray)
+                        .padding(.trailing)
+                    }
                     HStack {
                         Text("Due")
                         Text(appData.majorCurrency.toStringRepresentation)
                             .bold()
                         Text(remainingBalance.toStringRepresentation)
                             .bold()
-                    }
-                    .padding(2)
-                    ForEach(remainingExchangedBalance.keys.sorted()) { key in
-                        HStack {
-                            Text(key.toStringRepresentation)
-                            if let amount = remainingExchangedBalance[key] {
-                                Text(amount.toStringRepresentation)
-                            }
-                        }
-                        .foregroundColor(.gray)
                     }
                     Spacer()
                 }

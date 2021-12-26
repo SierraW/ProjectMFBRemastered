@@ -39,6 +39,7 @@ struct BillNavigationView: View {
                 ReportPreparationView()
                     .environment(\.managedObjectContext, viewContext)
                     .environmentObject(appData)
+                    .navigationTitle("Individual Report")
             } label: {
                 HStack {
                     Image(systemName: "square.text.square.fill")
@@ -46,7 +47,7 @@ struct BillNavigationView: View {
                         .foregroundColor(.purple)
                         .background(RoundedRectangle(cornerRadius: 4).fill(.white)
                                         .frame(width: 22, height: 22, alignment: .center))
-                    Text("[TEST]Report")
+                    Text("Individual Report")
                     Spacer()
                 }
             }

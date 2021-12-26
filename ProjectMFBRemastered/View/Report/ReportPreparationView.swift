@@ -48,7 +48,6 @@ struct ReportPreparationView: View {
         .sheet(isPresented: $showReportView, content: {
             ReportView(bills: selection.sorted(by: { $0.openTimestamp ?? Date() < $1.openTimestamp ?? Date() }))
         })
-        .navigationTitle("[TEST] Make Report")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

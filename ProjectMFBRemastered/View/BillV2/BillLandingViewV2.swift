@@ -28,6 +28,8 @@ struct BillLandingViewV2: View {
                 BillSetupView(room: room) { data = $0 }
             }
         }
+        .navigationTitle(room.name ?? "ERR")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             if let bill = room.activeBill, !bill.completed {
                 data = BillData(context: viewContext, bill: bill)

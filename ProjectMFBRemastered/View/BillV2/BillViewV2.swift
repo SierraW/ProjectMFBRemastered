@@ -13,6 +13,9 @@ struct BillViewV2: View {
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     
+    @State var showDescriptionEditor = false
+    @State var additionalDescription = ""
+    
     @State var selectedBillItems = [BillItem: Int]()
     @State var selectedBill: Bill? = nil
     
@@ -46,6 +49,34 @@ struct BillViewV2: View {
             completedView
         } else {
             billSectionView
+                .sheet(isPresented: $showDescriptionEditor) {
+                    VStack {
+                        HStack {
+                            Image(systemName: "chevron.down.circle")
+                            Text("Leave a message about this bill...")
+                                .bold()
+                            Spacer()
+                        }
+                        .foregroundColor(.gray)
+                        .padding(.top)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            showDescriptionEditor.toggle()
+                        }
+                        TextEditor(text: $additionalDescription)
+                            .frame(idealHeight: 250)
+                            .padding()
+                        Spacer()
+                        Button {
+                            showDescriptionEditor.toggle()
+                        } label: {
+                            Text("Close")
+                                .bold()
+                                .padding(.bottom, 5)
+                        }
+                    }
+                }
+
         }
     }
     
@@ -165,7 +196,19 @@ struct BillViewV2: View {
                         }
                         Divider()
                         VStack {
-                            Text("\(appData.majorCurrency.toStringRepresentation) \(data.total.toStringRepresentation)")
+                            HStack {
+                                Spacer()
+                                Text("\(appData.majorCurrency.toStringRepresentation) \(data.total.toStringRepresentation)")
+                                    .frame(alignment: .center)
+                                    .padding(.top, 2.5)
+                                Button {
+                                    showDescriptionEditor.toggle()
+                                } label: {
+                                    Image(systemName: "square.and.pencil")
+                                }
+                                Spacer()
+                            }
+                            .font(.system(size: 17))
                             Group {
                                 if !selectedBillItems.isEmpty {
                                     Button {
@@ -220,8 +263,6 @@ struct BillViewV2: View {
                 }
                 
             }
-            .navigationTitle(data.name)
-            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 toggleTimer()
             }

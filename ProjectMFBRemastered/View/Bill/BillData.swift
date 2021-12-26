@@ -49,6 +49,8 @@ class BillData: ObservableObject, Identifiable {
     
     @Published var associatedTag: Tag?
     
+    @Published var additionalDescription: String
+    
     @Published var isSubmitted = false
     
     @Published var items: [BillItem] = []
@@ -71,6 +73,7 @@ class BillData: ObservableObject, Identifiable {
         self.roomTag = tag
         self.associatedTag = associatedTag
         self.size = size
+        self.additionalDescription = ""
         if let payable = payable, size > 0 {
             addItem(payable, count: size)
         }
@@ -80,6 +83,8 @@ class BillData: ObservableObject, Identifiable {
         self.controller = BillController(bill, context: context)
         
         self.roomTag = bill.tag
+        
+        self.additionalDescription = bill.additionalDescription ?? ""
         
         self.size = Int(bill.size)
         self.associatedTag = bill.associatedTag
@@ -253,7 +258,8 @@ class BillData: ObservableObject, Identifiable {
                 }
             }
         }
-        controller.submit(proceedBalance: proceedBalance, majorCurrency: appData.majorCurrency)
+        additionalDescription.trimmingWhitespacesAndNewlines()
+        controller.submit(proceedBalance: proceedBalance, majorCurrency: appData.majorCurrency, additionalDescription: additionalDescription)
         self.proceedBalance = proceedBalance
         setInactive()
     }
