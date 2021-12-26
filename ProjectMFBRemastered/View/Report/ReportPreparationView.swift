@@ -31,13 +31,22 @@ struct ReportPreparationView: View {
     var body: some View {
         VStack {
             List(bills, id: \.self, selection: $selection) { bill in
-                BillListViewCell(bill: bill, total: bill.proceedBalance as Decimal?, resultMode: true)
-                    .environmentObject(appData)
+                HStack {
+                    Text(bill.associatedTag?.toStringRepresentation ?? bill.tag?.toStringRepresentation ?? "NODATA")
+                    if let timestamp = bill.openTimestamp {
+                        Text(timestamp.toStringRepresentation)
+                    }
+                    Spacer()
+                    if let pb = bill.proceedBalance as Decimal? {
+                        Text(bill.majorCurrencyString ?? appData.majorCurrency.toStringRepresentation)
+                        Text(pb.toStringRepresentation)
+                    }
+                }
             }
             .environment(\.editMode, .constant(EditMode.active))
         }
         .sheet(isPresented: $showReportView, content: {
-            ReportView(bills: selection.map({$0}))
+            ReportView(bills: selection.sorted(by: { $0.openTimestamp ?? Date() < $1.openTimestamp ?? Date() }))
         })
         .navigationTitle("[TEST] Make Report")
         .navigationBarTitleDisplayMode(.inline)

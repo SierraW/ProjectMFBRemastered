@@ -86,7 +86,7 @@ struct BillTransactionView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Menu {
-                            if splitMode == .amountOnly {
+                            if splitMode == .amountOnly || splitMode == .full {
                                 Button {
                                     showSBAMenu.toggle()
                                 } label: {
@@ -175,7 +175,7 @@ struct BillTransactionView: View {
                 ForEach(data.payments) { payment in
                     getPaymentViewCell(payment)
                         .contextMenu {
-                            Button {
+                            Button(role: .destructive) {
                                 data.undoPayment(payment)
                             } label: {
                                 Text("Undo Payment")

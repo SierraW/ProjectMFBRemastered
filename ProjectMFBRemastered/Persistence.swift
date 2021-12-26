@@ -65,6 +65,8 @@ struct PersistenceController {
             }
         })
         
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        
         persistentContainerQueue.maxConcurrentOperationCount = 1
     }
     

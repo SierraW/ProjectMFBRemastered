@@ -58,7 +58,7 @@ extension Tag: Comparable {
 
 extension Currency: Comparable {
     public static func < (lhs: Currency, rhs: Currency) -> Bool {
-        (lhs.is_major || rhs.is_major) || (lhs.name ?? "err name") < (rhs.name ?? "err name")
+        (lhs.is_major && !rhs.is_major) ? true : lhs.name ?? "" < rhs.name ?? ""
     }
 }
 

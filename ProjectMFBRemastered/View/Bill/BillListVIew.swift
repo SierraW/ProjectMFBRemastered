@@ -17,7 +17,7 @@ struct BillListVIew: View {
             HStack {
                 Text(item.toStringRepresentation)
                 Spacer()
-                Text(data.controller.bill.majorCurrenctString ?? "?$")
+                Text(data.controller.bill.majorCurrencyString ?? "?$")
                 if let subtotal = item.subtotal as Decimal? {
                     Text(subtotal.toStringRepresentation)
                         .frame(width: 200)

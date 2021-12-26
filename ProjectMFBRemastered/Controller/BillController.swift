@@ -108,8 +108,10 @@ class BillController: ModelController {
     }
     
     
-    func submit(majorCurrency: Currency) {
-        self.bill.majorCurrenctString = majorCurrency.toStringRepresentation
+    func submit(proceedBalance: Decimal, majorCurrency: Currency) {
+        self.bill.closeTimestamp = Date()
+        self.bill.proceedBalance = NSDecimalNumber(decimal: proceedBalance)
+        self.bill.majorCurrencyString = majorCurrency.toStringRepresentation
     }
 }
 

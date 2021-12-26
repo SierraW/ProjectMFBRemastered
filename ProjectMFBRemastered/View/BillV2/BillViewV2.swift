@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BillViewV2: View {
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
@@ -176,6 +177,7 @@ struct BillViewV2: View {
                                 } else if ableToSubmit {
                                     Button {
                                         data.submitBill(appData)
+                                        presentationMode.wrappedValue.dismiss()
                                         onExit()
                                     } label: {
                                         Text("Submit")
@@ -312,7 +314,7 @@ struct BillViewV2: View {
                 }
             }
         }
-        data.controller.delete(bill)
+        data.removeSubBill(bill)
     }
     
     func reload() {

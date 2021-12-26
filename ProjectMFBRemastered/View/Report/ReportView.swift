@@ -11,6 +11,8 @@ struct ReportView: View {
     
     var bills: [Bill]
     
+    @State var showCopiedAlert = false
+    
     var combinedIncome: [Currency: Decimal] {
         var result = [Currency: Decimal]()
         for bill in bills {
@@ -89,7 +91,13 @@ struct ReportView: View {
                     Text("Combined Income")
                 }
                 Section {
-                    ForEach(allPayable.keys.sorted(by: { allPayable[$0] ?? 0 > allPayable[$1] ?? 0 })) { payable in
+                    ForEach(allPayable.keys.sorted(by: {
+                        if allPayable[$0] == allPayable[$1] {
+                            return $0.toStringRepresentation < $1.toStringRepresentation
+                        } else {
+                            return allPayable[$0] ?? 0 > allPayable[$1] ?? 0
+                        }
+                    })) { payable in
                         HStack {
                             Text(payable.toStringRepresentation)
                             Spacer()
@@ -97,10 +105,27 @@ struct ReportView: View {
                         }
                     }
                 } header: {
-                    Text("Best-sells products")
+                    Text("Best-selling products")
+                }
+                Section {
+                    Button("Export Result to Clipboard") {
+                        var customString = "COMBINED TOTAL:\n"
+                        combinedIncome.keys.sorted().forEach({customString.append("\($0.toStringRepresentation) \(combinedIncome[$0] ?? 0.00)\n")})
+                        let controller = BillReportPrintingController(bills: bills)
+                        let _ = controller
+                            .setHeaderCustomContent(customString)
+                            .addPrinter(BillHeadlinePrinter())
+                            .addPrinter(BillSubBillPrinter())
+                            .addPrinter(BillTransactionPrinter())
+                        UIPasteboard.general.setValue(controller.toStringRepresentation, forPasteboardType: "public.plain-text")
+                        showCopiedAlert.toggle()
+                    }
                 }
             }
         }
         .background(Color(uiColor: .systemGroupedBackground))
+        .alert("Report Copied", isPresented: $showCopiedAlert) {
+            Button("OK", role: .cancel) {}
+        }
     }
 }

@@ -40,7 +40,7 @@ struct BillListViewCell: View {
     var body: some View {
         VStack {
             HStack {
-                Text(resultMode ? "\(bill.name) 🕓\(bill.openTimestamp?.timeStringRepresentation ?? "")" : bill.toStringRepresentation)
+                Text(resultMode ? "\(bill.name) \(bill.openTimestamp?.timeStringRepresentation ?? "")" : bill.toStringRepresentation)
                 Spacer()
                 if bill.combined {
                     Image(systemName: "g.square")

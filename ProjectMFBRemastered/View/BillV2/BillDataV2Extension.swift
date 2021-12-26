@@ -38,4 +38,9 @@ extension BillData {
         self.proceedBalance = nil
         self.controller.bill.proceedBalance = nil
     }
+    
+    func removeSubBill(_ bill: Bill) {
+        controller.delete(bill)
+        reloadChildren()
+    }
 }

@@ -105,7 +105,7 @@ class BillData: ObservableObject, Identifiable {
     
     func reloadChildren() {
         if let children = controller.bill.children?.allObjects as? [Bill] {
-            self.children = children
+            self.children = children.filter({!$0.isDeleted})
         } else {
             self.children = []
         }
@@ -253,7 +253,7 @@ class BillData: ObservableObject, Identifiable {
                 }
             }
         }
-        controller.bill.proceedBalance = NSDecimalNumber(decimal: proceedBalance)
+        controller.submit(proceedBalance: proceedBalance, majorCurrency: appData.majorCurrency)
         self.proceedBalance = proceedBalance
         setInactive()
     }
