@@ -9,6 +9,17 @@ import Foundation
 import CoreData
 
 class RatedPayableController: TagController {
+    static func fetch(_ context: NSManagedObjectContext) -> [RatedPayable] {
+        let fetchRequest: NSFetchRequest<RatedPayable> = RatedPayable.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \RatedPayable.starred, ascending: false)]
+        do {
+            let result = try context.fetch(fetchRequest)
+            return result
+        } catch {
+            print("Fetch error in RatedPayable Controller")
+        }
+        return []
+    }
     
     static func firstTaxRatedPayable(_ context: NSManagedObjectContext) -> RatedPayable? {
         let fetchRequest: NSFetchRequest<RatedPayable> = RatedPayable.fetchRequest()

@@ -26,7 +26,7 @@ struct BillTransactionPrinter: BillReportPrinter {
         
         stringResult.append("\tSummary\n")
         for key in proceedBalance.keys.sorted() {
-            stringResult.append("\t\t\(key.toStringRepresentation) \(proceedBalance[key] ?? 0)\n")
+            stringResult.append("\t\t\(key.toStringRepresentation) \(proceedBalance[key]?.toStringRepresentation ?? "0.00")\n")
         }
         
         return stringResult
@@ -35,7 +35,7 @@ struct BillTransactionPrinter: BillReportPrinter {
     func allTransactionSection(_ transactions: [Transaction]) -> String{
         var stringResult = "\tTransactions\n"
         
-        transactions.forEach({stringResult.append("\t\t\($0.paymentMethod?.toStringRepresentation ?? "PM") \($0.currency?.toStringRepresentation ?? "CU") \(($0.amount as Decimal?)?.toStringRepresentation ?? "ND")\n")})
+        transactions.forEach({stringResult.append("\t\t\($0.currency?.toStringRepresentation ?? "CU") \(($0.amount as Decimal?)?.toStringRepresentation ?? "ND") \($0.paymentMethod?.toStringRepresentation ?? "PM")\n")})
         
         return stringResult
     }

@@ -49,28 +49,27 @@ class TransactionController: ModelController {
     
     func managedSave(for transaction: Transaction) {
         do {
-            try report(for: transaction)
             try viewContext.save()
         } catch {
             print("Error saving transaction within transaction controller.")
         }
     }
     
-    func report(for transaction: Transaction) throws {
-        let fetchRequest: NSFetchRequest<TransactionReport> = TransactionReport.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TransactionReport.timestamp, ascending: false)]
-        let lastReport = try viewContext.fetch(fetchRequest).first
-        let today = Date()
-        if let lastReport = lastReport, isSameDay(date1: today, date2: lastReport.timestamp!) {
-            lastReport.lastModified = today
-            transaction.report = lastReport
-        } else {
-            let newReport = TransactionReport(context: viewContext)
-            newReport.timestamp = today
-            newReport.lastModified = today
-            transaction.report = newReport
-        }
-    }
+//    func report(for transaction: Transaction) throws {
+//        let fetchRequest: NSFetchRequest<TransactionReport> = TransactionReport.fetchRequest()
+//        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TransactionReport.timestamp, ascending: false)]
+//        let lastReport = try viewContext.fetch(fetchRequest).first
+//        let today = Date()
+//        if let lastReport = lastReport, isSameDay(date1: today, date2: lastReport.timestamp!) {
+//            lastReport.lastModified = today
+//            transaction.report = lastReport
+//        } else {
+//            let newReport = TransactionReport(context: viewContext)
+//            newReport.timestamp = today
+//            newReport.lastModified = today
+//            transaction.report = newReport
+//        }
+//    }
     
     private func isSameDay(date1: Date, date2: Date) -> Bool {
         let diff = Calendar.current.dateComponents([.day], from: date1, to: date2)

@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct ReportView: View {
-    
     var bills: [Bill]
     
     @State var showCopiedAlert = false
     
-    var combinedIncome: [Currency: Decimal] {
-        var result = [Currency: Decimal]()
+    var combinedIncome: [String: Decimal] {
+        var result = [String: Decimal]()
         for bill in bills {
             if let transactions = bill.transactions?.allObjects as? [Transaction] {
                 for transaction in transactions {
-                    if let currency = transaction.currency, let amount = transaction.amount as Decimal? {
-                        result[currency] = (result[currency] ?? 0) + amount
+                    if let paymentMethod = transaction.paymentMethod, let currency = transaction.currency, let amount = transaction.amount as Decimal? {
+                        let name = "\(paymentMethod.toStringRepresentation) - \(currency.toStringRepresentation)"
+                        result[name] = (result[name] ?? 0) + amount
                     }
                 }
             }
@@ -82,9 +82,9 @@ struct ReportView: View {
                 Section {
                     ForEach(combinedIncome.keys.sorted()) { key in
                         HStack {
-                            Text(key.name ?? "err")
+                            Text(key)
                             Spacer()
-                            Text("\(key.toStringRepresentation) \(combinedIncome[key]?.toStringRepresentation ?? "err")")
+                            Text(combinedIncome[key]?.toStringRepresentation ?? "err")
                         }
                     }
                 } header: {
@@ -110,7 +110,7 @@ struct ReportView: View {
                 Section {
                     Button("Export Result to Clipboard") {
                         var customString = "COMBINED TOTAL:\n"
-                        combinedIncome.keys.sorted().forEach({customString.append("\($0.toStringRepresentation) \(combinedIncome[$0] ?? 0.00)\n")})
+                        combinedIncome.keys.sorted().forEach({customString.append("\($0) \(combinedIncome[$0]?.toStringRepresentation ?? "0.00")\n")})
                         let controller = BillReportPrintingController(bills: bills)
                         let _ = controller
                             .setHeaderCustomContent(customString)

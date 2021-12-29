@@ -36,18 +36,36 @@ struct BillNavigationView: View {
             .listRowSeparator(.hidden)
             .padding()
             NavigationLink {
-                ReportPreparationView()
+                IndividualBillReportView()
                     .environment(\.managedObjectContext, viewContext)
                     .environmentObject(appData)
                     .navigationTitle("Individual Report")
             } label: {
                 HStack {
-                    Image(systemName: "square.text.square.fill")
+                    Image(systemName: "star.square.fill")
                         .font(.system(size: 25))
                         .foregroundColor(.purple)
                         .background(RoundedRectangle(cornerRadius: 4).fill(.white)
                                         .frame(width: 22, height: 22, alignment: .center))
                     Text("Individual Report")
+                    Spacer()
+                }
+            }
+            .listRowSeparator(.hidden)
+            .padding()
+            NavigationLink {
+                FormalBillReportView()
+                    .environment(\.managedObjectContext, viewContext)
+                    .environmentObject(appData)
+                    .navigationTitle("Formal Report")
+            } label: {
+                HStack {
+                    Image(systemName: "square.text.square.fill")
+                        .font(.system(size: 25))
+                        .foregroundColor(.red)
+                        .background(RoundedRectangle(cornerRadius: 4).fill(.white)
+                                        .frame(width: 22, height: 22, alignment: .center))
+                    Text("Formal Report")
                     Spacer()
                 }
             }

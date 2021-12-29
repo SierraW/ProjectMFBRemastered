@@ -258,6 +258,9 @@ class BillData: ObservableObject, Identifiable {
                 }
             }
         }
+        if let items = bill.items, !self.items.contains(where: {!$0.is_rated}) {
+            bill.removeFromItems(items)
+        }
         additionalDescription.trimmingWhitespacesAndNewlines()
         controller.submit(proceedBalance: proceedBalance, majorCurrency: appData.majorCurrency, additionalDescription: additionalDescription)
         self.proceedBalance = proceedBalance

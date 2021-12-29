@@ -6,8 +6,20 @@
 //
 
 import Foundation
+import CoreData
 
 class PayableController: TagController {
+    static func fetch(_ context: NSManagedObjectContext) -> [Payable] {
+        let fetchRequest: NSFetchRequest<Payable> = Payable.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Payable.starred, ascending: false)]
+        do {
+            let result = try context.fetch(fetchRequest)
+            return result
+        } catch {
+            print("Fetch error in Payable Controller")
+        }
+        return []
+    }
     
     func modifyOrCreateIfNotExist(name: String, amount: Decimal, payable: Payable? = nil, groupedBy tag: Tag? = nil, discountable: Bool = false, is_deposit: Bool = false, starred: Bool = false) -> Payable? {
         if amount < 0 {

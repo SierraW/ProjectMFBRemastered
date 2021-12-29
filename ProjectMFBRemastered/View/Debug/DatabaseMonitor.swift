@@ -22,7 +22,7 @@ struct DatabaseMonitor: View {
     @State var currency = [Currency]()
     @State var tag = [Tag]()
     @State var transaction = [Transaction]()
-    @State var transactionReport = [TransactionReport]()
+    @State var billReport = [BillReport]()
     
     @State var user = [User]()
     
@@ -44,6 +44,16 @@ struct DatabaseMonitor: View {
                         print("Fetch error")
                     }
                 }
+                .contextMenu {
+                    Button(role: .destructive) {
+                        for object in bill {
+                            viewContext.delete(object)
+                        }
+                        save()
+                    } label: {
+                        Text("Clear Bill")
+                    }
+                }
                 
                 HStack {
                     Text("Bill Item")
@@ -59,6 +69,16 @@ struct DatabaseMonitor: View {
                         print("Fetch error")
                     }
                 }
+                .contextMenu {
+                    Button(role: .destructive) {
+                        for object in billItem {
+                            viewContext.delete(object)
+                        }
+                        save()
+                    } label: {
+                        Text("Clear Bill Item")
+                    }
+                }
                 
                 HStack {
                     Text("Bill Payment")
@@ -72,6 +92,16 @@ struct DatabaseMonitor: View {
                         billPayment = result
                     } catch {
                         print("Fetch error")
+                    }
+                }
+                .contextMenu {
+                    Button(role: .destructive) {
+                        for object in billPayment {
+                            viewContext.delete(object)
+                        }
+                        save()
+                    } label: {
+                        Text("Clear Bill Payment")
                     }
                 }
 
@@ -118,33 +148,6 @@ struct DatabaseMonitor: View {
                     } catch {
                         print("Fetch error")
                     }
-                }
-                
-                Button(role: .destructive) {
-                    for object in bill {
-                        viewContext.delete(object)
-                    }
-                    save()
-                } label: {
-                    Text("Clear Bill")
-                }
-                
-                Button(role: .destructive) {
-                    for object in billItem {
-                        viewContext.delete(object)
-                    }
-                    save()
-                } label: {
-                    Text("Clear Bill Item")
-                }
-                
-                Button(role: .destructive) {
-                    for object in billPayment {
-                        viewContext.delete(object)
-                    }
-                    save()
-                } label: {
-                    Text("Clear Bill Payment")
                 }
             } header: {
                 Text("Functional Layer")
@@ -225,20 +228,20 @@ struct DatabaseMonitor: View {
                 HStack {
                     Text("Transaction Report")
                     Spacer()
-                    Text("\(transactionReport.count)")
+                    Text("\(billReport.count)")
                 }
                 .onAppear {
-                    let fetchRequest: NSFetchRequest<TransactionReport> = TransactionReport.fetchRequest()
+                    let fetchRequest: NSFetchRequest<BillReport> = BillReport.fetchRequest()
                     do {
                         let result = try viewContext.fetch(fetchRequest)
-                        transactionReport = result
+                        billReport = result
                     } catch {
                         print("Fetch error")
                     }
                 }
                 .contextMenu {
                     Button(role: .destructive) {
-                        for object in transactionReport {
+                        for object in billReport {
                             viewContext.delete(object)
                         }
                         save()

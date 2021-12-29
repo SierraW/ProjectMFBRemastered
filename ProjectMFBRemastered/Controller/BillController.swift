@@ -11,6 +11,24 @@ import CoreData
 class BillController: ModelController {
     var bill: Bill
     
+    static func fetch(_ context: NSManagedObjectContext, unreportedOnly: Bool = false, limitTo fetchLimit: Int? = nil) -> [Bill] {
+        let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Bill.openTimestamp, ascending: false)]
+        if unreportedOnly {
+            fetchRequest.predicate = NSPredicate(format: "report = nil")
+        }
+        if let fetchLimit = fetchLimit {
+            fetchRequest.fetchLimit = fetchLimit
+        }
+        do {
+            let result = try context.fetch(fetchRequest)
+            return result
+        } catch {
+            print("Fetch error in Bill Controller")
+        }
+        return []
+    }
+    
     func createBillPayment() -> BillPayment {
         let billPayment = BillPayment(context: viewContext)
         self.bill.addToPayments(billPayment)

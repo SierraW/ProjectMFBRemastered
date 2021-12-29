@@ -67,3 +67,9 @@ extension Bill: Comparable {
         (lhs.proceedBalance == nil && rhs.proceedBalance != nil) ? true : lhs.openTimestamp ?? Date() > rhs.openTimestamp ?? Date()
     }
 }
+
+extension BillReport: Comparable {
+    public static func < (lhs: BillReport, rhs: BillReport) -> Bool {
+        (lhs.timestamp ?? Date()) < (rhs.timestamp ?? Date())
+    }
+}

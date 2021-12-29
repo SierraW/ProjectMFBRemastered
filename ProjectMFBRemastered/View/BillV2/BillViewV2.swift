@@ -14,7 +14,6 @@ struct BillViewV2: View {
     @EnvironmentObject var data: BillData
     
     @State var showDescriptionEditor = false
-    @State var additionalDescription = ""
     
     @State var selectedBillItems = [BillItem: Int]()
     @State var selectedBill: Bill? = nil
@@ -63,17 +62,9 @@ struct BillViewV2: View {
                         .onTapGesture {
                             showDescriptionEditor.toggle()
                         }
-                        TextEditor(text: $additionalDescription)
+                        TextEditor(text: $data.additionalDescription)
                             .frame(idealHeight: 250)
                             .padding()
-                        Spacer()
-                        Button {
-                            showDescriptionEditor.toggle()
-                        } label: {
-                            Text("Close")
-                                .bold()
-                                .padding(.bottom, 5)
-                        }
                     }
                 }
 
@@ -182,7 +173,7 @@ struct BillViewV2: View {
                                     }
                                     NavigationLink("", tag: bill, selection: $selectedBill) {
                                         BillTransactionView(splitMode: .none) {
-                                            onExit()
+                                            selectedBill = nil
                                         }
                                         .environment(\.managedObjectContext, viewContext)
                                         .environmentObject(appData)
@@ -256,6 +247,7 @@ struct BillViewV2: View {
                             .frame(width: 150, height: 50)
                             .background(RoundedRectangle(cornerRadius: 15).fill(Color(uiColor: .systemGray5)))
                         }
+                        .frame(width: 160)
                         .padding(.horizontal)
                     }
                     .frame(height: 120)

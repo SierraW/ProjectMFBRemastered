@@ -263,17 +263,19 @@ struct BillTransactionView: View {
                             }
                         }
                         .foregroundColor(.gray)
-                        .padding(.trailing)
                     }
                     HStack {
+                        Spacer()
                         Text("Due")
+                            .bold()
                         Text(appData.majorCurrency.toStringRepresentation)
                             .bold()
                         Text(remainingBalance.toStringRepresentation)
                             .bold()
                     }
-                    Spacer()
+                    .padding(.bottom, 6)
                 }
+                .padding(.trailing)
                 .frame(width: geometry.size.width / 2)
             }
         }
