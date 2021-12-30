@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WelcomeView: View {
+struct WelcomeViewChristmas: View {
     var body: some View {
         ZStack {
             GeometryReader { geometry in
@@ -47,8 +47,8 @@ struct WelcomeView: View {
     }
 }
 
-struct WelcomeView_Previews: PreviewProvider {
+struct WelcomeViewChristmas_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView()
+        WelcomeViewChristmas()
     }
 }

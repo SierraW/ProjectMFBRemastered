@@ -71,12 +71,13 @@ struct HistoryBillListView: View {
                                     }
                             } else {
                                 NavigationLink {
-                                    BillViewV2{
+                                    BillViewV2() {
                                         
                                     }
                                     .environment(\.managedObjectContext, viewContext)
                                     .environmentObject(appData)
                                     .environmentObject(BillData(context: viewContext, bill: bill))
+                                    .environmentObject(PayableRatedPayableSelectionController(viewContext))
                                 } label: {
                                     BillListViewCell(bill: bill, resultMode: true)
                                         .environmentObject(appData)

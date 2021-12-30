@@ -7,26 +7,29 @@
 
 import Foundation
 import CoreData
+import Combine
 
-class PayableRatedPayableSelectionController: ModelController {
+class PayableRatedPayableSelectionController: ModelController, ObservableObject {
     enum Status {
         case loading
-        case success
-        case failed
+        case succeeded
+        case paused
     }
     
-    var status: Status = .loading
+    @Published var status: Status = .paused
     
-    var payables = [Payable]()
-    var ratedPayables = [RatedPayable]()
-    var billItems = [BillItem]()
+    @Published var payables = [Payable]()
+    @Published var ratedPayables = [RatedPayable]()
     
     override init(_ viewContext: NSManagedObjectContext) {
         super.init(viewContext)
-        
+        reloadData()
+    }
+    
+    func reloadData() {
+        status = .loading
         payables = PayableController.fetch(viewContext)
         ratedPayables = RatedPayableController.fetch(viewContext)
-        
-        
+        status = .succeeded
     }
 }

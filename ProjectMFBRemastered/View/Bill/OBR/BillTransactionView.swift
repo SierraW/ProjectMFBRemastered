@@ -16,6 +16,7 @@ struct BillTransactionView: View {
     
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
+    @EnvironmentObject var shoppingData: PayableRatedPayableSelectionController
     @Environment(\.managedObjectContext) private var viewContext
     
     @State var showEquivalentAmount = false
@@ -149,21 +150,25 @@ struct BillTransactionView: View {
                     }
                 }
             NavigationLink {
-                BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
+                BillItemShoppingViewV2(mode: .ratedPayable, controller: shoppingData) { payableDict, ratedPayableDict in
                     data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict, isAddOn: true)
-                })
-                    .environmentObject(appData)
-                    .environmentObject(data)
-                    .navigationTitle("Select items...")
+                }
+                .environmentObject(appData)
+                .environmentObject(data)
+                .navigationTitle("Select items...")
             } label: {
                 HStack {
                     Spacer()
                     Image(systemName: "plus")
-                    Text("Add-On")
+                    Text("Item")
+                    Image(systemName: "circle.fill")
+                        .font(.system(size: 10))
+                        .foregroundColor(shoppingData.status == .loading ? .yellow : shoppingData.status == .succeeded ? .green: .red)
                     Spacer()
                 }
                 .foregroundColor(.blue)
             }
+            .disabled(shoppingData.status != .succeeded)
         } header: {
             Text("Add-On")
         }

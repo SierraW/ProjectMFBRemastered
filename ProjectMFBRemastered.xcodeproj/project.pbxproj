@@ -65,9 +65,12 @@
 		3B787A8927791B6900E1383D /* IndividualBillReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8827791B6900E1383D /* IndividualBillReportView.swift */; };
 		3B787A8B27791BA100E1383D /* BillReportListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8A27791BA100E1383D /* BillReportListView.swift */; };
 		3B787A8D2779437200E1383D /* TESEReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8C2779437200E1383D /* TESEReport.swift */; };
+		3B787A8F277C20C600E1383D /* BillItemShoppingViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8E277C20C600E1383D /* BillItemShoppingViewV2.swift */; };
+		3B787A92277D222000E1383D /* WelcomeViewDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A91277D222000E1383D /* WelcomeViewDefault.swift */; };
+		3B787A94277D234900E1383D /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A93277D234900E1383D /* WelcomeView.swift */; };
 		3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0E72744A46B00D7D4AD /* PaymentMethodEditorView.swift */; };
 		3B8FA0EA2744AEFF00D7D4AD /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */; };
-		3B8FA0EC2744BABD00D7D4AD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */; };
+		3B8FA0EC2744BABD00D7D4AD /* WelcomeViewChristmas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0EB2744BABD00D7D4AD /* WelcomeViewChristmas.swift */; };
 		3B8FA0F02744C1B900D7D4AD /* RoomManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0EF2744C1B900D7D4AD /* RoomManagementView.swift */; };
 		3B8FA0F22744C1F100D7D4AD /* RoomEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0F12744C1F100D7D4AD /* RoomEditorView.swift */; };
 		3B8FA0F62745800700D7D4AD /* PayableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0F52745800700D7D4AD /* PayableController.swift */; };
@@ -179,9 +182,12 @@
 		3B787A8827791B6900E1383D /* IndividualBillReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualBillReportView.swift; sourceTree = "<group>"; };
 		3B787A8A27791BA100E1383D /* BillReportListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillReportListView.swift; sourceTree = "<group>"; };
 		3B787A8C2779437200E1383D /* TESEReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESEReport.swift; sourceTree = "<group>"; };
+		3B787A8E277C20C600E1383D /* BillItemShoppingViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemShoppingViewV2.swift; sourceTree = "<group>"; };
+		3B787A91277D222000E1383D /* WelcomeViewDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewDefault.swift; sourceTree = "<group>"; };
+		3B787A93277D234900E1383D /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		3B8FA0E72744A46B00D7D4AD /* PaymentMethodEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodEditorView.swift; sourceTree = "<group>"; };
 		3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
-		3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		3B8FA0EB2744BABD00D7D4AD /* WelcomeViewChristmas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewChristmas.swift; sourceTree = "<group>"; };
 		3B8FA0EF2744C1B900D7D4AD /* RoomManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomManagementView.swift; sourceTree = "<group>"; };
 		3B8FA0F12744C1F100D7D4AD /* RoomEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomEditorView.swift; sourceTree = "<group>"; };
 		3B8FA0F52745800700D7D4AD /* PayableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayableController.swift; sourceTree = "<group>"; };
@@ -353,6 +359,7 @@
 				3B596BA927759AFE00A6694E /* BillItemViewCellV2.swift */,
 				3B596BA72772750200A6694E /* BillWidget.swift */,
 				3B596BAF2775B12800A6694E /* BillDataV2Extension.swift */,
+				3B787A8E277C20C600E1383D /* BillItemShoppingViewV2.swift */,
 			);
 			path = BillV2;
 			sourceTree = "<group>";
@@ -378,6 +385,16 @@
 				3B787A752777CF1500E1383D /* BillReportPrintingController.swift */,
 			);
 			path = Report;
+			sourceTree = "<group>";
+		};
+		3B787A90277D21E300E1383D /* WelcomViews */ = {
+			isa = PBXGroup;
+			children = (
+				3B8FA0EB2744BABD00D7D4AD /* WelcomeViewChristmas.swift */,
+				3B787A91277D222000E1383D /* WelcomeViewDefault.swift */,
+				3B787A93277D234900E1383D /* WelcomeView.swift */,
+			);
+			path = WelcomViews;
 			sourceTree = "<group>";
 		};
 		3B8FA0ED2744C04900D7D4AD /* Payable */ = {
@@ -567,13 +584,13 @@
 		3BEEE31F273C583B0056AF54 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				3B787A90277D21E300E1383D /* WelcomViews */,
 				3BD5818D2749E28700089113 /* RoomNavigationView.swift */,
 				3BC78FDC2756C0DE00F5844F /* BillNavigationView.swift */,
 				3B1707AE2757517000FC8350 /* RootNavigationView.swift */,
 				3B596BAB2775A23800A6694E /* RoomLegacyNavigationView.swift */,
 				3BEEE320273C58440056AF54 /* MainView.swift */,
 				3B203010273F0FD60016B537 /* ContentWrapperView.swift */,
-				3B8FA0EB2744BABD00D7D4AD /* WelcomeView.swift */,
 				3B596BBE2776EFF300A6694E /* MFBBackground.swift */,
 			);
 			path = Main;
@@ -722,6 +739,7 @@
 				3B787A7F2778296A00E1383D /* BillHeadlinePrinter.swift in Sources */,
 				3B8FA0F02744C1B900D7D4AD /* RoomManagementView.swift in Sources */,
 				3B787A8927791B6900E1383D /* IndividualBillReportView.swift in Sources */,
+				3B787A8F277C20C600E1383D /* BillItemShoppingViewV2.swift in Sources */,
 				3BD581882746EAB200089113 /* BillSetupView.swift in Sources */,
 				3B1707B927582D4400FC8350 /* TagSearchView.swift in Sources */,
 				3B20ED4427442D7B00B96DB6 /* PaymentMethodController.swift in Sources */,
@@ -732,13 +750,14 @@
 				3B4FBB2427508FD800EA538A /* RatedPayableListView.swift in Sources */,
 				3BD581842746BC2E00089113 /* PayableListView.swift in Sources */,
 				3B596BB72776DADB00A6694E /* ReportView.swift in Sources */,
+				3B787A92277D222000E1383D /* WelcomeViewDefault.swift in Sources */,
 				3BC78F8F2752BC9D00F5844F /* StateExtension.swift in Sources */,
 				3BC78F8D27520CCC00F5844F /* BillDataSPAExtension.swift in Sources */,
 				3B8FA0FE2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift in Sources */,
 				3BD581AC274C581100089113 /* BillData.swift in Sources */,
 				3B4FBB1C2750424400EA538A /* TransactionView.swift in Sources */,
 				3BEEE31C273C57D40056AF54 /* SetupWizardView.swift in Sources */,
-				3B8FA0EC2744BABD00D7D4AD /* WelcomeView.swift in Sources */,
+				3B8FA0EC2744BABD00D7D4AD /* WelcomeViewChristmas.swift in Sources */,
 				3B8FA0F827458C6900D7D4AD /* PayableEditorView.swift in Sources */,
 				3B596BAE2775A4AC00A6694E /* BillLandingViewV2.swift in Sources */,
 				3BD581AE274D769D00089113 /* BillListVIew.swift in Sources */,
@@ -769,6 +788,7 @@
 				3B20ED3C274384E700B96DB6 /* HideKeyboardExtension.swift in Sources */,
 				3B787A832778D7E300E1383D /* ReportController.swift in Sources */,
 				3B203000273ED5DD0016B537 /* ModelController.swift in Sources */,
+				3B787A94277D234900E1383D /* WelcomeView.swift in Sources */,
 				3B4FBB2C2750BB5F00EA538A /* SubmitButtonView.swift in Sources */,
 				3B20ED4227442C4800B96DB6 /* PaymentMethodManagementView.swift in Sources */,
 				3BEEE31E273C581B0056AF54 /* LoginView.swift in Sources */,

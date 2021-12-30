@@ -18,12 +18,13 @@ struct BillLandingViewV2: View {
     var body: some View {
         Group {
             if let data = data {
-                BillViewV2 {
+                BillViewV2() {
                     self.data = nil
                 }
                     .environment(\.managedObjectContext, viewContext)
                     .environmentObject(appData)
                     .environmentObject(data)
+                    .environmentObject(PayableRatedPayableSelectionController(viewContext))
             } else {
                 BillSetupView(room: room) { data = $0 }
             }

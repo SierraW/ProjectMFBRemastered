@@ -12,6 +12,7 @@ struct BillViewV2: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
+    @EnvironmentObject var shoppingData: PayableRatedPayableSelectionController
     
     @State var showDescriptionEditor = false
     
@@ -28,6 +29,7 @@ struct BillViewV2: View {
     }
     
     var onExit: () -> Void
+    
     
     
     var body: some View {
@@ -67,7 +69,7 @@ struct BillViewV2: View {
                             .padding()
                     }
                 }
-
+            
         }
     }
     
@@ -86,23 +88,25 @@ struct BillViewV2: View {
                                 }
                         }
                         NavigationLink {
-                            BillItemShoppingView(onSubmit: { payableDict, ratedPayableDict in
+                            BillItemShoppingViewV2(controller: shoppingData) { payableDict, ratedPayableDict in
                                 data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict)
-                            })
-                                .environment(\.managedObjectContext, viewContext)
-                                .environmentObject(appData)
-                                .environmentObject(data)
-                                .navigationTitle("Select items...")
-                            
+                            }
+                            .environmentObject(appData)
+                            .environmentObject(data)
+                            .navigationTitle("Select items...")
                         } label: {
                             HStack {
                                 Spacer()
                                 Image(systemName: "plus")
                                 Text("Item")
+                                Image(systemName: "circle.fill")
+                                    .font(.system(size: 10))
+                                    .foregroundColor(shoppingData.status == .loading ? .yellow : shoppingData.status == .succeeded ? .green: .red)
                                 Spacer()
                             }
                             .foregroundColor(.blue)
                         }
+                        .disabled(shoppingData.status != .succeeded)
                     } footer: {
                         HStack {
                             Button {
@@ -112,7 +116,7 @@ struct BillViewV2: View {
                                     Image(systemName: timer == nil ? "play.slash.fill" : "play.fill")
                                     if let timeElapsed = timeElapsed {
                                         Text("Time elapsed: \(timeElapsed.toStringRepresentation)")
-                                            
+                                        
                                     } else {
                                         Text("Time elapsed: Loading...")
                                     }
@@ -178,6 +182,7 @@ struct BillViewV2: View {
                                         .environment(\.managedObjectContext, viewContext)
                                         .environmentObject(appData)
                                         .environmentObject(billData)
+                                        .environmentObject(shoppingData)
                                     }
                                     .hidden()
                                     

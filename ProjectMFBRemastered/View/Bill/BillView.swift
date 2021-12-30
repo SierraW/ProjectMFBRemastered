@@ -192,6 +192,7 @@ struct BillView: View {
         .environment(\.managedObjectContext, viewContext)
         .environmentObject(appData)
         .environmentObject(data)
+        .environmentObject(PayableRatedPayableSelectionController(viewContext))
     }
     
     var splitByPayableView: some View {

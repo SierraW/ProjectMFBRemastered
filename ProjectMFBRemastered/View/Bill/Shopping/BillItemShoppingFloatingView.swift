@@ -13,6 +13,8 @@ struct BillItemShoppingFloatingView: View {
     @Binding var ratedPayables: [RatedPayable: Int]
     @Binding var showCart: Bool
     
+    var paddingLength: CGFloat = 12
+    
     var onSubmit: () -> Void
     
     var isCartNotEmpty: Bool {
@@ -47,7 +49,7 @@ struct BillItemShoppingFloatingView: View {
                         }
                         Spacer()
                     }
-                    .padding(.vertical, 10)
+                    .padding(.vertical, paddingLength)
                     .background(RoundedRectangle(cornerRadius: 5).fill(Color(UIColor.systemGray5)))
                 }
                 .transition(.moveAndFade)
@@ -58,7 +60,7 @@ struct BillItemShoppingFloatingView: View {
                 } label: {
                     Image(systemName: "trash.fill")
                         .foregroundColor(.red)
-                        .padding(10)
+                        .padding(paddingLength)
                         .background(Circle().fill(Color(UIColor.systemGray5)))
                 }
                 .padding(.leading)
@@ -73,7 +75,7 @@ struct BillItemShoppingFloatingView: View {
                 onSubmit()
             }, label: {
                 Image(systemName: isCartNotEmpty ? "checkmark" : "arrowshape.turn.up.backward")
-                    .padding(10)
+                    .padding(paddingLength)
                     .background(Circle().fill(Color(UIColor.systemGray5)))
             })
             .padding(.leading)

@@ -201,7 +201,7 @@ struct TESEReport: View {
                 }
             }
         }
-        .navigationBarTitle("TESE Report")
+        .navigationBarTitle("TESE™ Report")
         .alert("Report Copied", isPresented: $showCopiedAlert) {
             Button("OK", role: .cancel) {}
         }
