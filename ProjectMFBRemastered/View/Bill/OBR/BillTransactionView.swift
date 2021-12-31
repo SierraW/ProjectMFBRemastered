@@ -137,25 +137,20 @@ struct BillTransactionView: View {
     
     var addOnSectionView: some View {
         Section {
-            ForEach(data.items.filter{$0.is_add_on}, id: \.smartId) { item in
-                    BillItemViewCell(majorCurrency: appData.majorCurrency, billItem: item)
-                    .contentShape(Rectangle())
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            data.removeItem(item, all: true)
-                        } label: {
-                            Text("Delete")
-                        }
-
-                    }
+            ForEach(data.items, id: \.smartId) { item in
+                if item.is_add_on {
+                    BillItemViewCellV2(selection: .constant([BillItem:Int]()), billItem: item)
+                        .environmentObject(appData)
+                        .environmentObject(data)
                 }
+            }
             NavigationLink {
                 BillItemShoppingViewV2(mode: .ratedPayable, controller: shoppingData) { payableDict, ratedPayableDict in
                     data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict, isAddOn: true)
                 }
                 .environmentObject(appData)
                 .environmentObject(data)
-                .navigationTitle("Select items...")
+                .navigationTitle("Select")
             } label: {
                 HStack {
                     Spacer()
@@ -185,7 +180,7 @@ struct BillTransactionView: View {
                             } label: {
                                 Text("Undo Payment")
                             }
-
+                            
                         }
                 }
             }
@@ -195,14 +190,7 @@ struct BillTransactionView: View {
             NavigationLink {
                 TransactionView(amountDue: remainingBalance) { paymentMethod, currency, amount, majorCurrencyEquivalent, additionalDescription in
                     data.submitBillPayment(paymentMethod: paymentMethod, currency: currency, amount: amount, majorCurrencyEquivalent: majorCurrencyEquivalent, additionalDescription: additionalDescription)
-                    if data.currentBillPaymentBalance >= data.total {
-                        if splitMode != .none {
-                            data.submitBill(appData)
-                        } else {
-                            data.setComplete()
-                            onExit()
-                        }
-                    }
+                    autoSubmit()
                 }
             } label: {
                 HStack {
@@ -213,6 +201,13 @@ struct BillTransactionView: View {
                 }
                 .foregroundColor(.green)
             }
+            OneClickTransactionView(amountDue: remainingBalance) {
+                if $2 > 0 {
+                    data.submitBillPayment(paymentMethod: $0, currency: $1, amount: $2, majorCurrencyEquivalent: $3, additionalDescription: nil)
+                    autoSubmit()
+                }
+            }
+            .environmentObject(data)
         } header: {
             Text("Payments")
         }
@@ -222,43 +217,10 @@ struct BillTransactionView: View {
         GeometryReader { geometry in
             HStack {
                 VStack {
-                    HStack {
-                        Text("Subtotal")
-                        Spacer()
-                        Text(data.subtotal.toStringRepresentation)
-                            .frame(width: 60, alignment: .trailing)
-                    }
-                    HStack {
-                        Text("Discount")
-                        Spacer()
-                        Text(data.discount.toStringRepresentation)
-                            .frame(width: 60, alignment: .trailing)
-                    }
-                    HStack {
-                        Text("Tax & Service")
-                        Spacer()
-                        Text(data.taxAndService.toStringRepresentation)
-                            .frame(width: 60, alignment: .trailing)
-                    }
-                    HStack {
-                        Text("Total")
-                            .bold()
-                        Text(appData.majorCurrency.toStringRepresentation)
-                            .bold()
-                        Spacer()
-                        Text(data.total.toStringRepresentation)
-                            .bold()
-                            .frame(width: 60, alignment: .trailing)
-                    }
-                }
-                .frame(width: geometry.size.width / 2)
-                Divider()
-                VStack {
-                    Spacer()
                     ForEach(remainingExchangedBalance.keys.sorted()) { key in
                         HStack {
-                            Spacer()
                             Text(key.toStringRepresentation)
+                            Spacer()
                             if let amount = remainingExchangedBalance[key] {
                                 HStack {
                                     Spacer()
@@ -278,9 +240,37 @@ struct BillTransactionView: View {
                         Text(remainingBalance.toStringRepresentation)
                             .bold()
                     }
-                    .padding(.bottom, 6)
                 }
                 .padding(.trailing)
+                .frame(width: geometry.size.width / 2)
+                Divider()
+                VStack {
+                    HStack {
+                        Text("Subtotal")
+                        Spacer()
+                        Text(data.subtotal.toStringRepresentation)
+                    }
+                    HStack {
+                        Text("Discount")
+                        Spacer()
+                        Text(data.discount.toStringRepresentation)
+                    }
+                    HStack {
+                        Text("Tax & Service")
+                        Spacer()
+                        Text(data.taxAndService.toStringRepresentation)
+                    }
+                    HStack {
+                        Text("Total")
+                            .bold()
+                        Text(appData.majorCurrency.toStringRepresentation)
+                            .bold()
+                        Spacer()
+                        Text(data.total.toStringRepresentation)
+                            .bold()
+                    }
+                }
+                .padding(.horizontal)
                 .frame(width: geometry.size.width / 2)
             }
         }
@@ -310,9 +300,7 @@ struct BillTransactionView: View {
                         Text(amount.toStringRepresentation)
                             .frame(width: 60, alignment: .trailing)
                     }
-                    
                 } else {
-                    Text(appData.majorCurrency.toStringRepresentation)
                     Text(amount.toStringRepresentation)
                         .frame(width: 60, alignment: .trailing)
                 }
@@ -320,4 +308,14 @@ struct BillTransactionView: View {
         }
     }
     
+    func autoSubmit() {
+        if data.currentBillPaymentBalance >= data.total {
+            if splitMode != .none {
+                data.submitBill(appData)
+            } else {
+                data.setComplete()
+                onExit()
+            }
+        }
+    }
 }

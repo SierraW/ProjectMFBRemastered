@@ -8,11 +8,11 @@
 import Foundation
 
 extension BillData {
-    func addItems(with billItems: [BillItem: Int]) {
+    func addItems(with billItems: [BillItem: Int], isAddOn: Bool = false) {
         for key in billItems.keys.sorted() {
             if let count = billItems[key], count > 0, count <= Int(key.count) {
                 let item = controller.createBillItem(from: key, to: bill)
-                item.is_add_on = false
+                item.is_add_on = isAddOn
                 item.count = Int32(count)
                 if let value = item.value as Decimal? {
                     item.subtotal = NSDecimalNumber(decimal: value * Decimal(count))

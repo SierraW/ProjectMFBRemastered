@@ -96,93 +96,7 @@ struct BillItemShoppingViewV2: View {
     
     var body: some View {
         ZStack {
-            if mode == .payable {
-                List(payables) { payable in
-                    HStack {
-                        Text(payable.toStringRepresentation)
-                        Spacer()
-                        if let count = selectedPayables[payable] {
-                            Image(systemName: "minus.circle")
-                                .foregroundColor(.blue)
-                                .padding(.leading)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    withAnimation {
-                                        if count <= 1 {
-                                            selectedPayables.removeValue(forKey: payable)
-                                        } else {
-                                            selectedPayables[payable] = count - 1
-                                        }
-                                    }
-                                    
-                                }
-                            
-                            Text("\(count)")
-                                .frame(width: 20)
-                            Image(systemName: "plus.circle")
-                                .foregroundColor(.blue)
-                                .padding(.trailing)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    selectedPayables[payable] = count + 1
-                                }
-                        }
-                        Text(appData.majorCurrency.toStringRepresentation)
-                            .frame(width: 50)
-                        HStack {
-                            Spacer()
-                            Text((payable.amount as Decimal?)?.toStringRepresentation ?? "Err")
-                        }
-                        .frame(width: 65)
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        withAnimation {
-                            selectedPayables[payable] = (selectedPayables[payable] ?? 0) + 1
-                        }
-                    }
-                }
-            } else {
-                List(ratedPayables) { ratedPayable in
-                    HStack {
-                        Text(ratedPayable.toStringRepresentation)
-                        Spacer()
-                        if let _ = selectedRatedPayables[ratedPayable] {
-                            Text("1")
-                                .frame(width: 20)
-                            Image(systemName: "minus.circle")
-                                .foregroundColor(.blue)
-                                .padding(.trailing)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    selectedRatedPayables.removeValue(forKey: ratedPayable)
-                                }
-                        }
-                        Group {
-                            Menu {
-                                Text("This is a Rate Item")
-                            } label: {
-                                Image(systemName: "r.square")
-                                    .foregroundColor(.red)
-                            }
-                            .frame(width: 50)
-                            HStack {
-                                Spacer()
-                                Text((ratedPayable.rate as Decimal?)?.toStringRepresentation ?? "Err")
-                            }
-                            .frame(width: 65)
-                        }
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        withAnimation {
-                            selectedRatedPayables[ratedPayable] = (selectedRatedPayables[ratedPayable] ?? 0) + 1
-                        }
-                    }
-                }
-            }
-            
-            
+            payableRatedPayableSection
             
             VStack {
                 Spacer()
@@ -195,6 +109,110 @@ struct BillItemShoppingViewV2: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showCart) {
             shoppingCartView
+        }
+    }
+    
+    var payableRatedPayableSection: some View {
+        Form {
+            if mode == .payable {
+                Section {
+                    ForEach(payables) { payable in
+                        getPayableViewCell(payable)
+                    }
+                }
+            } else {
+                Section {
+                    ForEach(ratedPayables) { ratedPayable in
+                        getRatedPayableViewCell(ratedPayable)
+                    }
+                }
+            }
+            Spacer()
+                .frame(height: 50)
+                .listRowBackground(Color(uiColor: .systemGroupedBackground))
+        }
+    }
+    
+    func getPayableViewCell(_ payable: Payable) -> some View {
+        HStack {
+            Text(payable.toStringRepresentation)
+            Spacer()
+            if let count = selectedPayables[payable] {
+                Image(systemName: "minus.circle")
+                    .foregroundColor(.blue)
+                    .padding(.leading)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        withAnimation {
+                            if count <= 1 {
+                                selectedPayables.removeValue(forKey: payable)
+                            } else {
+                                selectedPayables[payable] = count - 1
+                            }
+                        }
+                    }
+                
+                Text("\(count)")
+                    .frame(width: 20)
+                Image(systemName: "plus.circle")
+                    .foregroundColor(.blue)
+                    .padding(.trailing)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        selectedPayables[payable] = count + 1
+                    }
+            }
+            Text(appData.majorCurrency.toStringRepresentation)
+                .frame(width: 50)
+            HStack {
+                Spacer()
+                Text((payable.amount as Decimal?)?.toStringRepresentation ?? "Err")
+            }
+            .frame(width: 65)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            withAnimation {
+                selectedPayables[payable] = (selectedPayables[payable] ?? 0) + 1
+            }
+        }
+    }
+    
+    func getRatedPayableViewCell(_ ratedPayable: RatedPayable) -> some View {
+        HStack {
+            Text(ratedPayable.toStringRepresentation)
+            Spacer()
+            if let _ = selectedRatedPayables[ratedPayable] {
+                Text("1")
+                    .frame(width: 20)
+                Image(systemName: "minus.circle")
+                    .foregroundColor(.blue)
+                    .padding(.trailing)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        selectedRatedPayables.removeValue(forKey: ratedPayable)
+                    }
+            }
+            Group {
+                Menu {
+                    Text("This is a Rate Item")
+                } label: {
+                    Image(systemName: "r.square")
+                        .foregroundColor(.red)
+                }
+                .frame(width: 50)
+                HStack {
+                    Spacer()
+                    Text((ratedPayable.rate as Decimal?)?.toStringRepresentation ?? "Err")
+                }
+                .frame(width: 65)
+            }
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            withAnimation {
+                selectedRatedPayables[ratedPayable] = (selectedRatedPayables[ratedPayable] ?? 0) + 1
+            }
         }
     }
     

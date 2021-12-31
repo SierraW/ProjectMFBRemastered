@@ -13,6 +13,9 @@ struct BillItemViewCellV2: View {
     
     @Binding var selection: [BillItem: Int]
     var billItem: BillItem
+    var isAddOn: Bool {
+        billItem.is_add_on
+    }
     
     var count: Int {
         Int(billItem.count)

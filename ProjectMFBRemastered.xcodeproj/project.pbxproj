@@ -68,6 +68,7 @@
 		3B787A8F277C20C600E1383D /* BillItemShoppingViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8E277C20C600E1383D /* BillItemShoppingViewV2.swift */; };
 		3B787A92277D222000E1383D /* WelcomeViewDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A91277D222000E1383D /* WelcomeViewDefault.swift */; };
 		3B787A94277D234900E1383D /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A93277D234900E1383D /* WelcomeView.swift */; };
+		3B787A96277E0C9C00E1383D /* OneClickTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A95277E0C9C00E1383D /* OneClickTransactionView.swift */; };
 		3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0E72744A46B00D7D4AD /* PaymentMethodEditorView.swift */; };
 		3B8FA0EA2744AEFF00D7D4AD /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */; };
 		3B8FA0EC2744BABD00D7D4AD /* WelcomeViewChristmas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8FA0EB2744BABD00D7D4AD /* WelcomeViewChristmas.swift */; };
@@ -185,6 +186,7 @@
 		3B787A8E277C20C600E1383D /* BillItemShoppingViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemShoppingViewV2.swift; sourceTree = "<group>"; };
 		3B787A91277D222000E1383D /* WelcomeViewDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewDefault.swift; sourceTree = "<group>"; };
 		3B787A93277D234900E1383D /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		3B787A95277E0C9C00E1383D /* OneClickTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneClickTransactionView.swift; sourceTree = "<group>"; };
 		3B8FA0E72744A46B00D7D4AD /* PaymentMethodEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodEditorView.swift; sourceTree = "<group>"; };
 		3B8FA0E92744AEFF00D7D4AD /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		3B8FA0EB2744BABD00D7D4AD /* WelcomeViewChristmas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewChristmas.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 			isa = PBXGroup;
 			children = (
 				3B4FBB1227500AB500EA538A /* BillTransactionView.swift */,
+				3B787A95277E0C9C00E1383D /* OneClickTransactionView.swift */,
 				3BC78F912752DBD500F5844F /* BillDataOBRExtension.swift */,
 			);
 			path = OBR;
@@ -698,6 +701,7 @@
 				3BC78FE227570C0D00F5844F /* DatabaseMonitor.swift in Sources */,
 				3B4FBB1927502AE800EA538A /* LabelledDivider.swift in Sources */,
 				3BEEE30B273C53840056AF54 /* Persistence.swift in Sources */,
+				3B787A96277E0C9C00E1383D /* OneClickTransactionView.swift in Sources */,
 				3BC78FDB2756BB0300F5844F /* HistoryBillListView.swift in Sources */,
 				3B8FA0F22744C1F100D7D4AD /* RoomEditorView.swift in Sources */,
 				3BC78FD52756A6C800F5844F /* HistoryBillPreview.swift in Sources */,

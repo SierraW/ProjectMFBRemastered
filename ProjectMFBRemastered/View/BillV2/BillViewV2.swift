@@ -93,7 +93,7 @@ struct BillViewV2: View {
                             }
                             .environmentObject(appData)
                             .environmentObject(data)
-                            .navigationTitle("Select items...")
+                            .navigationTitle("Select")
                         } label: {
                             HStack {
                                 Spacer()
@@ -334,7 +334,7 @@ struct BillViewV2: View {
             return
         }
         billData.resignProceedBalance()
-        billData.addItems(with: selectedBillItems)
+        billData.addItems(with: selectedBillItems, isAddOn: true)
         data.removeItems(items: selectedBillItems)
         clearCart()
         data.reloadChildren()
