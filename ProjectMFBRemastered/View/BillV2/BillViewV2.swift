@@ -15,6 +15,7 @@ struct BillViewV2: View {
     @EnvironmentObject var shoppingData: PayableRatedPayableSelectionController
     
     @State var showDescriptionEditor = false
+    @State var showSearchTagView = false
     
     @State var selectedBillItems = [BillItem: Int]()
     @State var selectedBill: Bill? = nil
@@ -54,7 +55,7 @@ struct BillViewV2: View {
                     VStack {
                         HStack {
                             Image(systemName: "chevron.down.circle")
-                            Text("Leave a message about this bill...")
+                            Text("Details")
                                 .bold()
                             Spacer()
                         }
@@ -64,9 +65,39 @@ struct BillViewV2: View {
                         .onTapGesture {
                             showDescriptionEditor.toggle()
                         }
-                        TextEditor(text: $data.additionalDescription)
-                            .frame(idealHeight: 250)
-                            .padding()
+                        
+                        Button {
+                            showSearchTagView.toggle()
+                        } label: {
+                            Text(data.associatedTag == nil ? "Add Tag" : data.associatedTag!.toStringRepresentation)
+                        }
+                        
+                        
+                        ZStack {
+                            TextEditor(text: $data.additionalDescription)
+                                .frame(idealHeight: 250)
+                                .padding()
+                            if data.additionalDescription.isEmpty {
+                                VStack {
+                                    HStack {
+                                        Text("Leave a message about this bill...")
+                                            .foregroundColor(.gray)
+                                            .bold()
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                }
+                                .padding()
+                            }
+                            
+                        }
+                        
+                    }
+                    .sheet(isPresented: $showSearchTagView) {
+                        TagSearchView { tag in
+                            data.setAssociatedTag(tag)
+                            showSearchTagView.toggle()
+                        }
                     }
                 }
             
