@@ -322,8 +322,10 @@ struct BillItemShoppingViewV2: View {
                 .transition(.moveAndFade)
                 
                 Button {
-                    selectedPayables.removeAll()
-                    selectedRatedPayables.removeAll()
+                    withAnimation {
+                        selectedPayables.removeAll()
+                        selectedRatedPayables.removeAll()
+                    }
                 } label: {
                     Image(systemName: "trash.fill")
                         .frame(width: 30, height: 30, alignment: .center)

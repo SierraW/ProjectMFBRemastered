@@ -47,7 +47,7 @@ struct FormalBillReportView: View {
             }
             List(reports) { report in
                 NavigationLink {
-                    TESEReport(report: report)
+                    TESEReportView(report: report)
                 } label: {
                     HStack {
                         VStack {

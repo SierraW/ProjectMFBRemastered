@@ -15,7 +15,7 @@ class ReportController: ModelController {
         }
         let report = BillReport(context: viewContext)
         report.timestamp = Date()
-        let reports = selection.sorted()
+        let reports = selection.map({$0})
         report.from = reports.first?.openTimestamp ?? Date()
         report.to = reports.last?.openTimestamp ?? Date()
         reports.forEach({report.addToBills($0)})

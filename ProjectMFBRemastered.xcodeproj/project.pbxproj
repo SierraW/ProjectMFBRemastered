@@ -64,7 +64,7 @@
 		3B787A8727791B4700E1383D /* FormalBillReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8627791B4700E1383D /* FormalBillReportView.swift */; };
 		3B787A8927791B6900E1383D /* IndividualBillReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8827791B6900E1383D /* IndividualBillReportView.swift */; };
 		3B787A8B27791BA100E1383D /* BillReportListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8A27791BA100E1383D /* BillReportListView.swift */; };
-		3B787A8D2779437200E1383D /* TESEReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8C2779437200E1383D /* TESEReport.swift */; };
+		3B787A8D2779437200E1383D /* TESEReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8C2779437200E1383D /* TESEReportView.swift */; };
 		3B787A8F277C20C600E1383D /* BillItemShoppingViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A8E277C20C600E1383D /* BillItemShoppingViewV2.swift */; };
 		3B787A92277D222000E1383D /* WelcomeViewDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A91277D222000E1383D /* WelcomeViewDefault.swift */; };
 		3B787A94277D234900E1383D /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B787A93277D234900E1383D /* WelcomeView.swift */; };
@@ -182,7 +182,7 @@
 		3B787A8627791B4700E1383D /* FormalBillReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FormalBillReportView.swift; path = ProjectMFBRemastered/View/FormalBillReportView.swift; sourceTree = SOURCE_ROOT; };
 		3B787A8827791B6900E1383D /* IndividualBillReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualBillReportView.swift; sourceTree = "<group>"; };
 		3B787A8A27791BA100E1383D /* BillReportListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillReportListView.swift; sourceTree = "<group>"; };
-		3B787A8C2779437200E1383D /* TESEReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESEReport.swift; sourceTree = "<group>"; };
+		3B787A8C2779437200E1383D /* TESEReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESEReportView.swift; sourceTree = "<group>"; };
 		3B787A8E277C20C600E1383D /* BillItemShoppingViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemShoppingViewV2.swift; sourceTree = "<group>"; };
 		3B787A91277D222000E1383D /* WelcomeViewDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewDefault.swift; sourceTree = "<group>"; };
 		3B787A93277D234900E1383D /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -373,7 +373,7 @@
 				3B787A8627791B4700E1383D /* FormalBillReportView.swift */,
 				3B787A8A27791BA100E1383D /* BillReportListView.swift */,
 				3B596BB62776DADB00A6694E /* ReportView.swift */,
-				3B787A8C2779437200E1383D /* TESEReport.swift */,
+				3B787A8C2779437200E1383D /* TESEReportView.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -689,7 +689,7 @@
 				3B8FA0EA2744AEFF00D7D4AD /* NavigationButton.swift in Sources */,
 				3B4FBB11274EF84000EA538A /* BillLandingView.swift in Sources */,
 				3B1707AF2757517000FC8350 /* RootNavigationView.swift in Sources */,
-				3B787A8D2779437200E1383D /* TESEReport.swift in Sources */,
+				3B787A8D2779437200E1383D /* TESEReportView.swift in Sources */,
 				3BC78F922752DBD500F5844F /* BillDataOBRExtension.swift in Sources */,
 				3BC78FA4275560B900F5844F /* RoundedButton.swift in Sources */,
 				3B20301B273F65DB0016B537 /* TagManagementView.swift in Sources */,

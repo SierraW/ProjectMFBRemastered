@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct TESEReport: View {
+struct TESEReportView: View {
     var report: BillReport
     
     var bills: [Bill] {
         if let bills = report.bills?.allObjects as? [Bill] {
-            return bills
+            return bills.sorted(by: {($0.openTimestamp ?? Date()) < ($1.openTimestamp ?? Date()) })
         }
         return []
     }

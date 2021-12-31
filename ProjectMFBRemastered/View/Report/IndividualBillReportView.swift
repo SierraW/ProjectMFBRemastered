@@ -18,7 +18,7 @@ struct IndividualBillReportView: View {
     private var fetchedBill: FetchedResults<Bill>
     
     var bills: [Bill] {
-        fetchedBill.sorted()
+        fetchedBill.map({$0})
     }
     
     @State var selection = Set<Bill>()
