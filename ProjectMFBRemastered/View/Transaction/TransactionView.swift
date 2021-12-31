@@ -26,6 +26,15 @@ struct TransactionView: View {
     @State var warningEmptyPaymentMethod = false
     @State var warningEmptyCurrency = false
     
+    @State var showChangesAlert = false
+    
+    var change: (Currency, Decimal)? {
+        if let currency = currency, let amount = Decimal(string: amount), let mcAmountDue = amountDue, mcAmountDue > 0, let amountDue = currency.is_major ? amountDue : CurrencyController.exchangeFromMajorCurrency(currency: currency, amount: mcAmountDue), amount > amountDue {
+            return (currency, amount - amountDue)
+        }
+        return nil
+    }
+    
     var amountDue: Decimal? = nil
     var onSubmit: (PaymentMethod, Currency, Decimal, Decimal, String?) -> Void
     
@@ -40,6 +49,15 @@ struct TransactionView: View {
             actionSectionView
         }
         .navigationBarTitle("Transaction")
+        .alert("Change", isPresented: $showChangesAlert, actions: {
+            Button("OK", role: .cancel) {
+                submit(true)
+            }
+        }, message: {
+            if let change = change {
+                Text("\(change.0.toStringRepresentation) \(change.1.toStringRepresentation)")
+            }
+        })
         .onAppear {
             if let amountDue = amountDue {
                 amount = amountDue.toStringRepresentation
@@ -139,15 +157,23 @@ struct TransactionView: View {
                 }
                 .frame(width: 70)
             }
-        } footer: {
-            if let currency = currency, !currency.is_major, let amount = Decimal(string: amount) {
+            if let change = change{
                 HStack {
                     Spacer()
-                    Text(appData.majorCurrency.toStringRepresentation)
-                    Text(CurrencyController.exchangeToMajorCurrency(currency: currency, amount: amount).toStringRepresentation)
-                        .bold()
+                    Text("Change: \(change.0.toStringRepresentation)\(change.1.toStringRepresentation)")
                 }
-                .foregroundColor(.gray)
+            }
+        } footer: {
+            if let currency = currency, let amount = Decimal(string: amount) {
+                if !currency.is_major {
+                    HStack {
+                        Spacer()
+                        Text(appData.majorCurrency.toStringRepresentation)
+                        Text(CurrencyController.exchangeToMajorCurrency(currency: currency, amount: amount).toStringRepresentation)
+                            .bold()
+                    }
+                    .foregroundColor(.gray)
+                }
             }
             
         }
@@ -192,14 +218,22 @@ struct TransactionView: View {
         self.currency = currency
     }
     
-    func submit() {
-        if let paymentMethod = paymentMethod, let currency = currency, let amount = Decimal(string: amount) {
-            presentationMode.wrappedValue.dismiss()
-            var majorCurrencyEquivalent: Decimal = amount
-            if !currency.is_major {
-                majorCurrencyEquivalent = CurrencyController.exchangeToMajorCurrency(currency: currency, amount: amount)
+    func submit(_ forced: Bool = false) {
+        if let paymentMethod = paymentMethod, let currency = currency, let amount = Decimal(string: amount), amount > 0 {
+            if let _ = change, !forced {
+                showChangesAlert.toggle()
+                return
             }
-            onSubmit(paymentMethod, currency, amount, majorCurrencyEquivalent, additionalDescription == "" ? nil : additionalDescription)
+            var finalAmount = amount
+            if let amountDue = amountDue {
+                finalAmount = !currency.is_major && forced ? CurrencyController.exchangeFromMajorCurrency(currency: currency, amount: amountDue) : forced ? amountDue : amount
+            }
+            presentationMode.wrappedValue.dismiss()
+            var majorCurrencyEquivalent: Decimal = finalAmount
+            if !currency.is_major {
+                majorCurrencyEquivalent = CurrencyController.exchangeToMajorCurrency(currency: currency, amount: finalAmount)
+            }
+            onSubmit(paymentMethod, currency, finalAmount, majorCurrencyEquivalent, additionalDescription == "" ? nil : additionalDescription)
         }
     }
 }
