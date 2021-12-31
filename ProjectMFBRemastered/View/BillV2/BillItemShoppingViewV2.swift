@@ -128,7 +128,7 @@ struct BillItemShoppingViewV2: View {
                 }
             }
             Spacer()
-                .frame(height: 50)
+                .frame(height: floatingButtonSize)
                 .listRowBackground(Color(uiColor: .systemGroupedBackground))
         }
     }

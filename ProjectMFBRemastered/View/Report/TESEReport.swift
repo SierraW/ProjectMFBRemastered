@@ -178,12 +178,20 @@ struct TESEReport: View {
                 }
             } header: {
                 Text("Top tags")
+            } footer: {
+                HStack {
+                    Spacer()
+                    Text("MFB x TE Statistic Engine™")
+                        .foregroundColor(.gray)
+                }
             }
-            
-            Section {
-                Button("Export Result to Clipboard") {
+        }
+        .toolbar(content: {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Export") {
                     var customString = "COMBINED TOTAL:\n"
                     combinedIncome.keys.sorted().forEach({customString.append("\($0) \(combinedIncome[$0]?.toStringRepresentation ?? "0.00")\n")})
+                    customString.append(contentsOf: "MFB x TESE FORMAL REPORT\n")
                     let controller = BillReportPrintingController(bills: bills)
                     let _ = controller
                         .setHeaderCustomContent(customString)
@@ -193,14 +201,8 @@ struct TESEReport: View {
                     UIPasteboard.general.setValue(controller.toStringRepresentation, forPasteboardType: "public.plain-text")
                     showCopiedAlert.toggle()
                 }
-            } footer: {
-                HStack {
-                    Spacer()
-                    Text("Powered By TE Statistic Engine™")
-                        .foregroundColor(.gray)
-                }
             }
-        }
+        })
         .navigationBarTitle("TESE™ Report")
         .alert("Report Copied", isPresented: $showCopiedAlert) {
             Button("OK", role: .cancel) {}
