@@ -67,7 +67,7 @@ extension Date {
     }
     
     func listGroupRepresentation(now: Date) -> String {
-        "\(yearString == now.yearString ? "" : "\(yearString)-")\(simpleStringRepresentation)"
+        "\(yearString == now.yearString ? "" : " \(yearString)-")\(simpleStringRepresentation)"
     }
 }
 

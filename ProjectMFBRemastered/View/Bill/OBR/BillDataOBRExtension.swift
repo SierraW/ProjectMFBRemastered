@@ -87,4 +87,11 @@ extension BillData {
         controller.bill.activeTag = nil
         controller.managedSave()
     }
+    
+    func setActive() {
+        if let tag = bill.tag {
+            controller.bill.activeTag = tag
+            controller.managedSave()
+        }
+    }
 }

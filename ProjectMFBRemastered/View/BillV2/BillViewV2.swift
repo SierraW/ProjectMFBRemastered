@@ -34,74 +34,77 @@ struct BillViewV2: View {
     
     
     var body: some View {
-        if data.viewState == .splitByAmount {
-            BillSplitByAmountView {
-                onExit()
-            }
-            .environmentObject(appData)
-            .environmentObject(data)
-        } else if data.viewState == .originalBillReview {
-            BillTransactionView(splitMode: .amountOnly) {
-                onExit()
-            }
-            .environment(\.managedObjectContext, viewContext)
-            .environmentObject(appData)
-            .environmentObject(data)
-        } else if data.viewState == .completed {
-            completedView
-        } else {
-            billSectionView
-                .sheet(isPresented: $showDescriptionEditor) {
-                    VStack {
-                        HStack {
-                            Image(systemName: "chevron.down.circle")
-                            Text("Details")
-                                .bold()
-                            Spacer()
-                        }
-                        .foregroundColor(.gray)
-                        .padding(.top)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            showDescriptionEditor.toggle()
-                        }
-                        
-                        Button {
-                            showSearchTagView.toggle()
-                        } label: {
-                            Text(data.associatedTag == nil ? "Add Tag" : data.associatedTag!.toStringRepresentation)
-                        }
-                        
-                        
-                        ZStack {
-                            TextEditor(text: $data.additionalDescription)
-                                .frame(idealHeight: 250)
-                                .padding()
-                            if data.additionalDescription.isEmpty {
-                                VStack {
-                                    HStack {
-                                        Text("Leave a message about this bill...")
-                                            .foregroundColor(.gray)
-                                            .bold()
+        Group {
+            if data.viewState == .splitByAmount {
+                BillSplitByAmountView {
+                    onExit()
+                }
+                .environmentObject(appData)
+                .environmentObject(data)
+            } else if data.viewState == .originalBillReview {
+                BillTransactionView(splitMode: .amountOnly) {
+                    onExit()
+                }
+                .environment(\.managedObjectContext, viewContext)
+                .environmentObject(appData)
+                .environmentObject(data)
+            } else if data.viewState == .completed {
+                completedView
+            } else {
+                billSectionView
+                    .sheet(isPresented: $showDescriptionEditor) {
+                        VStack {
+                            HStack {
+                                Image(systemName: "chevron.down.circle")
+                                Text("Details")
+                                    .bold()
+                                Spacer()
+                            }
+                            .foregroundColor(.gray)
+                            .padding(.top)
+                            .padding(.horizontal)
+                            .onTapGesture {
+                                showDescriptionEditor.toggle()
+                            }
+                            
+                            Button {
+                                showSearchTagView.toggle()
+                            } label: {
+                                Text(data.associatedTag == nil ? "Add Tag" : data.associatedTag!.toStringRepresentation)
+                            }
+                            
+                            
+                            ZStack {
+                                TextEditor(text: $data.additionalDescription)
+                                    .frame(idealHeight: 250)
+                                    .padding()
+                                if data.additionalDescription.isEmpty {
+                                    VStack {
+                                        HStack {
+                                            Text("Leave a message about this bill...")
+                                                .foregroundColor(.gray)
+                                                .bold()
+                                            Spacer()
+                                        }
                                         Spacer()
                                     }
-                                    Spacer()
+                                    .padding()
                                 }
-                                .padding()
+                                
                             }
                             
                         }
-                        
-                    }
-                    .sheet(isPresented: $showSearchTagView) {
-                        TagSearchView { tag in
-                            data.setAssociatedTag(tag)
-                            showSearchTagView.toggle()
+                        .sheet(isPresented: $showSearchTagView) {
+                            TagSearchView { tag in
+                                data.setAssociatedTag(tag)
+                                showSearchTagView.toggle()
+                            }
                         }
                     }
-                }
-            
+                
+            }
         }
+        .navigationTitle(data.name)
     }
     
     var billSectionView: some View {
@@ -155,13 +158,23 @@ struct BillViewV2: View {
                             }
                             Spacer()
                             if !ableToSubmit {
-                                Button(role: .destructive) {
-                                    data.setInactive()
-                                    onExit()
-                                } label: {
-                                    Text("Hold")
-                                        .bold()
-                                        .foregroundColor(.red)
+                                if data.bill.activeTag == nil {
+                                    Button(role: .destructive) {
+                                        data.setActive()
+                                    } label: {
+                                        Text("Active")
+                                            .bold()
+                                            .foregroundColor(.green)
+                                    }
+                                } else {
+                                    Button(role: .destructive) {
+                                        data.setInactive()
+                                        onExit()
+                                    } label: {
+                                        Text("Hold")
+                                            .bold()
+                                            .foregroundColor(.red)
+                                    }
                                 }
                             }
                         }
