@@ -328,6 +328,7 @@ struct BillViewV2: View {
             func refreshTimeElapsed() {
                 timeElapsed = Date().timeIntervalSince(openDate)
             }
+            refreshTimeElapsed()
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                 refreshTimeElapsed()
             }

@@ -100,6 +100,19 @@ struct HistoryBillPreview: View {
                         .foregroundColor(.gray)
                 }
             }
+            
+            Section {
+                DisclosureGroup {
+                    TextEditor(text: $data.additionalDescription)
+                    Button("Save") {
+                        data.controller.managedSave()
+                    }
+                } label: {
+                    Text("Message")
+                        .foregroundColor(.gray)
+                }
+
+            }
         }
     }
 }
