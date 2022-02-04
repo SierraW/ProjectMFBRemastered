@@ -110,7 +110,6 @@
 		3BD581AC274C581100089113 /* BillData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581AB274C581100089113 /* BillData.swift */; };
 		3BD581AE274D769D00089113 /* BillListVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD581AD274D769C00089113 /* BillListVIew.swift */; };
 		3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE301273C53810056AF54 /* ProjectMFBRemasteredApp.swift */; };
-		3BEEE304273C53810056AF54 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE303273C53810056AF54 /* ContentView.swift */; };
 		3BEEE306273C53840056AF54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BEEE305273C53840056AF54 /* Assets.xcassets */; };
 		3BEEE309273C53840056AF54 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BEEE308273C53840056AF54 /* Preview Assets.xcassets */; };
 		3BEEE30B273C53840056AF54 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE30A273C53840056AF54 /* Persistence.swift */; };
@@ -229,7 +228,6 @@
 		3BD581AD274D769C00089113 /* BillListVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillListVIew.swift; sourceTree = "<group>"; };
 		3BEEE2FE273C53810056AF54 /* MFB Cashier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MFB Cashier.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BEEE301273C53810056AF54 /* ProjectMFBRemasteredApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectMFBRemasteredApp.swift; sourceTree = "<group>"; };
-		3BEEE303273C53810056AF54 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3BEEE305273C53840056AF54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BEEE308273C53840056AF54 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3BEEE30A273C53840056AF54 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -524,7 +522,6 @@
 				3BEEE322273C59E60056AF54 /* Extensions */,
 				3BEEE314273C53960056AF54 /* View */,
 				3BEEE301273C53810056AF54 /* ProjectMFBRemasteredApp.swift */,
-				3BEEE303273C53810056AF54 /* ContentView.swift */,
 				3BEEE305273C53840056AF54 /* Assets.xcassets */,
 				3BEEE30A273C53840056AF54 /* Persistence.swift */,
 				3BEEE30C273C53840056AF54 /* ProjectMFBRemastered.xcdatamodeld */,
@@ -767,7 +764,6 @@
 				3BD581AE274D769D00089113 /* BillListVIew.swift in Sources */,
 				3B4FBB2227508C4A00EA538A /* TransactionController.swift in Sources */,
 				3B596BA627726BF400A6694E /* BillViewV2.swift in Sources */,
-				3BEEE304273C53810056AF54 /* ContentView.swift in Sources */,
 				3BEEE319273C57080056AF54 /* RegisterationView.swift in Sources */,
 				3B4FBB2A2750ACD900EA538A /* RatedPayableViewCell.swift in Sources */,
 				3BD5818E2749E28700089113 /* RoomNavigationView.swift in Sources */,

@@ -11,10 +11,6 @@ struct BillWidget: View {
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     
-    var total: Decimal {
-        10.00
-    }
-    
     var empty: Bool = true
     
     var body: some View {
