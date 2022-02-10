@@ -6,24 +6,7 @@
 //
 
 import SwiftUI
-import Combine
 import CoreData
-
-class AppData: ObservableObject {
-    @Published var user: User
-    @Published var majorCurrency: Currency
-    var onLogout: () -> Void
-    
-    init? (_ user: User, viewContext: NSManagedObjectContext, onLogout: @escaping () -> Void) {
-        self.user = user
-        self.onLogout = onLogout
-        if let currency = CurrencyController.getMajorCurrency(from: viewContext) {
-            self.majorCurrency = currency
-        } else {
-            return nil
-        }
-    }
-}
 
 struct LandingView: View {
     @Environment(\.managedObjectContext) private var viewContext

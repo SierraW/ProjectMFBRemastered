@@ -7,7 +7,11 @@
 
 import Foundation
 
+/// (Discountinued) Split By Products (SBP) section extensions
 extension BillData {
+    
+    /// init BillData as a sub-BillData from a parent BillData, Create new bill object and will not save on complete.
+    /// - Parameter billData: parent BillData object.
     convenience init(asChildOf billData: BillData) {
         let newBill = billData.controller.createChildBill()
         for item in billData.items.filter({$0.is_rated}) {

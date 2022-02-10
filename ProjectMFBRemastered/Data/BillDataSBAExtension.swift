@@ -7,7 +7,13 @@
 
 import Foundation
 
+
+/// Split By Amount (SBA) section extensions.
 extension BillData {
+    
+    
+    /// Split the original bill by given number of bills.
+    /// - Parameter splitCount: Number of sub-bills should generate. Will save on complete.
     func splitByAmountSubmit(splitCount: Int) {
         var total: Decimal = 0
         var discountableTotal: Decimal = 0
@@ -44,7 +50,8 @@ extension BillData {
         let nsDecimalTotal = NSDecimalNumber(decimal: totalAmountPerBill)
         let nsDecimalDiscountableTotal = NSDecimalNumber(decimal: discountableAmountPerBill)
         
-        for _ in 0..<splitCount { // TODO: Shit mountain
+        // duplicate rated items to each bill.
+        for _ in 0..<splitCount {
             let bill = controller.createChildBill()
             let billTotal = controller.createBillTotal(for: bill)
             billTotal.total = nsDecimalTotal
@@ -68,6 +75,7 @@ extension BillData {
         }
     }
     
+    /// Discard splited (SBA) bill, remove all sub-bills.
     func splitByAmountResign() {
         if let children = self.controller.bill.children?.allObjects as? [Bill] {
             for child in children {
@@ -77,6 +85,7 @@ extension BillData {
         self.children = []
     }
     
+    /// Remove sub-bill grouping.
     func splitByAmountUngroup(bill: Bill) {
         if let children = bill.children?.allObjects as? [Bill] {
             for child in children {
@@ -87,6 +96,7 @@ extension BillData {
         }
     }
     
+    /// Undo the completed payment on a sub-bill.
     func splitByAmountUndoPayments(bill: Bill) {
         if let payments = bill.payments {
             bill.removeFromPayments(payments)

@@ -7,8 +7,9 @@
 
 import Foundation
 
-// OBR view related
+/// Original Bill Review (OBR) section extensions
 extension BillData {
+    /// The current balance of all payments.
     var currentBillPaymentBalance: Decimal {
         var balance: Decimal = 0
         
@@ -21,6 +22,7 @@ extension BillData {
         return balance
     }
     
+    /// Submit the current bill and transfering to "OBR" mode. This function will add the first tax item if there is any.
     func originalBillSubmit() {
         if isSubmitted {
             return
@@ -32,6 +34,7 @@ extension BillData {
         }
     }
     
+    /// Resign the submitted bill and return to "Bill" mode. This function wil alsol remove all add-on item.
     func originalBillResign() {
         controller.resignOriginalBill(proceedPayments: payments, addOns: items.filter({ bi in
             bi.is_add_on
@@ -41,6 +44,12 @@ extension BillData {
         self.isSubmitted = false
     }
     
+    
+    /// Add items from a shopping view to the current bill, save on complete.
+    /// - Parameters:
+    ///   - payableDict: products and counts from shopping view
+    ///   - ratedPayableDict: rated items and counts dict from shopping view
+    ///   - isAddOn: Indicates that the above items should add as an add-on item.
     func addItems(payableDict: [Payable: Int], ratedPayableDict: [RatedPayable: Int], isAddOn: Bool = false) {
         for key in payableDict.keys.sorted() {
             if let count = payableDict[key], count > 0 {
@@ -55,6 +64,11 @@ extension BillData {
         reloadItemsAndCalculateRatedSubtotals()
     }
     
+    
+    /// Add a payment to current bill, the payment should come from Transaction View, save on complete.
+    /// - Parameters:
+    ///   - majorCurrencyEquivalent: The current amount equals to major currencies.
+    ///   - additionalDescription: Additional description about this payment.
     func submitBillPayment(paymentMethod: PaymentMethod, currency: Currency, amount: Decimal, majorCurrencyEquivalent: Decimal, additionalDescription: String?) {
         let billPayment = controller.createBillPayment()
         billPayment.paymentMethod = paymentMethod
@@ -66,6 +80,9 @@ extension BillData {
         reloadPayments()
     }
     
+    
+    /// Remove the completed payment, save on complete.
+    /// - Parameter payment: The payment needs to be removed.
     func undoPayment(_ payment: BillPayment) {
         controller.delete(payment)
         if self.proceedBalance != nil {
@@ -76,6 +93,7 @@ extension BillData {
         reloadPayments()
     }
     
+    /// Set the current bill as complete, assign proceed balance, save on complete.
     func setComplete() {
         let currentBillPaymentBalance = currentBillPaymentBalance
         controller.bill.proceedBalance = NSDecimalNumber(decimal: currentBillPaymentBalance)
@@ -83,11 +101,13 @@ extension BillData {
         controller.managedSave()
     }
     
+    /// Remove the bill from attach to a room tag, indicates "inactive", save on complete.
     func setInactive() {
         controller.bill.activeTag = nil
         controller.managedSave()
     }
     
+    /// Attach the bill to it room tag, indicates "active", a bill that already attach to this room tag will be inactive, save on complete.
     func setActive() {
         if let tag = bill.tag {
             controller.bill.activeTag = tag

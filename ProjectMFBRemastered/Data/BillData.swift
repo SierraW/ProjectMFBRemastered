@@ -10,6 +10,7 @@ import Combine
 import CoreData
 import UIKit
 
+/// Observable Object work for bill views.
 class BillData: ObservableObject, Identifiable {
     enum ViewState {
         case bill
@@ -68,6 +69,14 @@ class BillData: ObservableObject, Identifiable {
 
     var identifierFactory: Int32 = 0
     
+    
+    /// Init data as a new bill.
+    /// - Parameters:
+    ///   - context: managed object context.
+    ///   - tag: the tag indicate the room of the bill.
+    ///   - associatedTag: the optional tag indicate the event of the bill.
+    ///   - payable: optional service product.
+    ///   - size: the number of the service product generated, "splite by amount" function also uses this number as an initial value.
     init(context: NSManagedObjectContext, tag: Tag, associatedTag: Tag? = nil, payable: Payable? = nil, size: Int = 0) {
         self.controller = BillController(new: tag, associatedTag: associatedTag, size: size, context: context)
         self.roomTag = tag
@@ -79,6 +88,11 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    
+    /// Init data from an existing bill.
+    /// - Parameters:
+    ///   - context: managed object context.
+    ///   - bill: the existing bill object came from database.
     init(context: NSManagedObjectContext, bill: Bill) {
         self.controller = BillController(bill, context: context)
         
@@ -108,6 +122,8 @@ class BillData: ObservableObject, Identifiable {
         self.proceedBalance = bill.proceedBalance as Decimal?
     }
     
+    
+    /// Reload children data from CoreData Object.
     func reloadChildren() {
         if let children = controller.bill.children?.allObjects as? [Bill] {
             self.children = children.filter({!$0.isDeleted})
@@ -116,6 +132,7 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    /// Reload payments data from CoreData Object.
     func reloadPayments() {
         if let payments = controller.bill.payments?.allObjects as? [BillPayment] {
             self.payments = payments.sorted()
@@ -124,6 +141,7 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    /// Reload items data from CoreData Object.
     func reloadItems() {
         if let items = controller.bill.items?.allObjects as? [BillItem] {
             self.items = items.sorted().filter({!$0.isDeleted})
@@ -132,6 +150,9 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    
+    /// Set the assoiated tag for the bill.
+    /// - Parameter newTag: Associated Tag.
     func setAssociatedTag(_ newTag: Tag) {
         if newTag != associatedTag {
             associatedTag = newTag
@@ -140,6 +161,8 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    
+    /// Async calcualte subtotals. Will save on complete.
     func reloadItemsAndCalculateRatedSubtotals() {
         DispatchQueue.main.async {
             self.reloadItems()
@@ -148,6 +171,8 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    /// Add item to the bill.
+    /// - Parameter calcualteRatedSubtotals: Optional calculate the subtotals on rated items after the addtion.
     func addItem(_ payable: Payable, count: Int = 1, calculateRatedSubtotals: Bool = true, isAddOn: Bool = false) {
         var item: BillItem
         if let firstItem = items.first(where: { $0.payable == payable && $0.is_add_on == isAddOn }) {
@@ -165,6 +190,8 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    /// Add item to the bill.
+    /// - Parameter calcualteRatedSubtotals: Optional calculate the subtotals on rated items after the addtion.
     func addItem(_ ratedPayable: RatedPayable, calculateRatedSubtotals: Bool = true, isAddOn: Bool = false) {
         var item: BillItem
         item = controller.createBillItem(ratedPayable, order: getBillItemsIdentifier(), isAddOn: isAddOn)
@@ -174,11 +201,19 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    /// Add item to the bill.
+    /// - Parameters:
+    ///     - index: The index of BillItem in related to self.items.
+    ///     - calcualteRatedSubtotals: Optional calculate the subtotals on rated items after the addtion.
     func addItem(_ index: Int, count: Int = 1, calculateRatedSubtotals: Bool = true) { // todo make it one
         let item = items[index]
         addItem(item, count: count, calculateRatedSubtotals: calculateRatedSubtotals)
     }
     
+    /// Add item to the bill.
+    /// - Parameters:
+    ///     - index: The index of BillItem in related to self.items.
+    ///     - calcualteRatedSubtotals: Optional calculate the subtotals on rated items after the addtion.
     func addItem(_ item: BillItem, count: Int = 1, calculateRatedSubtotals: Bool = true) {
         if item.is_rated {
             return
@@ -192,11 +227,18 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    /// Remove item from the bill.
+    /// - Parameters:
+    ///     - index: The index of BillItem in related to self.items.
+    ///     - all: Optional, should remove all item with the given BillItem.
     func removeItem(_ index: Int, count: Int = 1, all: Bool = false) {
         let item = items[index]
         removeItem(item, count: count, all: all)
     }
     
+    /// Remove item from the bill.
+    /// - Parameters:
+    ///     - all: Optional, should remove all item with the given BillItem.
     func removeItem(_ item: BillItem, count: Int = 1, all: Bool = false) {
         if !all && Int(item.count) > count {
             item.count -= Int32(count)
@@ -210,6 +252,7 @@ class BillData: ObservableObject, Identifiable {
         reloadItemsAndCalculateRatedSubtotals()
     }
     
+    /// Calculate all the subtotals for all rated items, will not save after calculation.
     func calculateRatedSubtotals() {
         var discountableTotal = self.discountableSubtotal
         let fixedTotal = self.subtotal - discountableTotal
@@ -247,6 +290,9 @@ class BillData: ObservableObject, Identifiable {
         }
     }
     
+    
+    /// Submit the bill, generate transaction, inactive the bill, and then save.
+    /// - Parameter appData: Main app data contains user object.
     func submitBill(_ appData: AppData) {
         var proceedBalance: Decimal = 0
         let transactionController = TransactionController(controller.viewContext, user: appData.user, majorCurrency: appData.majorCurrency)
@@ -267,13 +313,14 @@ class BillData: ObservableObject, Identifiable {
         setInactive()
     }
     
+    /// Identifier generator, identifier is for storing bill items order.
     func getBillItemsIdentifier() -> Int32 {
         identifierFactory += Int32(1)
         return identifierFactory
     }
 }
 
-//computed var
+/// Computed vars for the original BillData
 extension BillData {
     var name: String {
         controller.bill.name
@@ -283,10 +330,9 @@ extension BillData {
         controller.bill.openTimestamp
     }
     
-    var billPaymentsIdentifierFactory: Int32 {
-        (payments.last?.order ?? -1) + 1
-    }
     
+    /// The subtotal without discount and rated charges of the current bill, including carry-on subs ( From split by amount ) and normal product only, in an order of:
+    /// carry-on subs -> product excl. promotion product.
     var subtotal: Decimal {
         var total: Decimal = 0
         
@@ -305,6 +351,8 @@ extension BillData {
         return total
     }
     
+    /// The subtotal for all discountable product of the current bill, including carry-on discountable total ( From split by amount ) and normal discountable product only, in an order of:
+    /// carry-on discountable total -> discountable product total.
     var discountableSubtotal: Decimal {
         var total: Decimal = 0
         
@@ -323,6 +371,8 @@ extension BillData {
         return total
     }
     
+    /// The subtotal for promotion items of the current bill, in an order of:
+    /// promotion items total.
     var discount: Decimal {
         var total: Decimal = 0
         
@@ -337,6 +387,7 @@ extension BillData {
         return total
     }
     
+    /// The subtotal for all tax and service of the current bill, including all rated items.
     var taxAndService: Decimal {
         var total: Decimal = 0
         
@@ -351,10 +402,13 @@ extension BillData {
         return total
     }
     
+    /// The total of the current bill, discount will not go over the discountable subtotals.
     var total: Decimal {
         subtotal - (discount > discountableSubtotal ? discountableSubtotal : discount) + taxAndService
     }
     
+    
+    /// Return all payments including payments from sub-bills.
     var allPayments: [BillPayment] {
         var allPayments = [BillPayment]()
         
@@ -380,10 +434,12 @@ extension BillData {
         return allPayments
     }
     
+    /// Indicates if it a complete bill.
     var completed: Bool {
         controller.bill.completed
     }
     
+    /// CoreData Managed Object Bill.
     var bill: Bill {
         controller.bill
     }
