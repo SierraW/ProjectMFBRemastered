@@ -15,3 +15,7 @@ Also runs on any iOS devices that support iOS 13 or higher.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## Contact
+Author: Yiyao Zhang
+Email: me@yiyao.ca
