@@ -21,7 +21,6 @@ struct BillLandingViewV2: View {
                 BillViewV2() {
                     self.data = nil
                 }
-                    .environment(\.managedObjectContext, viewContext)
                     .environmentObject(appData)
                     .environmentObject(data)
                     .environmentObject(PayableRatedPayableSelectionController(viewContext))

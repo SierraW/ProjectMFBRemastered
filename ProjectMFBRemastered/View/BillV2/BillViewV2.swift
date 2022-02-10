@@ -45,7 +45,6 @@ struct BillViewV2: View {
                 BillTransactionView(splitMode: .amountOnly) {
                     onExit()
                 }
-                .environment(\.managedObjectContext, viewContext)
                 .environmentObject(appData)
                 .environmentObject(data)
             } else if data.viewState == .completed {
@@ -223,7 +222,6 @@ struct BillViewV2: View {
                                         BillTransactionView(splitMode: .none) {
                                             selectedBill = nil
                                         }
-                                        .environment(\.managedObjectContext, viewContext)
                                         .environmentObject(appData)
                                         .environmentObject(billData)
                                         .environmentObject(shoppingData)

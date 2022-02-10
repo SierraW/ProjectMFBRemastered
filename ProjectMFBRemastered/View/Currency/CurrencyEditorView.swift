@@ -9,7 +9,6 @@ import SwiftUI
 import Combine
 
 struct CurrencyEditorView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     
     // model fields
     @State var name = ""

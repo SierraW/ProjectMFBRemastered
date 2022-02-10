@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentWrapperView: View {
-    @Environment(\.presentationMode) var presentationMode
     
     var title: String
     var content: () -> AnyView

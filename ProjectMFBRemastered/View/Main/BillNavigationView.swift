@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct BillNavigationView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var appData: AppData
     
     var body: some View {
@@ -21,7 +20,6 @@ struct BillNavigationView: View {
             }
             NavigationLink {
                 HistoryBillListView()
-                    .environment(\.managedObjectContext, viewContext)
             } label: {
                 HStack {
                     Image(systemName: "bookmark.square.fill")
@@ -37,7 +35,6 @@ struct BillNavigationView: View {
             .padding()
             NavigationLink {
                 IndividualBillReportView()
-                    .environment(\.managedObjectContext, viewContext)
                     .environmentObject(appData)
                     .navigationTitle("Individual Report")
             } label: {
@@ -55,7 +52,6 @@ struct BillNavigationView: View {
             .padding()
             NavigationLink {
                 FormalBillReportView()
-                    .environment(\.managedObjectContext, viewContext)
                     .environmentObject(appData)
                     .navigationTitle("Formal Report")
             } label: {

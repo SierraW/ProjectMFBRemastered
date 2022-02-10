@@ -40,7 +40,6 @@ struct RoomNavigationView: View {
             ForEach(rooms.indices, id: \.self) { index in
                 NavigationLink {
                     BillLandingViewV2(room: rooms[index])
-                        .environment(\.managedObjectContext, viewContext)
                         .environmentObject(appData)
                 } label: {
                     HStack {

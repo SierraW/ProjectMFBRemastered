@@ -57,11 +57,6 @@ struct TagSearchView: View {
                     }
                 }
             }
-//            .searchable(text: $searchString) {
-//                ForEach(tags) { tag in
-//                    Text("Do you mean \(tag.toStringRepresentation)?").searchCompletion(tag.toStringRepresentation)
-//                }
-//            }
         }
         .navigationTitle("Associated Tags")
         .navigationBarTitleDisplayMode(.inline)
