@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BillSplitByProductView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var appData: AppData
     @EnvironmentObject var data: BillData
     
@@ -95,6 +96,7 @@ struct BillSplitByProductView: View {
                     }
                     .environmentObject(appData)
                     .environmentObject(billData)
+                    .environmentObject(PayableRatedPayableSelectionController(viewContext))
                     .onDisappear {
                         isLoading = true
                     }
