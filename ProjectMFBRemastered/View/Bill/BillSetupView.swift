@@ -53,13 +53,15 @@ struct BillSetupView: View {
                 
                 Section {
                     NavigationLink {
-                        PayableListView(dismissOnExit: true) { payable in
-                            withAnimation {
-                                servicePayable = payable
+                        BillItemShoppingViewV2(controller: PayableRatedPayableSelectionController(viewContext)) { payableDict, _ in
+                            if let (payable, _) = payableDict.first {
+                                withAnimation {
+                                    servicePayable = payable
+                                }
                             }
                         }
-                        .navigationTitle("Select a product...")
                         .environmentObject(appData)
+                        .navigationTitle("Select a product...")
                     } label: {
                         HStack {
                             Text("Product")

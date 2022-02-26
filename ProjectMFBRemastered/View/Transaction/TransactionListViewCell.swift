@@ -72,6 +72,14 @@ struct TransactionListViewCell: View {
                         .foregroundColor(.gray)
                 }
             }
+            if let des = transaction.additionalDescription {
+                HStack {
+                    Text("Desciption")
+                    Spacer()
+                    Text(des)
+                }
+                .padding(.top, 5)
+            }
         }
     }
 }

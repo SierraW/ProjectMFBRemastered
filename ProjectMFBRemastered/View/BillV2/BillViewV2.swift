@@ -125,7 +125,6 @@ struct BillViewV2: View {
                                 data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict)
                             }
                             .environmentObject(appData)
-                            .environmentObject(data)
                             .navigationTitle("Select")
                         } label: {
                             HStack {
