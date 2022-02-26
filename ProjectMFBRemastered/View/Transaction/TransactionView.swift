@@ -23,10 +23,12 @@ struct TransactionView: View {
     
     @State var equivalentAmountStringList: [String] = []
     
-    @State var warningEmptyPaymentMethod = false
-    @State var warningEmptyCurrency = false
+    let warningEmptyPaymentMethod = "PM"
+    let warningEmptyCurrency = "CR"
     
     @State var showChangesAlert = false
+    
+    @State var alerts = Set<String>()
     
     var change: (Currency, Decimal)? {
         if let currency = currency, let amount = Decimal(string: amount), let mcAmountDue = amountDue, mcAmountDue > 0, let amountDue = currency.is_major ? amountDue : CurrencyController.exchangeFromMajorCurrency(currency: currency, amount: mcAmountDue), amount > amountDue {
@@ -93,7 +95,7 @@ struct TransactionView: View {
             HStack {
                 Text("Payment Method")
                 Spacer()
-                PaymentMethodPickerView(assignInitialValue: true) { pm in
+                PaymentMethodPickerView() { pm in
                     paymentMethod = pm
                     if let currency = pm.assignedCurrency {
                         setCurrency(currency)
@@ -106,21 +108,21 @@ struct TransactionView: View {
                 if disableCurrency {
                     Text(currency?.toStringRepresentation ?? "Err")
                 } else {
-                    CurrencyPickerView { cu in
+                    CurrencyPickerView() { cu in
                         setCurrency(cu)
                     }
                 }
             }
         } footer: {
             VStack {
-                if warningEmptyCurrency {
+                if alerts.contains(warningEmptyPaymentMethod) {
                     HStack {
                         Text("Payment Method Not Set")
                             .foregroundColor(.red)
                         Spacer()
                     }
                 }
-                if warningEmptyPaymentMethod {
+                if alerts.contains(warningEmptyCurrency) {
                     HStack {
                         Text("Currency Not Set")
                             .foregroundColor(.red)
@@ -234,6 +236,15 @@ struct TransactionView: View {
                 majorCurrencyEquivalent = CurrencyController.exchangeToMajorCurrency(currency: currency, amount: finalAmount)
             }
             onSubmit(paymentMethod, currency, finalAmount, majorCurrencyEquivalent, additionalDescription == "" ? nil : additionalDescription)
+        } else {
+            alerts.removeAll()
+            if paymentMethod == nil {
+                alerts.insert(warningEmptyPaymentMethod)
+            }
+            if currency == nil {
+                alerts.insert(warningEmptyCurrency)
+            }
+            
         }
     }
 }

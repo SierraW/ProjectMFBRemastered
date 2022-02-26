@@ -37,6 +37,19 @@ struct HistoryBillPreview: View {
     var content: some View {
         List {
             Section {
+                HStack {
+                    Text("From")
+                    Spacer()
+                    Text(bill.openTimestamp?.toStringRepresentation ?? "NO DATA")
+                }
+                HStack {
+                    Text("To")
+                    Spacer()
+                    Text(bill.closeTimestamp?.toStringRepresentation ?? "NO DATA")
+                }
+                
+            }
+            Section {
                 BillListViewCell(bill: data.controller.bill, total: data.total)
                     .environmentObject(appData)
             } header: {
