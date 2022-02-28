@@ -84,6 +84,7 @@
 		3B9C492527CC42E0008EEB30 /* BillCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C492427CC42E0008EEB30 /* BillCompleteView.swift */; };
 		3B9C492927CC4445008EEB30 /* BillCompleteViewDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C492827CC4445008EEB30 /* BillCompleteViewDefault.swift */; };
 		3B9C492B27CC44CB008EEB30 /* BillCompleteViewStella.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C492A27CC44CB008EEB30 /* BillCompleteViewStella.swift */; };
+		3B9C492D27CC49E9008EEB30 /* WelcomeViewStella.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9C492C27CC49E9008EEB30 /* WelcomeViewStella.swift */; };
 		3BADA68C2742CF71000B1D33 /* TransactionAmountTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */; };
 		3BADA68E2742F095000B1D33 /* DecimalField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADA68D2742F095000B1D33 /* DecimalField.swift */; };
 		3BC78F8827514D4700F5844F /* BillSplitByAmountWizardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC78F8727514D4700F5844F /* BillSplitByAmountWizardView.swift */; };
@@ -204,6 +205,7 @@
 		3B9C492427CC42E0008EEB30 /* BillCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillCompleteView.swift; sourceTree = "<group>"; };
 		3B9C492827CC4445008EEB30 /* BillCompleteViewDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillCompleteViewDefault.swift; sourceTree = "<group>"; };
 		3B9C492A27CC44CB008EEB30 /* BillCompleteViewStella.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillCompleteViewStella.swift; sourceTree = "<group>"; };
+		3B9C492C27CC49E9008EEB30 /* WelcomeViewStella.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewStella.swift; sourceTree = "<group>"; };
 		3BADA68B2742CF71000B1D33 /* TransactionAmountTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionAmountTextField.swift; sourceTree = "<group>"; };
 		3BADA68D2742F095000B1D33 /* DecimalField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalField.swift; sourceTree = "<group>"; };
 		3BC78F8727514D4700F5844F /* BillSplitByAmountWizardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillSplitByAmountWizardView.swift; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 				3B787A93277D234900E1383D /* WelcomeView.swift */,
 				3B787A91277D222000E1383D /* WelcomeViewDefault.swift */,
 				3B8FA0EB2744BABD00D7D4AD /* WelcomeViewChristmas.swift */,
+				3B9C492C27CC49E9008EEB30 /* WelcomeViewStella.swift */,
 			);
 			path = Welcome;
 			sourceTree = "<group>";
@@ -756,6 +759,7 @@
 				3BC78FDD2756C0DE00F5844F /* BillNavigationView.swift in Sources */,
 				3B4FBB2027507A9C00EA538A /* PaymentMethodPickerView.swift in Sources */,
 				3B20ED35274373C300B96DB6 /* TagController.swift in Sources */,
+				3B9C492D27CC49E9008EEB30 /* WelcomeViewStella.swift in Sources */,
 				3BC78F8827514D4700F5844F /* BillSplitByAmountWizardView.swift in Sources */,
 				3B9C492B27CC44CB008EEB30 /* BillCompleteViewStella.swift in Sources */,
 				3B203014273F29690016B537 /* CurrencyEditorView.swift in Sources */,

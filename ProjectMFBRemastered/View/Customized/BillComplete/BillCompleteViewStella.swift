@@ -22,7 +22,7 @@ struct BillCompleteViewStella: View {
             }
             Spacer()
         }
-        .background(Color(red: 255 / 255, green: 192 / 255, blue: 203 / 255))
+        .background(Color(red: 250 / 255, green: 218 / 255, blue: 221 / 255))
         .ignoresSafeArea()
     }
 }

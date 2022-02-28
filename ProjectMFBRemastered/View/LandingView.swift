@@ -68,6 +68,7 @@ struct LandingView: View {
         LoginView { signedInUser in
             if let signedInUser = signedInUser {
                 if let appData = AppData(signedInUser, viewContext: viewContext, onLogout: {
+                    self.showWelcomeView = true
                     self.data = nil
                 }) {
                     withAnimation {

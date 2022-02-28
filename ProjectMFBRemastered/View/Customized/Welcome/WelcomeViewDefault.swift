@@ -18,7 +18,7 @@ struct WelcomeViewDefault: View {
             Spacer()
             HStack {
                 Spacer()
-                Text("MFB Cashier © 2021 Yiyao Zhang")
+                Text("MFB Cashier © 2022 Yiyao Zhang")
                     .font(.caption)
                     .foregroundColor(.gray)
                     .padding()
