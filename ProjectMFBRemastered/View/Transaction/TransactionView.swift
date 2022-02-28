@@ -208,7 +208,8 @@ struct TransactionView: View {
         if currency == self.currency {
             return
         }
-        if let currency = currency, let amount = Decimal(string: amount), let oldCurrency = self.currency, currency.is_major || oldCurrency.is_major {
+        let oldCurrency = self.currency ?? appData.majorCurrency
+        if let currency = currency, let amount = Decimal(string: amount), currency.is_major || oldCurrency.is_major {
             DispatchQueue.main.async {
                 if currency.is_major {
                     self.amount = CurrencyController.exchangeToMajorCurrency(currency: oldCurrency, amount: amount).toStringRepresentation

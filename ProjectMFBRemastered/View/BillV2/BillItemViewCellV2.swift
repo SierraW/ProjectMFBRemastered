@@ -21,8 +21,18 @@ struct BillItemViewCellV2: View {
         Int(billItem.count)
     }
     
+    var onUpdate: (() -> Void)?
+    
     var body: some View {
         HStack {
+            if (!billItem.is_add_on) {
+                Menu {
+                    Text("This is an add-on item.")
+                } label: {
+                    Image(systemName: "smallcircle.filled.circle")
+                        .foregroundColor(.red)
+                }
+            }
             Text(billItem.toStringRepresentation)
             Spacer()
             if billItem.is_deposit {
@@ -71,15 +81,21 @@ struct BillItemViewCellV2: View {
                         Text(rate.toStringRepresentation)
                     }
                     
+                } else if !billItem.is_add_on {
+                    Text("\(count)")
+                        .frame(width: 20)
                 }
                 Image(systemName: "minus.circle")
                     .foregroundColor(.blue)
-                    .padding(billItem.is_rated ? .trailing : .leading)
+                    .padding(billItem.is_rated || !billItem.is_add_on ? .trailing : .leading)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         data.removeItem(billItem)
+                        if let onUpdate = onUpdate {
+                            onUpdate()
+                        }
                     }
-                if !billItem.is_rated {
+                if !billItem.is_rated && billItem.is_add_on {
                     Text("\(count)")
                         .frame(width: 20)
                     Image(systemName: "plus.circle")
@@ -88,6 +104,9 @@ struct BillItemViewCellV2: View {
                         .contentShape(Rectangle())
                         .onTapGesture {
                             data.addItem(billItem)
+                            if let onUpdate = onUpdate {
+                                onUpdate()
+                            }
                         }
                 }
             }

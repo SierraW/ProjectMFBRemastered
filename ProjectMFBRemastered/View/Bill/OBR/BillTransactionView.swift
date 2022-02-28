@@ -31,19 +31,15 @@ struct BillTransactionView: View {
     
     var onExit: () -> Void
     
-    var remainingBalance: Decimal {
-        let result = data.total - data.currentBillPaymentBalance
-        return result > 0 ? result : 0
+    var remainingExchangedBalance: [Currency: Decimal] {
+        controller.getExchangedCurrencyDict(majorCurrency: data.remainingBalance)
     }
     
-    var remainingExchangedBalance: [Currency: Decimal] {
-        controller.getExchangedCurrencyDict(majorCurrency: remainingBalance)
-    }
+    @State var updated = false
     
     var body: some View {
         ZStack {
             Form {
-                reviewSectionView
                 addOnSectionView
                 paymentSectionView
                 if data.payments.count > 0 {
@@ -80,35 +76,62 @@ struct BillTransactionView: View {
         .navigationTitle("Review Bill")
     }
     
-    var reviewSectionView: some View {
+    var addOnSectionView: some View {
         Section {
-            BillListViewCell(bill: data.controller.bill, hideTotal: true, isExpanded: true, hideAddOnItems: true)
+            ForEach(data.items, id: \.smartId) { item in
+                BillItemViewCellV2(selection: .constant([BillItem:Int]()), billItem: item, onUpdate: {
+                    updated = true
+                })
+                    .environmentObject(appData)
+                    .environmentObject(data)
+            }
+            NavigationLink {
+                BillItemShoppingViewV2(mode: .ratedPayable, controller: shoppingData) { payableDict, ratedPayableDict in
+                    data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict, isAddOn: true)
+                }
                 .environmentObject(appData)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Menu {
-                            if splitMode == .amountOnly || splitMode == .full {
-                                Button {
-                                    showSBAMenu.toggle()
-                                } label: {
-                                    Text("Split by totals")
-                                }
+                .environmentObject(data)
+                .navigationTitle("Select")
+            } label: {
+                HStack {
+                    Spacer()
+                    Image(systemName: "plus")
+                    Text("Item")
+                    Image(systemName: "circle.fill")
+                        .font(.system(size: 10))
+                        .foregroundColor(shoppingData.status == .loading ? .yellow : shoppingData.status == .succeeded ? .green: .red)
+                    Spacer()
+                }
+                .foregroundColor(.blue)
+            }
+            .disabled(shoppingData.status != .succeeded)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        if splitMode == .amountOnly || splitMode == .full {
+                            Button {
+                                showSBAMenu.toggle()
+                            } label: {
+                                Text("Split by totals")
                             }
-                            if splitMode == .full {
-                                Button {
-                                    data.showSplitByProductView()
-                                } label: {
-                                    Text("Split by products")
-                                }
-                            }
-                            if splitMode == .none {
-                                Text("Split Bill Unavailable")
-                            }
-                        } label: {
-                            Image(systemName: "rectangle.split.3x1.fill")
                         }
+                        if splitMode == .full {
+                            Button {
+                                data.showSplitByProductView()
+                            } label: {
+                                Text("Split by products")
+                            }
+                        }
+                        if splitMode == .none {
+                            Text("Split Bill Unavailable")
+                        }
+                    } label: {
+                        Image(systemName: "rectangle.split.3x1.fill")
                     }
                 }
+            }
+        } header: {
+            Text("ITEMS")
         } footer: {
             HStack {
                 Text("Bill State:")
@@ -135,40 +158,6 @@ struct BillTransactionView: View {
         }
     }
     
-    var addOnSectionView: some View {
-        Section {
-            ForEach(data.items, id: \.smartId) { item in
-                if item.is_add_on {
-                    BillItemViewCellV2(selection: .constant([BillItem:Int]()), billItem: item)
-                        .environmentObject(appData)
-                        .environmentObject(data)
-                }
-            }
-            NavigationLink {
-                BillItemShoppingViewV2(mode: .ratedPayable, controller: shoppingData) { payableDict, ratedPayableDict in
-                    data.addItems(payableDict: payableDict, ratedPayableDict: ratedPayableDict, isAddOn: true)
-                }
-                .environmentObject(appData)
-                .environmentObject(data)
-                .navigationTitle("Select")
-            } label: {
-                HStack {
-                    Spacer()
-                    Image(systemName: "plus")
-                    Text("Item")
-                    Image(systemName: "circle.fill")
-                        .font(.system(size: 10))
-                        .foregroundColor(shoppingData.status == .loading ? .yellow : shoppingData.status == .succeeded ? .green: .red)
-                    Spacer()
-                }
-                .foregroundColor(.blue)
-            }
-            .disabled(shoppingData.status != .succeeded)
-        } header: {
-            Text("Add-On")
-        }
-    }
-    
     var paymentSectionView: some View {
         Section {
             Group {
@@ -188,7 +177,7 @@ struct BillTransactionView: View {
                 showEquivalentAmount.toggle()
             }
             NavigationLink {
-                TransactionView(amountDue: remainingBalance) { paymentMethod, currency, amount, majorCurrencyEquivalent, additionalDescription in
+                TransactionView(amountDue: data.remainingBalance) { paymentMethod, currency, amount, majorCurrencyEquivalent, additionalDescription in
                     data.submitBillPayment(paymentMethod: paymentMethod, currency: currency, amount: amount, majorCurrencyEquivalent: majorCurrencyEquivalent, additionalDescription: additionalDescription)
                     autoSubmit()
                 }
@@ -201,13 +190,22 @@ struct BillTransactionView: View {
                 }
                 .foregroundColor(.green)
             }
-            OneClickTransactionView(amountDue: remainingBalance) {
-                if $2 > 0 {
-                    data.submitBillPayment(paymentMethod: $0, currency: $1, amount: $2, majorCurrencyEquivalent: $3, additionalDescription: nil)
-                    autoSubmit()
+            if !updated {
+                OneClickTransactionView() {
+                    if $2 > 0 {
+                        data.submitBillPayment(paymentMethod: $0, currency: $1, amount: $2, majorCurrencyEquivalent: $3, additionalDescription: nil)
+                        autoSubmit()
+                    }
                 }
+                .environmentObject(data)
+            } else {
+                ProgressView()
+                    .onAppear {
+                        updated = false
+                    }
             }
-            .environmentObject(data)
+            
+            
         } header: {
             Text("Payments")
         }
@@ -237,7 +235,7 @@ struct BillTransactionView: View {
                             .bold()
                         Text(appData.majorCurrency.toStringRepresentation)
                             .bold()
-                        Text(remainingBalance.toStringRepresentation)
+                        Text(data.remainingBalance.toStringRepresentation)
                             .bold()
                     }
                 }

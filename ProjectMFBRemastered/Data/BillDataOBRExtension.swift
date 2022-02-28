@@ -22,6 +22,12 @@ extension BillData {
         return balance
     }
     
+    /// The amount need to pay in order to complete
+    var remainingBalance: Decimal {
+        let result = total - currentBillPaymentBalance
+        return result > 0 ? result : 0
+    }
+    
     /// Submit the current bill and transfering to "OBR" mode. This function will add the first tax item if there is any.
     func originalBillSubmit() {
         if isSubmitted {

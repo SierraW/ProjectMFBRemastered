@@ -308,12 +308,9 @@ struct BillViewV2: View {
     }
     
     var completedView: some View {
-        VStack {
-            Text("This bill is completed")
-            Button("Start new bill") {
-                data.setInactive()
-                onExit()
-            }
+        BillCompleteView {
+            data.setInactive()
+            onExit()
         }
     }
     
@@ -367,7 +364,7 @@ struct BillViewV2: View {
         let billData = BillData(asChildOf: data)
         addToBill(billData)
         if let taxItem = RatedPayableController.firstTaxRatedPayable(viewContext) {
-            billData.addItem(taxItem, isAddOn: true)
+            billData.addItem(taxItem)
         }
     }
     
@@ -376,7 +373,7 @@ struct BillViewV2: View {
             return
         }
         billData.resignProceedBalance()
-        billData.addItems(with: selectedBillItems, isAddOn: true)
+        billData.addItems(with: selectedBillItems)
         data.removeItems(items: selectedBillItems)
         clearCart()
         data.reloadChildren()

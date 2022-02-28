@@ -70,7 +70,7 @@ class BillData: ObservableObject, Identifiable {
     var identifierFactory: Int32 = 0
     
     
-    /// Init data as a new bill.
+    /// Init data as a new bill, then save.
     /// - Parameters:
     ///   - context: managed object context.
     ///   - tag: the tag indicate the room of the bill.
@@ -86,6 +86,7 @@ class BillData: ObservableObject, Identifiable {
         if let payable = payable, size > 0 {
             addItem(payable, count: size)
         }
+        controller.managedSave()
     }
     
     

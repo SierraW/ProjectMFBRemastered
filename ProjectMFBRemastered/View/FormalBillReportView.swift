@@ -24,7 +24,7 @@ struct FormalBillReportView: View {
     private var fetchedBill: FetchedResults<Bill>
     
     var reports: [BillReport] {
-        fetchedBillReport.sorted()
+        fetchedBillReport.sorted().reversed()
     }
     
     var bills: [Bill] {
