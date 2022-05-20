@@ -25,8 +25,6 @@ struct LoginView: View {
     @State var password = ""
     
     @State var informationMismatched = false
-    
-    var expectedUser: User? = nil
     let onExit: (User?) -> Void
     
     var body: some View {
@@ -56,13 +54,6 @@ struct LoginView: View {
                             }
                             .pickerStyle(.menu)
                             .padding(.leading)
-                            .onAppear {
-                                if let expectedUser = expectedUser, let index = users.firstIndex(of: expectedUser) {
-                                    withAnimation {
-                                        selectedUserIndex = index
-                                    }
-                                }
-                            }
                         }
                         
                         HStack {

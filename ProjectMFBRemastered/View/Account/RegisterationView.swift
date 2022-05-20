@@ -78,6 +78,11 @@ struct RegisterationView: View {
                     }
                 }
             }
+            .onAppear {
+                if isSettingUpRootUser {
+                    isSuperuser = true
+                }
+            }
             
             Section {
                 Toggle(isOn: $isHighlighted) {

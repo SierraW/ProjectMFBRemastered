@@ -13,6 +13,7 @@ struct BillItemViewCellV2: View {
     
     @Binding var selection: [BillItem: Int]
     var billItem: BillItem
+    
     var isAddOn: Bool {
         billItem.is_add_on
     }
@@ -25,7 +26,7 @@ struct BillItemViewCellV2: View {
     
     var body: some View {
         HStack {
-            if (!billItem.is_add_on) {
+            if (isAddOn) {
                 Menu {
                     Text("This is an add-on item.")
                 } label: {
@@ -77,38 +78,35 @@ struct BillItemViewCellV2: View {
                         Image(systemName: "r.square")
                             .foregroundColor(.red)
                     }
-                    if let rate = billItem.value as Decimal? {
-                        Text(rate.toStringRepresentation)
-                    }
-                    
-                } else if !billItem.is_add_on {
-                    Text("\(count)")
-                        .frame(width: 20)
+
                 }
-                Image(systemName: "minus.circle")
-                    .foregroundColor(.blue)
-                    .padding(billItem.is_rated || !billItem.is_add_on ? .trailing : .leading)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
+                if let rate = billItem.value as Decimal?, billItem.is_rated {
+                    BillItemViewCellControl(value: rate.toStringRepresentation, onTapMinusControl: {
                         data.removeItem(billItem)
                         if let onUpdate = onUpdate {
                             onUpdate()
                         }
+                    })
+                    .onTapGesture {
+                        // use to disable tap control on the cell
                     }
-                if !billItem.is_rated && billItem.is_add_on {
-                    Text("\(count)")
-                        .frame(width: 20)
-                    Image(systemName: "plus.circle")
-                        .foregroundColor(.blue)
-                        .padding(.trailing)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            data.addItem(billItem)
-                            if let onUpdate = onUpdate {
-                                onUpdate()
-                            }
+                } else {
+                    BillItemViewCellControl(value: "\(count)", onTapMinusControl: {
+                        data.removeItem(billItem)
+                        if let onUpdate = onUpdate {
+                            onUpdate()
                         }
+                    }, onTapPlusControl: {
+                        data.addItem(billItem)
+                        if let onUpdate = onUpdate {
+                            onUpdate()
+                        }
+                    })
+                    .onTapGesture {
+                        // use to disable tap control on the cell
+                    }
                 }
+                
             }
             
             HStack {

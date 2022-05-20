@@ -124,6 +124,7 @@
 		3BEEE31E273C581B0056AF54 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE31D273C581B0056AF54 /* LoginView.swift */; };
 		3BEEE321273C58440056AF54 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE320273C58440056AF54 /* MainView.swift */; };
 		3BEEE324273C5A000056AF54 /* EncryptExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE323273C5A000056AF54 /* EncryptExtension.swift */; };
+		A7D6AD2428317D40002D165A /* BillItemViewCellControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D6AD2328317D40002D165A /* BillItemViewCellControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -246,6 +247,7 @@
 		3BEEE31D273C581B0056AF54 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3BEEE320273C58440056AF54 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3BEEE323273C5A000056AF54 /* EncryptExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptExtension.swift; sourceTree = "<group>"; };
+		A7D6AD2328317D40002D165A /* BillItemViewCellControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemViewCellControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,6 +382,7 @@
 				3B596BA927759AFE00A6694E /* BillItemViewCellV2.swift */,
 				3B596BA72772750200A6694E /* BillWidget.swift */,
 				3B787A8E277C20C600E1383D /* BillItemShoppingViewV2.swift */,
+				A7D6AD2328317D40002D165A /* BillItemViewCellControl.swift */,
 			);
 			path = BillV2;
 			sourceTree = "<group>";
@@ -787,6 +790,7 @@
 				3B596BA82772750200A6694E /* BillWidget.swift in Sources */,
 				3B596BAC2775A23800A6694E /* RoomLegacyNavigationView.swift in Sources */,
 				3BEEE316273C560F0056AF54 /* LandingView.swift in Sources */,
+				A7D6AD2428317D40002D165A /* BillItemViewCellControl.swift in Sources */,
 				3B4FBB2427508FD800EA538A /* RatedPayableListView.swift in Sources */,
 				3BD581842746BC2E00089113 /* PayableListView.swift in Sources */,
 				3B596BB72776DADB00A6694E /* ReportView.swift in Sources */,
