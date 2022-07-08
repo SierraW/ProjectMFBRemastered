@@ -17,6 +17,8 @@ struct HistoryBillListView: View {
         animation: .default)
     private var fetchedBill: FetchedResults<Bill>
     
+    @StateObject var historyBillData = HistoryBillData()
+    
     var bills: [Bill] {
         let fetchedBill = fetchedBill.filter { bill in
             bill.tag != nil
@@ -30,9 +32,13 @@ struct HistoryBillListView: View {
     }
     
     var groups: [String: [Bill]] {
-        let now = Date()
-        return Dictionary(grouping: bills, by: {$0.openTimestamp?.listGroupRepresentation(now: now) ?? "Error Bills"})
+        historyBillData.billGroup
     }
+    
+//    var groups: [String: [Bill]] {
+//        let now = Date()
+//        return Dictionary(grouping: bills, by: {$0.openTimestamp?.listGroupRepresentation(now: now) ?? "Error Bills"})
+//    }
     
     @State var searchString = ""
     @State var selection: BillData? = nil
@@ -43,6 +49,9 @@ struct HistoryBillListView: View {
 
             }
             billsSection
+        }
+        .onAppear {
+            historyBillData.reload(viewContext: viewContext)
         }
         .sheet(item: $selection, content: { billData in
             HistoryBillPreview()

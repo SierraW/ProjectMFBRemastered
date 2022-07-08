@@ -40,14 +40,20 @@ struct PersistenceController {
         return result
     }()
     
-    let container: NSPersistentCloudKitContainer
+    let container: NSPersistentContainer
     let persistentContainerQueue = OperationQueue()
     
     init(inMemory: Bool = false) {
-        container = NSPersistentCloudKitContainer(name: "ProjectMFBRemastered")
+        container = NSPersistentContainer(name: "ProjectMFBRemastered")
+        
+        let description = container.persistentStoreDescriptions.first
+        
+        description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
+        
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

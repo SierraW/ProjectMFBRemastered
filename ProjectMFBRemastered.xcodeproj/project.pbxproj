@@ -124,6 +124,8 @@
 		3BEEE31E273C581B0056AF54 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE31D273C581B0056AF54 /* LoginView.swift */; };
 		3BEEE321273C58440056AF54 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE320273C58440056AF54 /* MainView.swift */; };
 		3BEEE324273C5A000056AF54 /* EncryptExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE323273C5A000056AF54 /* EncryptExtension.swift */; };
+		A79B00B928450EAA003B8C70 /* HistoryBillData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B00B828450EA9003B8C70 /* HistoryBillData.swift */; };
+		A79B00BB28450EBE003B8C70 /* HistoryBillController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B00BA28450EBE003B8C70 /* HistoryBillController.swift */; };
 		A7D6AD2428317D40002D165A /* BillItemViewCellControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D6AD2328317D40002D165A /* BillItemViewCellControl.swift */; };
 /* End PBXBuildFile section */
 
@@ -247,6 +249,8 @@
 		3BEEE31D273C581B0056AF54 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3BEEE320273C58440056AF54 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3BEEE323273C5A000056AF54 /* EncryptExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptExtension.swift; sourceTree = "<group>"; };
+		A79B00B828450EA9003B8C70 /* HistoryBillData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryBillData.swift; sourceTree = "<group>"; };
+		A79B00BA28450EBE003B8C70 /* HistoryBillController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryBillController.swift; sourceTree = "<group>"; };
 		A7D6AD2328317D40002D165A /* BillItemViewCellControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemViewCellControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -301,6 +305,7 @@
 		3B202FFA273ED4EB0016B537 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A79B00BA28450EBE003B8C70 /* HistoryBillController.swift */,
 				3B787A822778D7E300E1383D /* ReportController.swift */,
 				3B787A842778DB0B00E1383D /* PayableRatedPayableSelectionController.swift */,
 				3B202FFC273ED52D0016B537 /* CurrencyController.swift */,
@@ -355,6 +360,7 @@
 		3B3383D527B57B9B001B2CBE /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				A79B00B828450EA9003B8C70 /* HistoryBillData.swift */,
 				3B3383D627B57C19001B2CBE /* AppData.swift */,
 				3BD581AB274C581100089113 /* BillData.swift */,
 				3BC78F912752DBD500F5844F /* BillDataOBRExtension.swift */,
@@ -737,6 +743,7 @@
 				3BC78FE227570C0D00F5844F /* DatabaseMonitor.swift in Sources */,
 				3B4FBB1927502AE800EA538A /* LabelledDivider.swift in Sources */,
 				3BEEE30B273C53840056AF54 /* Persistence.swift in Sources */,
+				A79B00B928450EAA003B8C70 /* HistoryBillData.swift in Sources */,
 				3B787A96277E0C9C00E1383D /* OneClickTransactionView.swift in Sources */,
 				3BC78FDB2756BB0300F5844F /* HistoryBillListView.swift in Sources */,
 				3B8FA0F22744C1F100D7D4AD /* RoomEditorView.swift in Sources */,
@@ -773,6 +780,7 @@
 				3B203002273ED6000016B537 /* DecimalExtension.swift in Sources */,
 				3B8FA103274606B100D7D4AD /* RatedPayableEditorView.swift in Sources */,
 				3B203011273F0FD60016B537 /* ContentWrapperView.swift in Sources */,
+				A79B00BB28450EBE003B8C70 /* HistoryBillController.swift in Sources */,
 				3B4FBB28275098D900EA538A /* BillItemViewCell.swift in Sources */,
 				3BC78F9A2754118500F5844F /* BillSplitByProductView.swift in Sources */,
 				3BC78FAA2755AD9100F5844F /* BillListViewCell.swift in Sources */,
@@ -965,6 +973,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
@@ -983,6 +992,7 @@
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ca.yiyao.ProjectMFBRemastered;
 				PRODUCT_NAME = "MFB Cashier";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -995,6 +1005,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ProjectMFBRemastered/ProjectMFBRemastered.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectMFBRemastered/Preview Content\"";
@@ -1013,6 +1024,7 @@
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ca.yiyao.ProjectMFBRemastered;
 				PRODUCT_NAME = "MFB Cashier";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

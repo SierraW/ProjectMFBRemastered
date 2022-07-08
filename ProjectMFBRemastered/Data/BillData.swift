@@ -50,7 +50,11 @@ class BillData: ObservableObject, Identifiable {
     
     @Published var associatedTag: Tag?
     
-    @Published var additionalDescription: String
+    @Published var additionalDescription: String {
+        didSet {
+            self.controller.bill.additionalDescription = additionalDescription
+        }
+    }
     
     @Published var isSubmitted = false
     
