@@ -96,6 +96,8 @@ struct MainView: View {
                     .environmentObject(appData)
                 BillNavigationView()
                     .environmentObject(appData)
+                MembershipView()
+                    .environmentObject(appData)
                 if appData.user.is_root {
                     RootNavigationView()
                 }
