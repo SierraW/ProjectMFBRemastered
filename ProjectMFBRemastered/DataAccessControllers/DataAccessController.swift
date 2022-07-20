@@ -16,8 +16,8 @@ enum RequestMethod: String {
 class DataAccessController<T: Decodable> {
     let baseUrl = "http://127.0.0.1:8000/"
     
-    func buildRequest(for uri: String, with parameters: [String: Any]? = nil, using method: RequestMethod = .GET) async throws -> URLRequest {
-        guard let url = URL(string: baseUrl + uri) else {
+    func buildRequest(for url: String, with parameters: [String: Any]? = nil, using method: RequestMethod = .GET) async throws -> URLRequest {
+        guard let url = URL(string: url) else {
             print("[FATAL] AuthenticationController authenticate URL invalid.")
             throw DataLinkError.URLInvalid
         }
@@ -29,12 +29,18 @@ class DataAccessController<T: Decodable> {
         return request
     }
     
-    func send(request: URLRequest) async throws -> T {
-        let (data, _) = try await URLSession.shared.data(for: request)
-        guard let result = try? JSONDecoder().decode(T.self, from: data) else {
-            throw DataLinkError.DecodeFailed
+    func send(request: URLRequest) async -> (T?, Int) {
+        var statusCode = 500
+        guard let (data, response) = try? await URLSession.shared.data(for: request) else {
+            return (nil, statusCode)
         }
-        return result
+        if let httpResponse = response as? HTTPURLResponse {
+            statusCode = httpResponse.statusCode
+        }
+        guard let result = try? JSONDecoder().decode(T.self, from: data) else {
+            return (nil, statusCode)
+        }
+        return (result, statusCode)
     }
 }
 
@@ -45,25 +51,25 @@ class AuthenticatedDataAccessController<T: Decodable>: DataAccessController<T> {
         self.authenticationProfile = authenticationProfile
     }
     
-    override func buildRequest(for uri: String, with parameters: [String : Any]? = nil, using method: RequestMethod = .GET) async throws -> URLRequest {
-        var request = try await super.buildRequest(for: uri, with: parameters, using: method)
+    override func buildRequest(for url: String, with parameters: [String : Any]? = nil, using method: RequestMethod = .GET) async throws -> URLRequest {
+        var request = try await super.buildRequest(for: url, with: parameters, using: method)
         if let authenticationProfile = authenticationProfile {
             request.setValue("Bearer \(authenticationProfile.access)", forHTTPHeaderField: "Authorization")
         }
         return request
     }
     
-    func get(to url: String = "") async -> T? {
-        guard let request = try? await self.buildRequest(for: url), let result = try? await self.send(request: request) else {
-            return nil
+    func get(to url: String) async -> (T?, Int) {
+        guard let request = try? await self.buildRequest(for: url) else {
+            return (nil, 500)
         }
-        return result
+        return await self.send(request: request)
     }
     
-    func post(to url: String = "", with parameters: [String : Any]? = nil) async -> T? {
-        guard let request = try? await self.buildRequest(for: url, with: parameters, using: .POST), let result = try? await self.send(request: request) else {
-            return nil
+    func post(to url: String, with parameters: [String : Any]? = nil, using method: RequestMethod = .POST) async -> (T?, Int) {
+        guard let request = try? await self.buildRequest(for: url, with: parameters, using: method) else {
+            return (nil, 500)
         }
-        return result
+        return await self.send(request: request)
     }
 }

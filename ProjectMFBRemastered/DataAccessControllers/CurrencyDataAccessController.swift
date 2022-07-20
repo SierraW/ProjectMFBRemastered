@@ -14,17 +14,14 @@ class CurrencyDataAccessController: AuthenticatedDataAccessController<MFBCurrenc
             print("[FATAL] CurrencyDataAccessController list: no auth profile given")
             return nil
         }
-        guard let request = try? await self.buildRequest(for: "currency/"), let (data, _) = try? await URLSession.shared.data(for: request), let result = try? JSONDecoder().decode([MFBCurrency].self, from: data) else {
+        guard let request = try? await self.buildRequest(for: self.baseUrl + "currency/"), let (data, _) = try? await URLSession.shared.data(for: request), let result = try? JSONDecoder().decode([MFBCurrency].self, from: data) else {
             return nil
         }
         return result
     }
     
-    func majorCurrency() async -> MFBCurrency? {
-        guard let request = try? await self.buildRequest(for: "currency/major/"), let result = try? await self.send(request: request) else {
-            return nil
-        }
-        return result
+    func majorCurrency() async -> (MFBCurrency?, Int) {
+        return await get(to: self.baseUrl + "currency/major/")
     }
 }
 

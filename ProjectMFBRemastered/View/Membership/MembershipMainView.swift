@@ -15,8 +15,8 @@ struct MembershipMainView: View {
         Group {
             if let majorCurrency = majorCurrency {
                 if let appData = appData {
-                    MembershipTestView()
-                        .environmentObject(appData)
+                    MembershipManagementView()
+                        .environmentObject(MembershipData(profile: appData.authentication))
                 } else {
                     MembershipAuthenticationView { authentication in
                         appData = MembershipAppData(profile: authentication, majorCurrency: majorCurrency, onLogout: {
@@ -34,7 +34,8 @@ struct MembershipMainView: View {
         .onAppear {
             Task {
                 let controller = CurrencyDataAccessController()
-                if let majorCurrency = await controller.majorCurrency() {
+                let (majorCurrency, _) = await controller.majorCurrency()
+                if let majorCurrency = majorCurrency {
                     self.majorCurrency = majorCurrency
                 }
             }

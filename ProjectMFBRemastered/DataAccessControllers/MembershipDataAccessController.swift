@@ -7,8 +7,12 @@
 
 import Foundation
 
-class MembershipDataAccessController: AuthenticatedDataAccessController<MFBPagedMembership> {
-    func list() async -> MFBPagedMembership? {
-        return await super.get(to: "membership_account/list/")
+class MembershipDataAccessController: AuthenticatedDataAccessController<MFBPagedDataModel<MFBMembership>> {
+    func list(override url: String? = nil) async -> (MFBPagedDataModel<MFBMembership>?, Int) {
+        return await super.get(to: url ?? self.baseUrl + "membership_account/list/")
+    }
+    
+    func search(for key: String) async -> (MFBPagedDataModel<MFBMembership>?, Int) {
+        return await super.get(to: self.baseUrl + "membership_account/search/" + key)
     }
 }

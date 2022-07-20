@@ -28,10 +28,28 @@ struct MFBCurrency: MFBDataModel, MFBBasicModel {
     var dateCreated: String
     
     var lastModified: String
+    
+    var toDict: [String : Any] {
+        [
+            "pk": id,
+            "name": name,
+            "prefix": prefix,
+            "symbol": symbol,
+            "exchangeRate": exchangeRate,
+            "starred": starred,
+            "disabled": disabled
+        ]
+    }
 }
 
 
 struct MFBCurrencyIdentity: MFBDataModel {
     var id: Int64
     var stringRepresentation: String
+    
+    var toDict: [String : Any] {
+        [
+            "pk": id
+        ]
+    }
 }

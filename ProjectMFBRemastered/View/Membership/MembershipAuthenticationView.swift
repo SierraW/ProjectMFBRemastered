@@ -57,7 +57,7 @@ struct MembershipAuthenticationView: View {
     
     func authenticate() {
         Task {
-            let authProfile = await authenticationController.authenticate(with: username, password)
+            let (authProfile, _) = await authenticationController.authenticate(with: username, password)
             if let authProfile = authProfile {
                 loginSuccess = true
                 onAuthenticate(authProfile)

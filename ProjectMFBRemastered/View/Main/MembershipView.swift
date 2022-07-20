@@ -22,51 +22,18 @@ struct MembershipView: View {
                 MembershipMainView()
             } label: {
                 HStack {
-                    Image(systemName: "bookmark.square.fill")
+                    Image(systemName: "heart.text.square.fill")
                         .font(.system(size: 25))
-                        .foregroundColor(.orange)
+                        .foregroundColor(.green)
                         .background(RoundedRectangle(cornerRadius: 4).fill(.white)
                                         .frame(width: 22, height: 22, alignment: .center))
-                    Text("Histories")
+                    Text("Membership")
                     Spacer()
                 }
             }
             .listRowSeparator(.hidden)
             .padding()
-            NavigationLink {
-                IndividualBillReportView()
-                    .environmentObject(appData)
-                    .navigationTitle("Individual Report")
-            } label: {
-                HStack {
-                    Image(systemName: "star.square.fill")
-                        .font(.system(size: 25))
-                        .foregroundColor(.purple)
-                        .background(RoundedRectangle(cornerRadius: 4).fill(.white)
-                                        .frame(width: 22, height: 22, alignment: .center))
-                    Text("Individual Report")
-                    Spacer()
-                }
-            }
-            .listRowSeparator(.hidden)
-            .padding()
-            NavigationLink {
-                FormalBillReportView()
-                    .environmentObject(appData)
-                    .navigationTitle("Formal Report")
-            } label: {
-                HStack {
-                    Image(systemName: "square.text.square.fill")
-                        .font(.system(size: 25))
-                        .foregroundColor(.red)
-                        .background(RoundedRectangle(cornerRadius: 4).fill(.white)
-                                        .frame(width: 22, height: 22, alignment: .center))
-                    Text("Formal Report")
-                    Spacer()
-                }
-            }
-            .listRowSeparator(.hidden)
-            .padding()
+            
         }
     }
 }
