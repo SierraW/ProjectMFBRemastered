@@ -155,7 +155,9 @@ struct MembershipEditorView: View {
                     Section {
                         ForEach(membership.membershipAccounts.indices, id: \.self) { membershipAccountIndex in
                             NavigationLink {
-                                MembershipTransactionView(membershipAccount: membership.membershipAccounts[membershipIndex], onExit: { result in
+                                MembershipTransactionView(membershipAccount: membership.membershipAccounts[membershipIndex],
+                                                          membershipTransactionType: .All,
+                                                          onExit: { result in
                                     membershipData.search(for: membership.phoneNumber, insertTo: membershipIndex)
                                     
                                 })

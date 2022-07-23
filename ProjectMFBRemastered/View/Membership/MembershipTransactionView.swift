@@ -9,8 +9,9 @@ import SwiftUI
 
 enum MembershipTransactionType: String {
     case Deposit
-    case Withdraw
+    case Purchase
     case Transact
+    case All
 }
 
 struct MembershipTransactionView: View {
@@ -46,9 +47,23 @@ struct MembershipTransactionView: View {
                     }
                 }
             }
-        case .Withdraw:
-            return
+        case .Purchase:
+            if let amount = Decimal(string: amount) {
+                Task {
+                    let result = await membershipData.purchase(for: transactionCase, amount: amount)
+                    if let result = result {
+                        dismiss()
+                        onExit(result)
+                    } else {
+                        withAnimation {
+                            errorMessage = "Request Failed"
+                        }
+                    }
+                }
+            }
         case .Transact:
+            return
+        default:
             return
         }
     }
@@ -80,11 +95,18 @@ struct MembershipTransactionView: View {
                     }
                     KeyPad(value: $amount, decimalPlaces: 2)
                         .frame(maxWidth: 300, maxHeight: 300)
-                    if membershipTransactionType == .Deposit {
+                    if membershipTransactionType == .Deposit || membershipTransactionType == .All {
                         Button {
                             submitTransaction(with: membershipTransactionCase, for: .Deposit)
                         } label: {
                             SubmitButtonView(title: "DEPOSIT")
+                        }
+                    }
+                    if membershipTransactionType == .Purchase || membershipTransactionType == .All {
+                        Button {
+                            submitTransaction(with: membershipTransactionCase, for: .Purchase)
+                        } label: {
+                            SubmitButtonView(title: "PURCHASE", backgroundColor: .red)
                         }
                     }
                 }

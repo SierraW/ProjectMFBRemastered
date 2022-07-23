@@ -31,4 +31,17 @@ extension MembershipData {
         
         return result
     }
+    
+    func purchase(for transactionCase: MFBMembershipTransactionCase, amount: Decimal) async -> MFBMembershipTransactionResult? {
+        let controller = AuthenticatedDataAccessController<MFBMembershipTransactionResult>(self.authentication)
+        
+        let parameters: [String: Any] = [
+            "caseUid": transactionCase.caseUid,
+            "amount": amount
+        ]
+        
+        let (result, _) = await controller.post(to: "\(controller.baseUrl)membership_transaction/purchase/", with: parameters)
+        
+        return result
+    }
 }
