@@ -17,6 +17,7 @@ struct MembershipMainView: View {
                 if let appData = appData {
                     MembershipManagementView()
                         .environmentObject(MembershipData(profile: appData.authentication))
+                        .environmentObject(CurrencyData(profile: appData.authentication))
                 } else {
                     MembershipAuthenticationView { authentication in
                         appData = MembershipAppData(profile: authentication, majorCurrency: majorCurrency, onLogout: {

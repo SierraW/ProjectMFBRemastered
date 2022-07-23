@@ -44,25 +44,7 @@ struct MembershipManagementView: View {
         .background(Color(UIColor.systemGroupedBackground))
         .sheet(item: $editingTagIndex) { index in
             VStack {
-                HStack {
-                    Image(systemName: "chevron.down.circle")
-                        .foregroundColor(.gray)
-                        .frame(width:50)
-                    Spacer()
-                    Text("Membership Editor")
-                        .bold()
-                    Spacer()
-                    Spacer()
-                        .frame(width:50)
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    withAnimation {
-                        editingTagIndex = nil
-                    }
-                }
-                .padding()
-                MembershipEditorView(membershipIndex: index, membership: index < 0 ? nil : membershipData.memberships[index], onDelete: { membership in
+                MembershipEditorView(membershipIndex: index, onDelete: { membership in
                     //
                 }, onExit: {
                     withAnimation {

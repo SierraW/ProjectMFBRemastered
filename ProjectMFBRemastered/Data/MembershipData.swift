@@ -41,15 +41,23 @@ class MembershipData: ObservableObject {
         
     }
     
-    func search(for key: String) {
+    func search(for key: String, insertTo index: Int? = nil) {
         let controller = AuthenticatedDataAccessController<[MFBMembership]>(self.authentication)
-        memberships = []
+        if index == nil {
+            memberships = []
+        }
+        
         
         Task.detached {
             let (result, _) = await controller.get(to: controller.baseUrl + "membership_account/search/" + key)
             if let result = result {
                 await MainActor.run {
-                    self.memberships.append(contentsOf: result)
+                    if let index = index, !result.isEmpty {
+                        self.memberships[index] = result[0]
+                    } else {
+                        self.memberships.append(contentsOf: result)
+                    }
+                    
                 }
             }
         }
@@ -72,7 +80,7 @@ class MembershipData: ObservableObject {
         
     }
     
-    func createMembership(item: MFBMembership, currency index: Int, completion: @escaping (Bool) -> Void) {
+    func createMembership(item: MFBMembership, currency index: Int64, completion: @escaping (Bool) -> Void) {
         let controller = AuthenticatedDataAccessController<MFBMembership>(self.authentication)
         
         
@@ -90,4 +98,5 @@ class MembershipData: ObservableObject {
             }
         }
     }
+    
 }

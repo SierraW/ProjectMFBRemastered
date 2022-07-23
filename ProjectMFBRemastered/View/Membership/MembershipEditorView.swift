@@ -9,15 +9,25 @@ import SwiftUI
 
 struct MembershipEditorView: View {
     @EnvironmentObject var membershipData: MembershipData
+    @EnvironmentObject var currencyData: CurrencyData
     var membershipIndex: Int
     
     // model fields
-    @State var membership: MFBMembership?
+    var membership: MFBMembership? {
+        if membershipIndex < 0 {
+            return nil
+        }
+        return membershipData.memberships[membershipIndex]
+    }
     @State var cardNumber = ""
     @State var phoneNumber = ""
     @State var name = ""
     @State var disabled = false
     @State var starred = false
+    
+    @State var selectedCurrencyIndex: Int = 0
+    @State var selectedAccountIndex: Int = 0
+    @State var warningMissingCurrency = false
     
     
     // model fields controls
@@ -42,123 +52,177 @@ struct MembershipEditorView: View {
     var onExit: () -> Void
     
     var body: some View {
-        Form {
-            Section {
-                HStack {
+        NavigationView {
+            Form {
+                Section {
                     HStack {
-                        Text("Phone Number")
-                        Spacer()
-                    }
-                    .frame(width: 200)
-                    TextField("Requried", text: $phoneNumber, onCommit:  {
-                        phoneNumber.trimmingWhitespacesAndNewlines()
-                    })
-                }
-                HStack {
-                    HStack {
-                        Text("Card Number")
-                        Spacer()
-                    }
-                    .frame(width: 200)
-                    TextField("Optional", text: $cardNumber, onCommit:  {
-                        cardNumber.trimmingWhitespacesAndNewlines()
-                    })
-                }
-                HStack {
-                    HStack {
-                        Text("Name")
-                        Spacer()
-                    }
-                    .frame(width: 200)
-                    TextField("Optional", text: $name, onCommit:  {
-                        name.trimmingWhitespacesAndNewlines()
-                    })
-                }
-            } header: {
-                Text("Membership")
-            } footer: {
-                VStack {
-                    if duplicatedWarning {
                         HStack {
-                            Text("Duplicated tag found.")
-                                .foregroundColor(.red)
+                            Text("Phone Number")
                             Spacer()
                         }
+                        .frame(width: 200)
+                        TextField("Requried", text: $phoneNumber, onCommit:  {
+                            phoneNumber.trimmingWhitespacesAndNewlines()
+                        })
                     }
-                    if failedToSaveWarning {
+                    HStack {
                         HStack {
-                            Text("Failed to save.")
-                                .foregroundColor(.red)
+                            Text("Card Number")
                             Spacer()
                         }
+                        .frame(width: 200)
+                        TextField("Optional", text: $cardNumber, onCommit:  {
+                            cardNumber.trimmingWhitespacesAndNewlines()
+                        })
                     }
-                }
-            }
-            
-            Section {
-                Toggle(isOn: $disabled) {
-                    Text(disabled ? "Disabled" : "Enabled")
-                }
-                Toggle(isOn: $starred) {
-                    Text(starred ? "Highlighted" : "Highlight")
-                }
-                .contextMenu {
-                    Text("Highlighted Item")
-                }
-            } header: {
-                Text("Settings")
-            }
-            
-            Section {
-                HStack {
                     HStack {
-                        Text("ID")
-                        Spacer()
+                        HStack {
+                            Text("Name")
+                            Spacer()
+                        }
+                        .frame(width: 200)
+                        TextField("Optional", text: $name, onCommit:  {
+                            name.trimmingWhitespacesAndNewlines()
+                        })
                     }
-                    .frame(width: 200)
-                    TextField("Optional", text: $name, onCommit:  {
-                        name.trimmingWhitespacesAndNewlines()
-                    })
-                }
-            } header: {
-                Text("Currency")
-            }
-            
-            Section {
-                Button {
-                    save()
-                } label: {
-                    Text("Save")
-                }
-                .disabled(emptyFieldExist || failedToSaveWarning)
-                Button(role: .destructive) {
-                    handleDelete()
-                } label: {
-                    if confirmDelete {
-                        Text("Confirm Delete")
-                    } else {
-                        Text("Delete")
+                } header: {
+                    Text("Membership")
+                } footer: {
+                    VStack {
+                        if duplicatedWarning {
+                            HStack {
+                                Text("Duplicated tag found.")
+                                    .foregroundColor(.red)
+                                Spacer()
+                            }
+                        }
+                        if failedToSaveWarning {
+                            HStack {
+                                Text("Failed to save.")
+                                    .foregroundColor(.red)
+                                Spacer()
+                            }
+                        }
                     }
-                }
-            }
-            Section {
-                Button(role: .cancel) {
-                    onExit()
-                } label: {
-                    Text("Cancel")
                 }
                 
+                Section {
+                    Toggle(isOn: $disabled) {
+                        Text(disabled ? "Disabled" : "Enabled")
+                    }
+                    Toggle(isOn: $starred) {
+                        Text(starred ? "Highlighted" : "Highlight")
+                    }
+                    .contextMenu {
+                        Text("Highlighted Item")
+                    }
+                } header: {
+                    Text("Settings")
+                }
+                
+                if membership == nil {
+                    Section {
+                        ForEach(currencyData.currencies.indices, id: \.self) { index in
+                            CurrencyIdentityView(currency: currencyData.currencies[index], selected: selectedCurrencyIndex == index)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    withAnimation {
+                                        selectedCurrencyIndex = index
+                                    }
+                                }
+                        }
+                    } header: {
+                        Text("Currency")
+                    } footer: {
+                        if warningMissingCurrency {
+                            Text("Missing Currency")
+                                .foregroundColor(.red)
+                                .onAppear {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        withAnimation {
+                                            warningMissingCurrency = false
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                    .onAppear {
+                        let _ = currencyData.fetchAll()
+                    }
+                }
+                
+                if let membership = membership {
+                    Section {
+                        ForEach(membership.membershipAccounts.indices, id: \.self) { membershipAccountIndex in
+                            NavigationLink {
+                                MembershipTransactionView(membershipAccount: membership.membershipAccounts[membershipIndex], onExit: { result in
+                                    membershipData.search(for: membership.phoneNumber, insertTo: membershipIndex)
+                                    
+                                })
+                                    .environmentObject(membershipData)
+                            } label: {
+                                HStack {
+                                    Text(membership.membershipAccounts[membershipIndex].currency.stringRepresentation)
+                                    Spacer()
+                                    Text(membership.membershipAccounts[membershipIndex].amount)
+                                }
+                            }
+
+                        }
+                    } header: {
+                        Text("Accounts")
+                    }
+                }
+                
+                
+                
+                
+                Section {
+                    Button {
+                        save()
+                    } label: {
+                        Text("Save")
+                    }
+                    .disabled(emptyFieldExist || failedToSaveWarning)
+                    if membership != nil {
+                        Button(role: .destructive) {
+                            handleDelete()
+                        } label: {
+                            if confirmDelete {
+                                Text("Confirm Delete")
+                            } else {
+                                Text("Delete")
+                            }
+                        }
+                    }
+                }
+                
+                
+                Section {
+                    Button(role: .cancel) {
+                        onExit()
+                    } label: {
+                        Text("Cancel")
+                    }
+                    
+                }
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Membership Editor")
+            .onAppear {
+                if let membership = membership {
+                    reload(from: membership)
+                }
         }
-        .onAppear {
-            if let membership = membership {
-                cardNumber = membership.cardNumber ?? ""
-                phoneNumber = membership.phoneNumber
-                name = membership.name ?? ""
-                starred = membership.starred
-                disabled = membership.disabled
-            }
         }
+    }
+    
+    func reload(from membership: MFBMembership) {
+        cardNumber = membership.cardNumber ?? ""
+        phoneNumber = membership.phoneNumber
+        name = membership.name ?? ""
+        starred = membership.starred
+        disabled = membership.disabled
     }
     
     func handleDelete() {
@@ -216,17 +280,24 @@ struct MembershipEditorView: View {
                 }
             }
         } else {
-            membershipData.createMembership(item: modifiedMembership, currency: 1) { success in
-                if (!success) {
-                    withAnimation {
-                        failedToSaveWarning = true
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if selectedCurrencyIndex == 0 && currencyData.currencies.count > 0 {
+                membershipData.createMembership(item: modifiedMembership, currency: currencyData.currencies[selectedCurrencyIndex].id) { success in
+                    if (!success) {
                         withAnimation {
-                            failedToSaveWarning = false
+                            failedToSaveWarning = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                failedToSaveWarning = false
+                            }
                         }
                     }
                 }
+            } else {
+                withAnimation {
+                    warningMissingCurrency = true
+                }
+                return
             }
         }
     }
