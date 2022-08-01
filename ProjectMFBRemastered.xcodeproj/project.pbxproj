@@ -148,6 +148,11 @@
 		A7222E1E288B4C5100701A46 /* KeyPadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222E1D288B4C5100701A46 /* KeyPadButton.swift */; };
 		A7222E20288B4CC100701A46 /* KeyPadRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222E1F288B4CC100701A46 /* KeyPadRow.swift */; };
 		A7222E22288B4D8900701A46 /* KeyPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222E21288B4D8900701A46 /* KeyPad.swift */; };
+		A7222E24288CF73B00701A46 /* MFBTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222E23288CF73A00701A46 /* MFBTag.swift */; };
+		A7222E26288D009500701A46 /* MembershipDataUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222E25288D009500701A46 /* MembershipDataUploader.swift */; };
+		A7222E282896F41900701A46 /* MFBItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222E272896F41900701A46 /* MFBItem.swift */; };
+		A7222E2A2896FE2800701A46 /* MFBPaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222E292896FE2800701A46 /* MFBPaymentMethod.swift */; };
+		A7222E2C2897AC5400701A46 /* MFBRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222E2B2897AC5400701A46 /* MFBRoom.swift */; };
 		A79B00B928450EAA003B8C70 /* HistoryBillData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B00B828450EA9003B8C70 /* HistoryBillData.swift */; };
 		A79B00BB28450EBE003B8C70 /* HistoryBillController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B00BA28450EBE003B8C70 /* HistoryBillController.swift */; };
 		A7CE76122877D79F007C3041 /* MFBCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CE76112877D79F007C3041 /* MFBCurrency.swift */; };
@@ -302,6 +307,11 @@
 		A7222E1D288B4C5100701A46 /* KeyPadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPadButton.swift; sourceTree = "<group>"; };
 		A7222E1F288B4CC100701A46 /* KeyPadRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPadRow.swift; sourceTree = "<group>"; };
 		A7222E21288B4D8900701A46 /* KeyPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPad.swift; sourceTree = "<group>"; };
+		A7222E23288CF73A00701A46 /* MFBTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBTag.swift; sourceTree = "<group>"; };
+		A7222E25288D009500701A46 /* MembershipDataUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipDataUploader.swift; sourceTree = "<group>"; };
+		A7222E272896F41900701A46 /* MFBItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBItem.swift; sourceTree = "<group>"; };
+		A7222E292896FE2800701A46 /* MFBPaymentMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBPaymentMethod.swift; sourceTree = "<group>"; };
+		A7222E2B2897AC5400701A46 /* MFBRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBRoom.swift; sourceTree = "<group>"; };
 		A79B00B828450EA9003B8C70 /* HistoryBillData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryBillData.swift; sourceTree = "<group>"; };
 		A79B00BA28450EBE003B8C70 /* HistoryBillController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryBillController.swift; sourceTree = "<group>"; };
 		A7CE76112877D79F007C3041 /* MFBCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBCurrency.swift; sourceTree = "<group>"; };
@@ -737,6 +747,7 @@
 				A7222E0928861CED00701A46 /* MembershipEditorView.swift */,
 				A7222E0B288653E800701A46 /* MembershipManagementView.swift */,
 				A7222E1A2888DC7F00701A46 /* MembershipTransactionView.swift */,
+				A7222E25288D009500701A46 /* MembershipDataUploader.swift */,
 			);
 			path = Membership;
 			sourceTree = "<group>";
@@ -769,6 +780,10 @@
 				A7222DF7287E2CE700701A46 /* MFBMembership.swift */,
 				A7222E142888D2BF00701A46 /* MFBMembershipTransactionResult.swift */,
 				A7222E182888D85E00701A46 /* MFBMembershipTransactionCase.swift */,
+				A7222E23288CF73A00701A46 /* MFBTag.swift */,
+				A7222E272896F41900701A46 /* MFBItem.swift */,
+				A7222E292896FE2800701A46 /* MFBPaymentMethod.swift */,
+				A7222E2B2897AC5400701A46 /* MFBRoom.swift */,
 			);
 			path = Modal;
 			sourceTree = "<group>";
@@ -856,6 +871,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B8FA0EA2744AEFF00D7D4AD /* NavigationButton.swift in Sources */,
+				A7222E26288D009500701A46 /* MembershipDataUploader.swift in Sources */,
 				3B4FBB11274EF84000EA538A /* BillLandingView.swift in Sources */,
 				A7222DEB287CF00F00701A46 /* MembershipView.swift in Sources */,
 				3B1707AF2757517000FC8350 /* RootNavigationView.swift in Sources */,
@@ -867,6 +883,7 @@
 				3B1707AB275747BE00FC8350 /* AccountController.swift in Sources */,
 				A7CE76192877DC5F007C3041 /* AuthenticationDataAccessController.swift in Sources */,
 				3B4FBB262750933400EA538A /* PayableViewCell.swift in Sources */,
+				A7222E2C2897AC5400701A46 /* MFBRoom.swift in Sources */,
 				3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */,
 				3BC78FA82755798100F5844F /* SBPCartFloatingView.swift in Sources */,
 				3B8FA1052746252700D7D4AD /* RatedPayableManagementView.swift in Sources */,
@@ -915,6 +932,7 @@
 				3BC78FAC2755B37700F5844F /* BillExtension.swift in Sources */,
 				3B20300F273F0E330016B537 /* NavigationBackButton.swift in Sources */,
 				A7CE76122877D79F007C3041 /* MFBCurrency.swift in Sources */,
+				A7222E24288CF73B00701A46 /* MFBTag.swift in Sources */,
 				3BADA68E2742F095000B1D33 /* DecimalField.swift in Sources */,
 				A7222E082881FE1800701A46 /* MembershipIdentityView.swift in Sources */,
 				A7222E172888D55A00701A46 /* MembershipDataTransactionExtension.swift in Sources */,
@@ -966,7 +984,9 @@
 				3B596BA627726BF400A6694E /* BillViewV2.swift in Sources */,
 				3BEEE319273C57080056AF54 /* RegisterationView.swift in Sources */,
 				3B4FBB2A2750ACD900EA538A /* RatedPayableViewCell.swift in Sources */,
+				A7222E2A2896FE2800701A46 /* MFBPaymentMethod.swift in Sources */,
 				A7222E20288B4CC100701A46 /* KeyPadRow.swift in Sources */,
+				A7222E282896F41900701A46 /* MFBItem.swift in Sources */,
 				A7222E1B2888DC7F00701A46 /* MembershipTransactionView.swift in Sources */,
 				3BD5818E2749E28700089113 /* RoomNavigationView.swift in Sources */,
 				3B1707A52757318E00FC8350 /* TagListView.swift in Sources */,

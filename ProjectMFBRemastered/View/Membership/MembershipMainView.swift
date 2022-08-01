@@ -16,8 +16,8 @@ struct MembershipMainView: View {
             if let majorCurrency = majorCurrency {
                 if let appData = appData {
                     MembershipManagementView()
+                        .environmentObject(appData)
                         .environmentObject(MembershipData(profile: appData.authentication))
-                        .environmentObject(CurrencyData(profile: appData.authentication))
                 } else {
                     MembershipAuthenticationView { authentication in
                         appData = MembershipAppData(profile: authentication, majorCurrency: majorCurrency, onLogout: {
@@ -28,7 +28,7 @@ struct MembershipMainView: View {
                     }
                 }
             } else {
-                Text("Major Currency is not assigned. App is not ready.")
+                Text("Major Currency is not assigned. App is not ready. If you have more question, email me at  me@yiyao.ca")
             }
             
         }

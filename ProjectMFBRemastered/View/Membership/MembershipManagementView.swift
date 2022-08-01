@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MembershipManagementView: View {
     // environment
+    @EnvironmentObject var appData: MembershipAppData
     @EnvironmentObject var membershipData: MembershipData
     
     @Environment(\.presentationMode) var presentationMode
@@ -39,6 +40,12 @@ struct MembershipManagementView: View {
                 }
             }
                 .environmentObject(membershipData)
+            NavigationLink {
+                MembershipDataUploader()
+                    .environmentObject(appData)
+            } label: {
+                Text("Uploader")
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(UIColor.systemGroupedBackground))
