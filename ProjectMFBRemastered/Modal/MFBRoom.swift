@@ -11,15 +11,11 @@ import Foundation
 struct MFBRoom: MFBDataModel, MFBBasicModel {
     var id: Int64
     
-    var name: String
+    var linkedItem: MFBItem
     
-    var toDict: [String : Any] {
-        return [
-            "name": name,
-            "starred": starred,
-            "disabled": disabled
-        ]
-    }
+    var seats: [MFBSeat]
+    
+    var name: String
     
     var starred: Bool
     
@@ -29,5 +25,11 @@ struct MFBRoom: MFBDataModel, MFBBasicModel {
     
     var lastModified: String
     
-    
+    var toDict: [String : Any] {
+        return [
+            "name": name,
+            "starred": starred,
+            "disabled": disabled
+        ]
+    }
 }

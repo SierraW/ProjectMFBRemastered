@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2FC48E2DD744793D3562624D /* MFBBillCartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC487AE5900BDE147C8DD14 /* MFBBillCartItem.swift */; };
 		3B1707A12757224700FC8350 /* DBSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707A02757224700FC8350 /* DBSwitchView.swift */; };
 		3B1707A327572B4100FC8350 /* TagEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707A227572B4100FC8350 /* TagEditorView.swift */; };
 		3B1707A52757318E00FC8350 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1707A42757318E00FC8350 /* TagListView.swift */; };
@@ -124,6 +125,9 @@
 		3BEEE31E273C581B0056AF54 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE31D273C581B0056AF54 /* LoginView.swift */; };
 		3BEEE321273C58440056AF54 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE320273C58440056AF54 /* MainView.swift */; };
 		3BEEE324273C5A000056AF54 /* EncryptExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEEE323273C5A000056AF54 /* EncryptExtension.swift */; };
+		A70CC1F9289B29D100E67939 /* MFBBill.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70CC1F8289B29D100E67939 /* MFBBill.swift */; };
+		A70CC1FB289B2ADC00E67939 /* MFBBillItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70CC1FA289B2ADC00E67939 /* MFBBillItem.swift */; };
+		A70CC1FD289B2C0100E67939 /* MFBBillPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70CC1FC289B2C0100E67939 /* MFBBillPayment.swift */; };
 		A7222DE9287A77E200701A46 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222DE8287A77E200701A46 /* Errors.swift */; };
 		A7222DEB287CF00F00701A46 /* MembershipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222DEA287CF00F00701A46 /* MembershipView.swift */; };
 		A7222DEE287CF25100701A46 /* MembershipAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7222DED287CF25100701A46 /* MembershipAuthenticationView.swift */; };
@@ -161,9 +165,12 @@
 		A7CE76192877DC5F007C3041 /* AuthenticationDataAccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CE76182877DC5F007C3041 /* AuthenticationDataAccessController.swift */; };
 		A7CE761B2877DCB1007C3041 /* DataAccessExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CE761A2877DCB1007C3041 /* DataAccessExtension.swift */; };
 		A7D6AD2428317D40002D165A /* BillItemViewCellControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D6AD2328317D40002D165A /* BillItemViewCellControl.swift */; };
+		A7DAFE7228A19DC50075B8EB /* LiveBillData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAFE7128A19DC50075B8EB /* LiveBillData.swift */; };
+		A7DAFE7428A29AC50075B8EB /* MFBSeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAFE7328A29AC40075B8EB /* MFBSeat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2FC487AE5900BDE147C8DD14 /* MFBBillCartItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MFBBillCartItem.swift; sourceTree = "<group>"; };
 		3B1707A02757224700FC8350 /* DBSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSwitchView.swift; sourceTree = "<group>"; };
 		3B1707A227572B4100FC8350 /* TagEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditorView.swift; sourceTree = "<group>"; };
 		3B1707A42757318E00FC8350 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
@@ -283,6 +290,9 @@
 		3BEEE31D273C581B0056AF54 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3BEEE320273C58440056AF54 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3BEEE323273C5A000056AF54 /* EncryptExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncryptExtension.swift; sourceTree = "<group>"; };
+		A70CC1F8289B29D100E67939 /* MFBBill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBBill.swift; sourceTree = "<group>"; };
+		A70CC1FA289B2ADC00E67939 /* MFBBillItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBBillItem.swift; sourceTree = "<group>"; };
+		A70CC1FC289B2C0100E67939 /* MFBBillPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBBillPayment.swift; sourceTree = "<group>"; };
 		A7222DE8287A77E200701A46 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		A7222DEA287CF00F00701A46 /* MembershipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipView.swift; sourceTree = "<group>"; };
 		A7222DED287CF25100701A46 /* MembershipAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipAuthenticationView.swift; sourceTree = "<group>"; };
@@ -320,6 +330,8 @@
 		A7CE76182877DC5F007C3041 /* AuthenticationDataAccessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationDataAccessController.swift; sourceTree = "<group>"; };
 		A7CE761A2877DCB1007C3041 /* DataAccessExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAccessExtension.swift; sourceTree = "<group>"; };
 		A7D6AD2328317D40002D165A /* BillItemViewCellControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemViewCellControl.swift; sourceTree = "<group>"; };
+		A7DAFE7128A19DC50075B8EB /* LiveBillData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBillData.swift; sourceTree = "<group>"; };
+		A7DAFE7328A29AC40075B8EB /* MFBSeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBSeat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -440,6 +452,7 @@
 				A7222E052881C3EC00701A46 /* MembershipData.swift */,
 				A7222E102888A4EF00701A46 /* CurrencyData.swift */,
 				A7222E162888D55A00701A46 /* MembershipDataTransactionExtension.swift */,
+				A7DAFE7128A19DC50075B8EB /* LiveBillData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -784,6 +797,11 @@
 				A7222E272896F41900701A46 /* MFBItem.swift */,
 				A7222E292896FE2800701A46 /* MFBPaymentMethod.swift */,
 				A7222E2B2897AC5400701A46 /* MFBRoom.swift */,
+				A70CC1F8289B29D100E67939 /* MFBBill.swift */,
+				A70CC1FA289B2ADC00E67939 /* MFBBillItem.swift */,
+				A70CC1FC289B2C0100E67939 /* MFBBillPayment.swift */,
+				A7DAFE7328A29AC40075B8EB /* MFBSeat.swift */,
+				2FC487AE5900BDE147C8DD14 /* MFBBillCartItem.swift */,
 			);
 			path = Modal;
 			sourceTree = "<group>";
@@ -886,6 +904,7 @@
 				A7222E2C2897AC5400701A46 /* MFBRoom.swift in Sources */,
 				3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */,
 				3BC78FA82755798100F5844F /* SBPCartFloatingView.swift in Sources */,
+				A7DAFE7228A19DC50075B8EB /* LiveBillData.swift in Sources */,
 				3B8FA1052746252700D7D4AD /* RatedPayableManagementView.swift in Sources */,
 				3BC78FE227570C0D00F5844F /* DatabaseMonitor.swift in Sources */,
 				3B4FBB1927502AE800EA538A /* LabelledDivider.swift in Sources */,
@@ -893,6 +912,7 @@
 				A79B00B928450EAA003B8C70 /* HistoryBillData.swift in Sources */,
 				3B787A96277E0C9C00E1383D /* OneClickTransactionView.swift in Sources */,
 				3BC78FDB2756BB0300F5844F /* HistoryBillListView.swift in Sources */,
+				A70CC1FD289B2C0100E67939 /* MFBBillPayment.swift in Sources */,
 				A7222E0C288653E800701A46 /* MembershipManagementView.swift in Sources */,
 				3B8FA0F22744C1F100D7D4AD /* RoomEditorView.swift in Sources */,
 				A7222DEE287CF25100701A46 /* MembershipAuthenticationView.swift in Sources */,
@@ -926,6 +946,7 @@
 				A7222E022880E73100701A46 /* MembershipDataAccessController.swift in Sources */,
 				3BC78F8827514D4700F5844F /* BillSplitByAmountWizardView.swift in Sources */,
 				3B9C492B27CC44CB008EEB30 /* BillCompleteViewStella.swift in Sources */,
+				A70CC1F9289B29D100E67939 /* MFBBill.swift in Sources */,
 				3B203014273F29690016B537 /* CurrencyEditorView.swift in Sources */,
 				3BD5818C2749E1EC00089113 /* BillView.swift in Sources */,
 				A7222E1E288B4C5100701A46 /* KeyPadButton.swift in Sources */,
@@ -961,6 +982,7 @@
 				3B596BA82772750200A6694E /* BillWidget.swift in Sources */,
 				3B596BAC2775A23800A6694E /* RoomLegacyNavigationView.swift in Sources */,
 				3BEEE316273C560F0056AF54 /* LandingView.swift in Sources */,
+				A7DAFE7428A29AC50075B8EB /* MFBSeat.swift in Sources */,
 				A7222DF0287CF6BC00701A46 /* MembershipMainView.swift in Sources */,
 				A7D6AD2428317D40002D165A /* BillItemViewCellControl.swift in Sources */,
 				3B4FBB2427508FD800EA538A /* RatedPayableListView.swift in Sources */,
@@ -1000,6 +1022,7 @@
 				3B203006273EDB200016B537 /* CurrencyManagementView.swift in Sources */,
 				3B596BAA27759AFE00A6694E /* BillItemViewCellV2.swift in Sources */,
 				3B1707A327572B4100FC8350 /* TagEditorView.swift in Sources */,
+				A70CC1FB289B2ADC00E67939 /* MFBBillItem.swift in Sources */,
 				3BEEE302273C53810056AF54 /* ProjectMFBRemasteredApp.swift in Sources */,
 				3B9C492527CC42E0008EEB30 /* BillCompleteView.swift in Sources */,
 				3BD581AA274C56C600089113 /* BillController.swift in Sources */,
@@ -1021,6 +1044,7 @@
 				A7222E0F2888A4CF00701A46 /* CurrencyListView.swift in Sources */,
 				3BEEE30E273C53840056AF54 /* ProjectMFBRemastered.xcdatamodeld in Sources */,
 				A7CE761B2877DCB1007C3041 /* DataAccessExtension.swift in Sources */,
+				2FC48E2DD744793D3562624D /* MFBBillCartItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

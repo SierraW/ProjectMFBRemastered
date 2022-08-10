@@ -17,6 +17,7 @@ struct MembershipDataUploader: View {
     @State var ratedPayable: [RatedPayable] = []
     @State var currency = [Currency]()
     @State var paymentMethod = [PaymentMethod]()
+    @State var bill = [Bill]()
     
     @State var uploadStarted = false
     @State var tagUploaded: Bool = false
@@ -24,6 +25,7 @@ struct MembershipDataUploader: View {
     @State var ratedPayableUploaded = false
     @State var currencyUploaded = false
     @State var paymentMethodUploaded = false
+    @State var billUploaded = false
     
     
     var body: some View {
@@ -144,6 +146,29 @@ struct MembershipDataUploader: View {
                         print("Fetch error")
                     }
                 }
+                HStack {
+                    Text("Bill")
+                    Spacer()
+                    if uploadStarted {
+                        if billUploaded {
+                            Text("Uploaded")
+                                .foregroundColor(.green)
+                        } else {
+                            ProgressView()
+                        }
+                    } else {
+                        Text("\(bill.count)")
+                    }
+                }
+                .onAppear {
+                    let fetchRequest: NSFetchRequest<Bill> = Bill.fetchRequest()
+                    do {
+                        let result = try viewContext.fetch(fetchRequest)
+                        bill = result
+                    } catch {
+                        print("Fetch error")
+                    }
+                }
             } header: {
                 Text("Local Data")
             }
@@ -200,6 +225,40 @@ struct MembershipDataUploader: View {
                         await MainActor.run {
                             paymentMethodUploaded = true
                         }
+                        
+                        //bill
+                        let mfbRoomController = AuthenticatedDataAccessController<[MFBRoom]>(appData.authentication)
+                        
+                        let (mfbRooms, _) = await mfbRoomController.get(to: mfbRoomController.baseUrl + "room/")
+                        
+                        let mfbTagController = AuthenticatedDataAccessController<[MFBTag]>(appData.authentication)
+                        
+                        let (mfbTags, _) = await mfbTagController.get(to: mfbTagController.baseUrl + "tag/")
+                        
+                        for item in bill.filter({ b in
+                            b.parent == nil
+                        }) {
+                            var parameters = [
+                                "majorCurrencyString": item.majorCurrencyString ?? "",
+                                "paymentTotal": item.proceedBalance ?? 0,
+                                "supervisorName": "",
+                                "closed": item.closeTimestamp == nil ? false : true,
+                                "dateCreated": item.openTimestamp?.toStringRepresentation ?? ""
+                            ] as [String: Any]
+                            if let mfbRooms = mfbRooms, let room = mfbRooms.first(where: { room in
+                                room.name == item.tag?.name ?? "err"
+                            }) {
+                                parameters["room"] = room.id
+                            }
+                            if let mfbTags = mfbTags, let tag = mfbTags.first(where: { tag in
+                                tag.name == item.associatedTag?.name ?? "err"
+                            }) {
+                                parameters["tag"] = tag.id
+                            }
+                            if let additionalDescription = item.additionalDescription {
+                                parameters["additionalDescription"] = additionalDescription
+                            }
+                        }
                     }
                     
                     
@@ -209,11 +268,5 @@ struct MembershipDataUploader: View {
                 }
             }
         }
-    }
-}
-
-struct MembershipDataUploader_Previews: PreviewProvider {
-    static var previews: some View {
-        MembershipDataUploader()
     }
 }
