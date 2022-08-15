@@ -165,7 +165,10 @@
 		A7CE76192877DC5F007C3041 /* AuthenticationDataAccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CE76182877DC5F007C3041 /* AuthenticationDataAccessController.swift */; };
 		A7CE761B2877DCB1007C3041 /* DataAccessExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CE761A2877DCB1007C3041 /* DataAccessExtension.swift */; };
 		A7D6AD2428317D40002D165A /* BillItemViewCellControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D6AD2328317D40002D165A /* BillItemViewCellControl.swift */; };
-		A7DAFE7228A19DC50075B8EB /* LiveBillData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAFE7128A19DC50075B8EB /* LiveBillData.swift */; };
+		A7DA317A28A9C04400222D1D /* MFBItemAddOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DA317928A9C04400222D1D /* MFBItemAddOn.swift */; };
+		A7DA317C28A9C34B00222D1D /* MFBItemAddOnGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DA317B28A9C34B00222D1D /* MFBItemAddOnGroup.swift */; };
+		A7DA317E28A9D3E000222D1D /* MFBRoomWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DA317D28A9D3E000222D1D /* MFBRoomWatcher.swift */; };
+		A7DAFE7228A19DC50075B8EB /* LiveRoomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAFE7128A19DC50075B8EB /* LiveRoomData.swift */; };
 		A7DAFE7428A29AC50075B8EB /* MFBSeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAFE7328A29AC40075B8EB /* MFBSeat.swift */; };
 /* End PBXBuildFile section */
 
@@ -330,7 +333,10 @@
 		A7CE76182877DC5F007C3041 /* AuthenticationDataAccessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationDataAccessController.swift; sourceTree = "<group>"; };
 		A7CE761A2877DCB1007C3041 /* DataAccessExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAccessExtension.swift; sourceTree = "<group>"; };
 		A7D6AD2328317D40002D165A /* BillItemViewCellControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillItemViewCellControl.swift; sourceTree = "<group>"; };
-		A7DAFE7128A19DC50075B8EB /* LiveBillData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBillData.swift; sourceTree = "<group>"; };
+		A7DA317928A9C04400222D1D /* MFBItemAddOn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBItemAddOn.swift; sourceTree = "<group>"; };
+		A7DA317B28A9C34B00222D1D /* MFBItemAddOnGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBItemAddOnGroup.swift; sourceTree = "<group>"; };
+		A7DA317D28A9D3E000222D1D /* MFBRoomWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBRoomWatcher.swift; sourceTree = "<group>"; };
+		A7DAFE7128A19DC50075B8EB /* LiveRoomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveRoomData.swift; sourceTree = "<group>"; };
 		A7DAFE7328A29AC40075B8EB /* MFBSeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBSeat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -452,7 +458,7 @@
 				A7222E052881C3EC00701A46 /* MembershipData.swift */,
 				A7222E102888A4EF00701A46 /* CurrencyData.swift */,
 				A7222E162888D55A00701A46 /* MembershipDataTransactionExtension.swift */,
-				A7DAFE7128A19DC50075B8EB /* LiveBillData.swift */,
+				A7DAFE7128A19DC50075B8EB /* LiveRoomData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -802,6 +808,9 @@
 				A70CC1FC289B2C0100E67939 /* MFBBillPayment.swift */,
 				A7DAFE7328A29AC40075B8EB /* MFBSeat.swift */,
 				2FC487AE5900BDE147C8DD14 /* MFBBillCartItem.swift */,
+				A7DA317928A9C04400222D1D /* MFBItemAddOn.swift */,
+				A7DA317B28A9C34B00222D1D /* MFBItemAddOnGroup.swift */,
+				A7DA317D28A9D3E000222D1D /* MFBRoomWatcher.swift */,
 			);
 			path = Modal;
 			sourceTree = "<group>";
@@ -904,7 +913,7 @@
 				A7222E2C2897AC5400701A46 /* MFBRoom.swift in Sources */,
 				3B8FA0E82744A46B00D7D4AD /* PaymentMethodEditorView.swift in Sources */,
 				3BC78FA82755798100F5844F /* SBPCartFloatingView.swift in Sources */,
-				A7DAFE7228A19DC50075B8EB /* LiveBillData.swift in Sources */,
+				A7DAFE7228A19DC50075B8EB /* LiveRoomData.swift in Sources */,
 				3B8FA1052746252700D7D4AD /* RatedPayableManagementView.swift in Sources */,
 				3BC78FE227570C0D00F5844F /* DatabaseMonitor.swift in Sources */,
 				3B4FBB1927502AE800EA538A /* LabelledDivider.swift in Sources */,
@@ -917,6 +926,7 @@
 				3B8FA0F22744C1F100D7D4AD /* RoomEditorView.swift in Sources */,
 				A7222DEE287CF25100701A46 /* MembershipAuthenticationView.swift in Sources */,
 				A7222E152888D2BF00701A46 /* MFBMembershipTransactionResult.swift in Sources */,
+				A7DA317C28A9C34B00222D1D /* MFBItemAddOnGroup.swift in Sources */,
 				3BC78FD52756A6C800F5844F /* HistoryBillPreview.swift in Sources */,
 				3B203016273F2A540016B537 /* IdentifiableExtensions.swift in Sources */,
 				3B9C492927CC4445008EEB30 /* BillCompleteViewDefault.swift in Sources */,
@@ -933,6 +943,7 @@
 				3B4FBB17275016C000EA538A /* BillItemShoppingView.swift in Sources */,
 				A7222E112888A4EF00701A46 /* CurrencyData.swift in Sources */,
 				3B202FFD273ED52D0016B537 /* CurrencyController.swift in Sources */,
+				A7DA317A28A9C04400222D1D /* MFBItemAddOn.swift in Sources */,
 				3B596BBF2776EFF300A6694E /* MFBBackground.swift in Sources */,
 				3BC78FDF2756CEAF00F5844F /* SBAFloatingActionView.swift in Sources */,
 				3BADA68C2742CF71000B1D33 /* TransactionAmountTextField.swift in Sources */,
@@ -997,6 +1008,7 @@
 				3B8FA0FE2745B11F00D7D4AD /* MajorCurrencyWidzardView.swift in Sources */,
 				3BD581AC274C581100089113 /* BillData.swift in Sources */,
 				3B4FBB1C2750424400EA538A /* TransactionView.swift in Sources */,
+				A7DA317E28A9D3E000222D1D /* MFBRoomWatcher.swift in Sources */,
 				3BEEE31C273C57D40056AF54 /* SetupWizardView.swift in Sources */,
 				3B8FA0EC2744BABD00D7D4AD /* WelcomeViewChristmas.swift in Sources */,
 				3B8FA0F827458C6900D7D4AD /* PayableEditorView.swift in Sources */,

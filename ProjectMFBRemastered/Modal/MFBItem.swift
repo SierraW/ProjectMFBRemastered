@@ -25,7 +25,21 @@ struct MFBItem: MFBDataModel, MFBBasicModel {
     
     var effectiveTags: [MFBTag]
     
+    var addOnGroups: [MFBItemAddOnGroup]
+    
     var primaryImageName: String?
+    
+    var lastRecordedStorageAmount: Int?
+    
+    var disableUntil: String?
+    
+    var starred: Bool
+    
+    var disabled: Bool
+    
+    var dateCreated: String
+    
+    var lastModified: String
     
     var toDict: [String : Any] {
         var data = [
@@ -48,14 +62,4 @@ struct MFBItem: MFBDataModel, MFBBasicModel {
         }
         return data
     }
-    
-    var starred: Bool
-    
-    var disabled: Bool
-    
-    var dateCreated: String
-    
-    var lastModified: String
-    
-    
 }

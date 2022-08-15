@@ -17,7 +17,11 @@ struct MFBBill: MFBDataModel {
     
     var activeRoom: String?
     
-    var tag: MFBTag
+    var seat: MFBSeat?
+    
+    var activeSeat: String?
+    
+    var tag: MFBTag?
     
     var majorCurrencyString: String
 
@@ -38,6 +42,8 @@ struct MFBBill: MFBDataModel {
     var remainingBalance: Decimal
     
     var children: [MFBSubBill]
+    
+    var supervisor: Int?
     
     var supervisorName: String
     

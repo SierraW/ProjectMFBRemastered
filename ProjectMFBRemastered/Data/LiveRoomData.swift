@@ -1,5 +1,5 @@
 //
-//  LiveBillData.swift
+//  LiveRoomData.swift
 //  ProjectMFBRemastered
 //
 //  Created by Yiyao Zhang on 2022-08-08.
@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 @available(iOS 13.0, *)
-class LiveBillData: NSObject, ObservableObject, URLSessionWebSocketDelegate {
+class LiveRoomData: NSObject, ObservableObject, URLSessionWebSocketDelegate {
     var url: URL
     var timeoutInterval: TimeInterval
     private var webSocketTask : URLSessionWebSocketTask!
@@ -54,9 +54,9 @@ class LiveBillData: NSObject, ObservableObject, URLSessionWebSocketDelegate {
                 switch message {
                 case .string(let text):
                     if let data = text.data(using: .utf8) {
-                        if let result = try? JSONDecoder().decode(MFBBill.self, from: data) {
+                        if let result = try? JSONDecoder().decode(MFBRoomWatcher.self, from: data) {
                             DispatchQueue.main.sync {
-                                self.bill = result
+                                self.bill = result.bill
                             }
                         }
                     }

@@ -13,6 +13,8 @@ struct MFBBillItem: MFBDataModel {
     
     var status: Int
     
+    var additionalDescription: String?
+    
     var bill: Int64
     
     var item: MFBItem
